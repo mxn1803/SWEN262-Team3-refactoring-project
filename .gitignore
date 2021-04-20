@@ -12,6 +12,9 @@
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
+.idea/**/.name
+.idea/**/misc.xml
+.idea/**/vcs.xml
 
 # Generated files
 .idea/**/contentModel.xml
@@ -188,6 +191,7 @@ $RECYCLE.BIN/
 ### Gradle ###
 .gradle
 build/
+gradle-wrapper.properties
 
 # Ignore Gradle GUI config
 gradle-app.setting
