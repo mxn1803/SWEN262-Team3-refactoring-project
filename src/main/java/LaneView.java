@@ -12,19 +12,19 @@ public class LaneView implements LaneObserver, ActionListener {
 
     private boolean initDone;
 
-    JFrame frame;
-    Container cpanel;
-    Vector bowlers;
+    private JFrame frame;
+    private Container cpanel;
+    private Vector bowlers;
 
-    JPanel[][] balls;
-    JLabel[][] ballLabel;
-    JPanel[][] scores;
-    JLabel[][] scoreLabel;
-    JPanel[][] ballGrid;
-    JPanel[] pins;
+    private JPanel[][] balls;
+    private JLabel[][] ballLabel;
+    private JPanel[][] scores;
+    private JLabel[][] scoreLabel;
+    private JPanel[][] ballGrid;
+    private JPanel[] pins;
 
-    JButton maintenance;
-    Lane lane;
+    private JButton maintenance;
+    private Lane lane;
 
     public LaneView(Lane lane, int laneNum) {
 
@@ -37,20 +37,12 @@ public class LaneView implements LaneObserver, ActionListener {
 
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                frame.hide();
+                frame.setVisible(false);
             }
         });
 
         cpanel.add(new JPanel());
 
-    }
-
-    public void show() {
-        frame.setVisible(true);
-    }
-
-    public void hide() {
-        frame.setVisible(false);
     }
 
     public void toggle() { frame.setVisible(!frame.isVisible()); }
