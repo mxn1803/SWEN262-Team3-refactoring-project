@@ -18,8 +18,8 @@ public class LaneView implements LaneObserver, ActionListener {
 
     private volatile boolean initDone;
 
-    private final JFrame win;
-    private final Container cpanel;
+    private final JFrame WINDOW;
+    private final Container CONTAINER_PANEL;
     private Vector bowlers;
 
     private JLabel[][] ballLabels;
@@ -35,24 +35,24 @@ public class LaneView implements LaneObserver, ActionListener {
         FRAME_COUNT = 10;
 
         initDone = true;
-        win = new JFrame("Lane " + laneNum + ":");
-        cpanel = win.getContentPane();
-        cpanel.setLayout(new BorderLayout());
+        WINDOW = new JFrame("Lane " + laneNum + ":");
+        CONTAINER_PANEL = WINDOW.getContentPane();
+        CONTAINER_PANEL.setLayout(new BorderLayout());
 
         ballLabels = null;
         scoreLabels = null;
 
-        win.addWindowListener(new WindowAdapter() {
+        WINDOW.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                win.setVisible(false);
+                WINDOW.setVisible(false);
             }
         });
 
-        cpanel.add(new JPanel());
+        CONTAINER_PANEL.add(new JPanel());
 
     }
 
-    public void toggle() { win.setVisible(!win.isVisible()); }
+    public void toggle() { WINDOW.setVisible(!WINDOW.isVisible()); }
 
     private JPanel makeScoreboard(Party party) {
 
@@ -123,8 +123,8 @@ public class LaneView implements LaneObserver, ActionListener {
 
             if (le.getFrameNum() == 1 && le.getBall() == 0 && le.getIndex() == 0) {
                 System.out.println("Making the frame.");
-                cpanel.removeAll();
-                cpanel.add(makeScoreboard(le.getParty()), "Center");
+                CONTAINER_PANEL.removeAll();
+                CONTAINER_PANEL.add(makeScoreboard(le.getParty()), "Center");
 
                 // Button Panel
                 JPanel buttonPanel = new JPanel();
@@ -138,9 +138,9 @@ public class LaneView implements LaneObserver, ActionListener {
 
                 buttonPanel.add(maintenancePanel);
 
-                cpanel.add(buttonPanel, "South");
+                CONTAINER_PANEL.add(buttonPanel, "South");
 
-                win.pack();
+                WINDOW.pack();
 
             }
 
