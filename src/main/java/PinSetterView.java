@@ -180,7 +180,7 @@ public class PinSetterView implements PinsetterObserver {
      * is grayed out.  When it is the second roll, it is indicated by the
      * appearance of a second yellow box at the top.
      *
-     * @param e    The state of the pinsetter is sent in this event.
+     * @param pe    The state of the pinsetter is sent in this event.
      */
     
 
@@ -207,12 +207,14 @@ public class PinSetterView implements PinsetterObserver {
     }
     
     public void show() {
-        frame.show();
+        frame.setVisible(true);
     }
 
     public void hide() {
-        frame.hide();
+        frame.setVisible(false);
     }
+
+    public void toggle() { frame.setVisible(!frame.isVisible()); }
     
     public static void main ( String args [ ] ) {
         PinSetterView pg = new PinSetterView ( 1 );

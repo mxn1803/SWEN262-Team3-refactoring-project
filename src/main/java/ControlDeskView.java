@@ -17,7 +17,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
-import javax.swing.event.*;
 
 import java.util.*;
 
@@ -89,7 +88,7 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
             LaneStatusView laneStat = new LaneStatusView(curLane,(laneCount+1));
             curLane.subscribe(laneStat);
             ((Pinsetter)curLane.getPinsetter()).subscribe(laneStat);
-            JPanel lanePanel = laneStat.showLane();
+            JPanel lanePanel = laneStat.getLanePanel();
             lanePanel.setBorder(new TitledBorder("Lane" + ++laneCount ));
             laneStatusPanel.add(lanePanel);
         }
