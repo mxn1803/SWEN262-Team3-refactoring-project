@@ -1,7 +1,4 @@
-import java.util.Vector;
-import java.io.*;
-
-public class drive {
+public class Main {
 
     public static void main(String[] args) {
 
