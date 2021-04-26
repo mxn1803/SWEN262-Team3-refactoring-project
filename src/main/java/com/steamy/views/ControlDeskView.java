@@ -12,6 +12,8 @@ package com.steamy.views;/* ControlDeskView.java
  * Class for representation of the control desk
  */
 
+import com.steamy.LaneEvent;
+import com.steamy.PinSetterEvent;
 import com.steamy.model.ControlDesk;
 import com.steamy.ControlDeskEvent;
 import com.steamy.ControlDeskObserver;
@@ -30,7 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-public class ControlDeskView implements ActionListener, ControlDeskObserver {
+public class ControlDeskView extends View implements ActionListener, ControlDeskObserver {
 
     private final JButton ADD_PARTY_BUTTON;
     private final JButton FINISHED_BUTTON;
@@ -46,6 +48,7 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
      * Displays a GUI representation of the ControlDesk
      *
      */
+    // TODO: Started rewiring for Control Desk and Lane
     public ControlDeskView(ControlDesk controlDesk, int maxMembers) {
 
         this.CONTROL_DESK = controlDesk;
@@ -154,6 +157,21 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
         }
     }
 
+    @Override
+    public void receiveEvent(LaneEvent le) {
+
+    }
+
+    @Override
+    public void receiveEvent(PinSetterEvent pe) {
+
+    }
+
+    @Override
+    public void receiveEvent(ControlDeskEvent ce) {
+
+    }
+
     /**
      * Receive a new party from andPartyView.
      *
@@ -169,4 +187,14 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
      *
      */
     public void receiveControlDeskEvent(ControlDeskEvent ce) { PARTY_LIST.setListData(ce.getPartyQueue()); }
+
+    @Override
+    public void publish() {
+
+    }
+
+    @Override
+    public void publish(int num) {
+
+    }
 }

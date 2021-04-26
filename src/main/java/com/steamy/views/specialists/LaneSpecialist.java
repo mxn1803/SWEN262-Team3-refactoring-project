@@ -19,6 +19,7 @@ public class LaneSpecialist extends Specialist {
         super();
         PinSetter pinsetter = new PinSetter(this);
         this.PINSETTER = pinsetter;
+
         Lane tempLane = new Lane(this);
         this.LANE = tempLane;
 
@@ -31,8 +32,6 @@ public class LaneSpecialist extends Specialist {
         LaneStatusView tempLaneStatusView = new LaneStatusView(tempLane, tempPinSetterView, tempLaneView, this);
         super.getOpenViews().put(ViewType.LANE_STATUS, tempLaneStatusView);
         pinsetter.reset();
-
-
     }
 
 //    public void openLaneView() {
@@ -68,7 +67,6 @@ public class LaneSpecialist extends Specialist {
     public void receiveEvent(LaneEvent le) {
         this.LANE.receiveEvent(le);
         this.PINSETTER.receiveEvent(le);
-
         super.getOpenViews().forEach((type, view) -> view.receiveEvent(le));
     }
 
@@ -83,6 +81,8 @@ public class LaneSpecialist extends Specialist {
         this.PINSETTER.receiveEvent(ce);
         super.getOpenViews().forEach((type, view) -> view.receiveEvent(ce));
     }
+
+
 
     public Lane getLane() { return (Lane)this.LANE; }
     public PinSetter getPinSetter() { return (PinSetter) this.PINSETTER; }
