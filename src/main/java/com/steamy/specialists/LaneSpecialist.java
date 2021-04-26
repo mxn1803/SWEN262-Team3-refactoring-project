@@ -34,36 +34,6 @@ public class LaneSpecialist extends Specialist {
         pinsetter.reset();
     }
 
-//    public void openLaneView() {
-//        LANE_VIEW.toggleOn();
-//    }
-//
-//    public void closeLaneView() {
-//        LANE_VIEW.toggleOff();
-//    }
-//
-//    public void openLaneStatusView() {
-//        LANE_STATUS_VIEW.toggleOn();
-//    }
-//
-//    public void closeLaneStatusView() {
-//        LANE_STATUS_VIEW.toggleOff();
-//    }
-//
-//    public void openPinSetterView() {
-//        PINSETTER_VIEW.toggleOn();
-//    }
-//
-//    public void closePinSetterView() {
-//        PINSETTER_VIEW.toggleOff();
-//    }
-
-
-
-
-
-
-
     public void receiveEvent(LaneEvent le) {
         this.LANE.receiveEvent(le);
         this.PINSETTER.receiveEvent(le);

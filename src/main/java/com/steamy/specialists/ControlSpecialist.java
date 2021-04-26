@@ -18,20 +18,6 @@ public class ControlSpecialist extends Specialist {
         this.CONTROL_DESK_VIEW = cdv;
     }
 
-    public void openControlDeskView(int maxMembers) {}
-
-    public void openNewPatronView() {}
-
-    public void openAddPartyView(int maxMembers) {}
-
-    public void closeControlDeskView() {}
-
-    public void closeNewPatronView() {}
-
-    public void closeAddPartyView() {}
-
-    public void receiveControlDeskEvent(ControlDeskEvent ce) {}
-
     @Override
     public void receiveEvent(LaneEvent le) {
 

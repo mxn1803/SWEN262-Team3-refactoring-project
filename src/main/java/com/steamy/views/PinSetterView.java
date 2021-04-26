@@ -15,7 +15,6 @@ package com.steamy.views;/*
 import com.steamy.ControlDeskEvent;
 import com.steamy.LaneEvent;
 import com.steamy.PinSetterEvent;
-import com.steamy.model.Communicator;
 import com.steamy.specialists.Specialist;
 
 import javax.swing.*;
@@ -35,12 +34,11 @@ public class PinSetterView extends View {
      * Constructs a Pin Setter GUI displaying which roll it is with
      * yellow boxes along the top (1 box for first roll, 2 boxes for second)
      * and displays the pins as numbers in this format:
-     *
-     *                7   8   9   10
-     *                  4   5   6
-     *                    2   3
-     *                      1
-     *
+     * <p>
+     * 7   8   9   10
+     * 4   5   6
+     * 2   3
+     * 1
      */
     public PinSetterView(int laneNum, Specialist specialist) {
         super(specialist);
@@ -68,7 +66,7 @@ public class PinSetterView extends View {
 
         JPanel pins = new JPanel();
         pins.setLayout(new GridLayout(4, 7));
-        final int[] pinIndex = { 6, 7, 8, 9, 3, 4, 5, 1, 2, 0 };
+        final int[] pinIndex = {6, 7, 8, 9, 3, 4, 5, 1, 2, 0};
         int indexTracker = 0;
         for (int i = 0; i < 28; i++) {
             boolean isEven = i % 2 == 0;
@@ -87,9 +85,6 @@ public class PinSetterView extends View {
         WINDOW.pack();
         WINDOW.setVisible(true);
     }
-
-
-
 
 
     public void toggle() { WINDOW.setVisible(!WINDOW.isVisible()); }
@@ -116,14 +111,13 @@ public class PinSetterView extends View {
      * is grayed out.  When it is the second roll, it is indicated by the
      * appearance of a second yellow box at the top.
      *
-     * @param pe    The state of the pinsetter is sent in this event.
+     * @param pe The state of the pinsetter is sent in this event.
      */
     @Override
     public void receiveEvent(PinSetterEvent pe) {
         if (!pe.isFoulCommited()) {
             for (int c = 0; c < 10; c++) {
-                if (pe.pinKnockedDown(c))
-                    PIN_LABELS.get(c).setForeground(Color.lightGray);
+                if (pe.pinKnockedDown(c)) PIN_LABELS.get(c).setForeground(Color.lightGray);
             }
         }
         if (pe.getThrowNumber() == 1) SECOND_ROLL.setBackground(Color.yellow);
