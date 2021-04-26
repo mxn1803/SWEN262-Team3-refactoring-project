@@ -14,51 +14,49 @@ import com.steamy.views.View;
 public class LaneSpecialist extends Specialist {
     private final Communicator LANE;
     private final Communicator PINSETTER;
-    private final View LANE_VIEW;
-    private final View PINSETTER_VIEW;
-    private final View LANE_STATUS_VIEW;
-
-
 
     public LaneSpecialist(int laneCount){
         super();
         PinSetter pinsetter = new PinSetter(this);
         this.PINSETTER = pinsetter;
+
         Lane tempLane = new Lane(this);
         this.LANE = tempLane;
-        PinSetterView tempPinView = new PinSetterView(laneCount, this);
-        this.PINSETTER_VIEW = tempPinView;
+
+        PinSetterView tempPinSetterView = new PinSetterView(laneCount, this);
+        super.getOpenViews().put(ViewType.PIN_SETTER, tempPinSetterView);
+
         LaneView tempLaneView = new LaneView(tempLane, laneCount, this);
-        this.LANE_VIEW = tempLaneView;
-        this.LANE_STATUS_VIEW = new LaneStatusView(tempLane, tempPinView, tempLaneView, this);
+        super.getOpenViews().put(ViewType.LANE, tempLaneView);
+
+        LaneStatusView tempLaneStatusView = new LaneStatusView(tempLane, tempPinSetterView, tempLaneView, this);
+        super.getOpenViews().put(ViewType.LANE_STATUS, tempLaneStatusView);
         pinsetter.reset();
-
-
     }
 
-    public void openLaneView() {
-        LANE_VIEW.toggleOn();
-    }
-
-    public void closeLaneView() {
-        LANE_VIEW.toggleOff();
-    }
-
-    public void openLaneStatusView() {
-        LANE_STATUS_VIEW.toggleOn();
-    }
-
-    public void closeLaneStatusView() {
-        LANE_STATUS_VIEW.toggleOff();
-    }
-
-    public void openPinSetterView() {
-        PINSETTER_VIEW.toggleOn();
-    }
-
-    public void closePinSetterView() {
-        PINSETTER_VIEW.toggleOff();
-    }
+//    public void openLaneView() {
+//        LANE_VIEW.toggleOn();
+//    }
+//
+//    public void closeLaneView() {
+//        LANE_VIEW.toggleOff();
+//    }
+//
+//    public void openLaneStatusView() {
+//        LANE_STATUS_VIEW.toggleOn();
+//    }
+//
+//    public void closeLaneStatusView() {
+//        LANE_STATUS_VIEW.toggleOff();
+//    }
+//
+//    public void openPinSetterView() {
+//        PINSETTER_VIEW.toggleOn();
+//    }
+//
+//    public void closePinSetterView() {
+//        PINSETTER_VIEW.toggleOff();
+//    }
 
 
 
@@ -69,30 +67,26 @@ public class LaneSpecialist extends Specialist {
     public void receiveEvent(LaneEvent le) {
         this.LANE.receiveEvent(le);
         this.PINSETTER.receiveEvent(le);
-        this.LANE_VIEW.receiveEvent(le);
-        this.LANE_STATUS_VIEW.receiveEvent(le);
-        this.PINSETTER_VIEW.receiveEvent(le);
+        super.getOpenViews().forEach((type, view) -> view.receiveEvent(le));
     }
 
     public void receiveEvent(PinSetterEvent pe) {
         this.LANE.receiveEvent(pe);
         this.PINSETTER.receiveEvent(pe);
-        this.LANE_VIEW.receiveEvent(pe);
-        this.LANE_STATUS_VIEW.receiveEvent(pe);
-        this.PINSETTER_VIEW.receiveEvent(pe);
+        super.getOpenViews().forEach((type, view) -> view.receiveEvent(pe));
     }
 
     public void receiveEvent(ControlDeskEvent ce) {
         this.LANE.receiveEvent(ce);
         this.PINSETTER.receiveEvent(ce);
-        this.LANE_VIEW.receiveEvent(ce);
-        this.LANE_STATUS_VIEW.receiveEvent(ce);
-        this.PINSETTER_VIEW.receiveEvent(ce);
+        super.getOpenViews().forEach((type, view) -> view.receiveEvent(ce));
     }
+
+
 
     public Lane getLane() { return (Lane)this.LANE; }
     public PinSetter getPinSetter() { return (PinSetter) this.PINSETTER; }
     public LaneStatusView getLaneStatusView(){
-        return ((LaneStatusView) LANE_STATUS_VIEW);
+        return (LaneStatusView) super.getOpenViews().get(ViewType.LANE_STATUS);
     }
 }
