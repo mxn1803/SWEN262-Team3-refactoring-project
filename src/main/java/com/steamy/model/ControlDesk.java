@@ -40,18 +40,21 @@ package com.steamy.model;/* ControlDesk.java
  *
  */
 
+import com.steamy.LaneEvent;
+import com.steamy.PinSetterEvent;
 import com.steamy.io.BowlerFile;
 import com.steamy.ControlDeskEvent;
-import com.steamy.ControlDeskObserver;
 import com.steamy.Queue;
+import com.steamy.views.specialists.LaneSpecialist;
+import com.steamy.views.specialists.Specialist;
 
 import java.util.*;
 import java.io.*;
 
-public class ControlDesk extends Thread {
+public class ControlDesk extends Thread implements Communicator {
 
     /** The collection of Lanes */
-    private HashSet lanes;
+    private List<Lane> lanes;
 
     /** The party wait queue */
     private Queue partyQueue;
@@ -60,29 +63,37 @@ public class ControlDesk extends Thread {
     private int numLanes;
     
     /** The collection of subscribers */
-    private Vector subscribers;
+    //private Vector subscribers;
+
+    private final Specialist SPECIALIST;
+    private final List<Specialist> LANE_SPECIALISTS;
 
     /**
      * Constructor for the ControlDesk class
      *
-     * @param numLanes    the numbler of lanes to be represented
+     * @param numLanes   the numbler of lanes to be represented
      *
      */
-    public ControlDesk(int numLanes) {
+    public ControlDesk(int numLanes, Specialist specialist) {
+        this.SPECIALIST = specialist;
+        this.LANE_SPECIALISTS = new ArrayList<>(numLanes);
         this.numLanes = numLanes;
-        lanes = new HashSet(numLanes);
+        lanes = new ArrayList<>(numLanes);
         partyQueue = new Queue();
 
-        subscribers = new Vector();
 
-        for (int i = 0; i < numLanes; i++) {
-            lanes.add(new Lane());
+
+        for (int i = 1; i <= numLanes; i++) {
+            this.LANE_SPECIALISTS.add(new LaneSpecialist(i));
+            lanes.add( ((LaneSpecialist) this.LANE_SPECIALISTS.get(i - 1)).getLane());
         }
         
         this.start();
 
     }
-    
+
+    public Specialist getSpecialist() { return this.SPECIALIST; }
+
     /**
      * Main loop for ControlDesk's thread
      * 
@@ -141,14 +152,7 @@ public class ControlDesk extends Thread {
                 curLane.assignParty(((Party) partyQueue.next()));
             }
         }
-        publish(new ControlDeskEvent(getPartyQueue()));
-    }
-
-    /**
-     */
-
-    public void viewScores(Lane ln) {
-        // TODO: attach a LaneScoreView object to that lane
+        publish();
     }
 
     /**
@@ -166,7 +170,7 @@ public class ControlDesk extends Thread {
         }
         Party newParty = new Party(partyBowlers);
         partyQueue.add(newParty);
-        publish(new ControlDeskEvent(getPartyQueue()));
+        publish();
     }
 
     /**
@@ -206,27 +210,10 @@ public class ControlDesk extends Thread {
      *
      */
 
-    public void subscribe(ControlDeskObserver adding) {
-        subscribers.add(adding);
-    }
+    //public void subscribe(ControlDeskObserver adding) {
+    //    subscribers.add(adding);
+    //}
 
-    /**
-     * Broadcast an event to subscribing objects.
-     * 
-     * @param event    the ControlDeskEvent to broadcast
-     *
-     */
-
-    public void publish(ControlDeskEvent event) {
-        Iterator eventIterator = subscribers.iterator();
-        while (eventIterator.hasNext()) {
-            (
-                (ControlDeskObserver) eventIterator
-                    .next())
-                    .receiveControlDeskEvent(
-                event);
-        }
-    }
 
     /**
      * Accessor method for lanes
@@ -235,7 +222,33 @@ public class ControlDesk extends Thread {
      *
      */
 
-    public HashSet getLanes() {
+    public List<Lane> getLanes() {
         return lanes;
+    }
+
+    @Override
+    public void publish() {
+        ControlDeskEvent cde = new ControlDeskEvent(getPartyQueue());
+        SPECIALIST.receiveEvent(cde);
+    }
+
+    @Override
+    public void publish(int num) {
+
+    }
+
+    @Override
+    public void receiveEvent(PinSetterEvent pe) {
+
+    }
+
+    @Override
+    public void receiveEvent(LaneEvent le) {
+
+    }
+
+    @Override
+    public void receiveEvent(ControlDeskEvent ce) {
+
     }
 }

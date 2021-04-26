@@ -1,5 +1,6 @@
 import com.steamy.model.ControlDesk;
 import com.steamy.views.ControlDeskView;
+import com.steamy.views.specialists.ControlSpecialist;
 
 public class Main {
 
@@ -8,10 +9,7 @@ public class Main {
         final int NUM_LANES = 3;
         final int MAX_PATRONS_PER_PARTY = 5;
 
-        ControlDesk controlDesk = new ControlDesk(NUM_LANES);
-
-        ControlDeskView cdv = new ControlDeskView(controlDesk, MAX_PATRONS_PER_PARTY);
-        controlDesk.subscribe(cdv);
+        ControlSpecialist controlSpecialist = new ControlSpecialist(NUM_LANES, MAX_PATRONS_PER_PARTY);
 
     }
 }

@@ -67,66 +67,82 @@ package com.steamy.model;/*
 
 /**
  * Class to represent the pinsetter
- *
  */
 
-import com.steamy.PinsetterEvent;
-import com.steamy.PinsetterObserver;
+import com.steamy.ControlDeskEvent;
+import com.steamy.LaneEvent;
+import com.steamy.PinSetterEvent;
+import com.steamy.views.specialists.Specialist;
 
-import java.util.*;
+import java.util.Random;
+import java.util.Vector;
 
-public class Pinsetter {
+public class PinSetter implements Communicator {
 
     private Random rnd;
     private Vector subscribers;
 
-    private boolean[] pins; 
-            /* 0-9 of state of pine, true for standing, 
-            false for knocked down
+    private boolean[] pins;
+    /* 0-9 of state of pine, true for standing,
+    false for knocked down
 
-            6   7   8   9
-              3   4   5
-                2   1
-                  0
+    6   7   8   9
+      3   4   5
+        2   1
+          0
 
-            */
+    */
     private boolean foul;
     private int throwNumber;
+    private final Specialist SPECIALIST;
 
     /** sendEvent()
-     * 
+     *
      * Sends pinsetter events to all subscribers
-     * 
+     *
      * @pre none
      * @post all subscribers have recieved pinsetter event with updated state
      * */
-    private void sendEvent(int jdpins) {    // send events when our state is changd
-        for (int i=0; i < subscribers.size(); i++) {
-            ((PinsetterObserver)subscribers.get(i)).receivePinsetterEvent(
-                new PinsetterEvent(pins, foul, throwNumber, jdpins));
-        }
+    public void publish(int pinsKnockedOnThrow) {    // send events when our state is changd
+        PinSetterEvent pe = new PinSetterEvent(pins, foul, throwNumber, pinsKnockedOnThrow);
+        SPECIALIST.receiveEvent(pe);
+    }
+
+    @Override
+    public void receiveEvent(LaneEvent le) {
+
+    }
+
+    @Override
+    public void receiveEvent(ControlDeskEvent ce) {
+
+    }
+
+    @Override
+    public void receiveEvent(PinSetterEvent pe) {
+
     }
 
     /** Pinsetter()
-     * 
+     *
      * Constructs a new pinsetter
-     * 
+     *
      * @pre none
      * @post a new pinsetter is created
      * @return Pinsetter object
      */
-    public Pinsetter() {
+    public PinSetter(Specialist specialist) {
+        SPECIALIST = specialist;
         pins = new boolean[10];
         rnd = new Random();
         subscribers = new Vector();
         foul = false;
-        reset();
     }
 
     /** ballThrown()
-     * 
+     *
      * Called to simulate a ball thrown comming in contact with the pinsetter
-     * 
+     *
      * @pre none
      * @post pins may have been knocked down and the thrownumber has been incremented
      */
@@ -134,15 +150,15 @@ public class Pinsetter {
         int count = 0;
         foul = false;
         double skill = rnd.nextDouble();
-        for (int i=0; i <= 9; i++) {
+        for (int i = 0; i <= 9; i++) {
             if (pins[i]) {
                 double pinluck = rnd.nextDouble();
-                if (pinluck <= .04){ 
+                if (pinluck <= .04) {
                     foul = true;
                 }
-                if ( ((skill + pinluck)/2.0 * 1.2) > .5 ){
+                if (((skill + pinluck) / 2.0 * 1.2) > .5) {
                     pins[i] = false;
-                } 
+                }
                 if (!pins[i]) {        // this pin just knocked down
                     count++;
                 }
@@ -151,17 +167,18 @@ public class Pinsetter {
 
         try {
             Thread.sleep(500);                // pinsetter is where delay will be in a real game
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
-        sendEvent(count);
+        publish(count);
 
         throwNumber++;
     }
 
     /** reset()
-     * 
+     *
      * Reset the pinsetter to its complete state
-     * 
+     *
      * @pre none
      * @post pinsetters state is reset
      */
@@ -169,37 +186,33 @@ public class Pinsetter {
         foul = false;
         throwNumber = 1;
         resetPins();
-        
+
         try {
             Thread.sleep(1000);
-        } catch (Exception e) {}
-        
-        sendEvent(-1);
+        } catch (Exception e) {
+        }
+
+        publish(-1);
     }
 
     /** resetPins()
-     * 
+     *
      * Reset the pins on the pinsetter
-     * 
+     *
      * @pre none
      * @post pins array is reset to all pins up
      */
     public void resetPins() {
-        for (int i=0; i <= 9; i++) {
+        for (int i = 0; i <= 9; i++) {
             pins[i] = true;
         }
-    }        
-
-    /** subscribe()
-     * 
-     * subscribe objects to send events to
-     * 
-     * @pre none
-     * @post the subscriber object will recieve events when their generated
-     */
-    public void subscribe(PinsetterObserver subscriber) {
-        subscribers.add(subscriber);
     }
 
+
+
+    @Override
+    public void publish() {
+
+    }
 };
 

@@ -5,19 +5,18 @@ package com.steamy.views; /**
  * Window>Preferences>Java>Code Generation.
  */
 
+import com.steamy.ControlDeskEvent;
 import com.steamy.model.Lane;
 import com.steamy.LaneEvent;
-import com.steamy.LaneObserver;
-import com.steamy.model.Pinsetter;
-import com.steamy.PinsetterEvent;
-import com.steamy.PinsetterObserver;
+import com.steamy.PinSetterEvent;
+import com.steamy.views.specialists.Specialist;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class LaneStatusView implements ActionListener, LaneObserver, PinsetterObserver {
+public class LaneStatusView extends View implements ActionListener {
 
     private final JPanel LANE_PANEL;
 
@@ -28,15 +27,14 @@ public class LaneStatusView implements ActionListener, LaneObserver, PinsetterOb
     private final LaneView LANE_VIEW;
     private final Lane LANE;
 
-    public LaneStatusView(Lane lane, int laneNum) {
+    public LaneStatusView(Lane lane, PinSetterView pv, LaneView lv, Specialist specialist) {
+        super(specialist);
         this.LANE = lane;
 
-        PINSETTER_VIEW = new PinSetterView(laneNum);
-        Pinsetter ps = lane.getPinsetter();
-        ps.subscribe(PINSETTER_VIEW);
+        PINSETTER_VIEW = pv;
 
-        LANE_VIEW = new LaneView(lane, laneNum);
-        lane.subscribe(LANE_VIEW);
+        LANE_VIEW = lv;
+
 
         LANE_PANEL = new JPanel();
         LANE_PANEL.setLayout(new FlowLayout());
@@ -83,15 +81,41 @@ public class LaneStatusView implements ActionListener, LaneObserver, PinsetterOb
         }
     }
 
-    public void receiveLaneEvent(LaneEvent le) {
+    @Override
+    public void receiveEvent(LaneEvent le) {
         CURRENT_BOWLER_LABEL.setText(le.getBowler().getNickName());
         if (le.isMechanicalProblem()) MAINTENANCE_BUTTON.setBackground(Color.RED);
         VIEW_LANE_BUTTON.setEnabled(LANE.isPartyAssigned());
         VIEW_PINSETTER_BUTTON.setEnabled(LANE.isPartyAssigned());
     }
 
-    public void receivePinsetterEvent(PinsetterEvent pe) {
+    @Override
+    public void publish() {
+
+    }
+
+    @Override
+    public void publish(int num) {
+
+    }
+
+    @Override
+    public void receiveEvent(PinSetterEvent pe) {
         Integer pinsDown = pe.totalPinsDown();
         PINS_DOWN_LABEL.setText(pinsDown.toString());
+    }
+
+    @Override
+    public void receiveEvent(ControlDeskEvent ce) {
+
+    }
+
+
+    public PinSetterView getPinsetterView(){
+        return PINSETTER_VIEW;
+    }
+
+    public LaneView getLaneView(){
+        return LANE_VIEW;
     }
 }
