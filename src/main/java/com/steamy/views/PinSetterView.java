@@ -14,13 +14,14 @@ package com.steamy.views;/*
 
 import com.steamy.PinsetterEvent;
 import com.steamy.PinsetterObserver;
+import com.steamy.views.specialists.Specialist;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Vector;
 
 
-public class PinSetterView implements PinsetterObserver {
+public class PinSetterView extends View implements PinsetterObserver {
 
 
     private final Vector<JLabel> PIN_LABELS;
@@ -39,7 +40,8 @@ public class PinSetterView implements PinsetterObserver {
      *                      1
      *
      */
-    public PinSetterView(int laneNum) {
+    public PinSetterView(int laneNum, Specialist specialist) {
+        super(specialist);
         PIN_LABELS = new Vector<>(10);
         PIN_PANELS = new Vector<>(10);
         WINDOW = new JFrame("Lane " + laneNum + ":");

@@ -1,6 +1,7 @@
 package com.steamy.views.specialists;
 
 import com.steamy.ControlDeskEvent;
+import com.steamy.LaneEvent;
 import com.steamy.model.ControlDesk;
 
 public class ControlSpecialist extends Specialist {
@@ -24,4 +25,9 @@ public class ControlSpecialist extends Specialist {
     public void closeAddPartyView() {}
 
     public void receiveControlDeskEvent(ControlDeskEvent ce) {}
+
+    @Override
+    public void receiveEvent(LaneEvent le) {
+
+    }
 }

@@ -181,8 +181,8 @@ public class Lane extends Thread implements PinsetterObserver {
      * @pre none
      * @post a new lane has been created and its thered is executing
      */
-    public Lane() {
-        this.SPECIALIST = new LaneSpecialist(this);
+    public Lane(Specialist specialist) {
+        this.SPECIALIST = specialist;
         setter = new PinSetter();
         scores = new HashMap();
         subscribers = new Vector();
@@ -271,7 +271,7 @@ public class Lane extends Thread implements PinsetterObserver {
                     party = null;
                     partyAssigned = false;
                     
-                    publish(lanePublish());
+                    publish(createLaneEvent());
                     
                     int myIndex = 0;
                     while (scoreIt.hasNext()){
@@ -421,7 +421,7 @@ public class Lane extends Thread implements PinsetterObserver {
         curScore[ index - 1] = score;
         scores.put(Cur, curScore);
         getScore( Cur, frame );
-        publish( lanePublish() );
+        publish( createLaneEvent() );
     }
 
     /** lanePublish()
@@ -430,9 +430,8 @@ public class Lane extends Thread implements PinsetterObserver {
      * 
      * @return        The new lane event
      */
-    private LaneEvent lanePublish(  ) {
-        LaneEvent laneEvent = new LaneEvent(party, bowlIndex, currentThrower, cumulScores, scores, frameNumber+1, curScores, ball, gameIsHalted);
-        return laneEvent;
+    private LaneEvent createLaneEvent() {
+        return new LaneEvent(party, bowlIndex, currentThrower, cumulScores, scores, frameNumber+1, curScores, ball, gameIsHalted);
     }
 
     /** getScore()
@@ -578,13 +577,7 @@ public class Lane extends Thread implements PinsetterObserver {
      */
 
     private void publish(LaneEvent le) {
-        if( subscribers.size() > 0 ) {
-            Iterator eventIterator = subscribers.iterator();
-            
-            while ( eventIterator.hasNext() ) {
-                ( (LaneObserver) eventIterator.next()).receiveLaneEvent( le );
-            }
-        }
+        SPECIALIST.receiveEvent(le);
     }
 
     /**
@@ -602,7 +595,7 @@ public class Lane extends Thread implements PinsetterObserver {
      */
     public void pauseGame() {
         gameIsHalted = true;
-        publish(lanePublish());
+        publish(createLaneEvent());
     }
     
     /**
@@ -610,7 +603,7 @@ public class Lane extends Thread implements PinsetterObserver {
      */
     public void unPauseGame() {
         gameIsHalted = false;
-        publish(lanePublish());
+        publish(createLaneEvent());
     }
 
 }

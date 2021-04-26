@@ -8,6 +8,7 @@ import com.steamy.model.Lane;
 import com.steamy.LaneEvent;
 import com.steamy.LaneObserver;
 import com.steamy.model.Party;
+import com.steamy.views.specialists.Specialist;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +18,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Vector;
 
-public class LaneView implements LaneObserver, ActionListener {
+public class LaneView extends View implements LaneObserver, ActionListener {
 
     private final int BALL_COUNT;
     private final int FRAME_COUNT;
@@ -34,8 +35,8 @@ public class LaneView implements LaneObserver, ActionListener {
     private JButton maintenance;
     private final Lane lane;
 
-    public LaneView(Lane lane, int laneNum) {
-
+    public LaneView(Lane lane, int laneNum, Specialist specialist) {
+        super(specialist);
         this.lane = lane;
         BALL_COUNT = 21;
         FRAME_COUNT = 10;

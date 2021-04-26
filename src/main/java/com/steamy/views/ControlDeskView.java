@@ -16,6 +16,7 @@ import com.steamy.model.ControlDesk;
 import com.steamy.ControlDeskEvent;
 import com.steamy.ControlDeskObserver;
 import com.steamy.model.Lane;
+import com.steamy.views.specialists.LaneSpecialist;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -86,7 +87,10 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
         int laneCount = 0;
         while (it.hasNext()) {
             Lane curLane = (Lane) it.next();
-            LaneStatusView laneStat = new LaneStatusView(curLane, (laneCount + 1));
+            LaneSpecialist laneSpecialist = new LaneSpecialist(curLane, (laneCount + 1));
+            LaneStatusView laneStat = laneSpecialist.getLaneStatusView();
+            //LaneStatusView laneStat = new LaneStatusView(curLane, (laneCount + 1));
+
             curLane.subscribe(laneStat);
             curLane.getPinsetter().subscribe(laneStat);
             JPanel lanePanel = laneStat.getLanePanel();
