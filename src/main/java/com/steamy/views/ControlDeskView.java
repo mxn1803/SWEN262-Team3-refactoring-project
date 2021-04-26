@@ -27,6 +27,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 public class ControlDeskView implements ActionListener, ControlDeskObserver {
@@ -82,7 +83,7 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
         laneStatusPanel.setLayout(new GridLayout(numLanes, 1));
         laneStatusPanel.setBorder(new TitledBorder("Lane Status"));
 
-        HashSet lanes = controlDesk.getLanes();
+        List<Lane> lanes = controlDesk.getLanes();
         Iterator it = lanes.iterator();
         int laneCount = 0;
         while (it.hasNext()) {

@@ -43,6 +43,7 @@ public class PinSetterView extends View{
      */
     public PinSetterView(int laneNum, Specialist specialist) {
         super(specialist);
+
         PIN_LABELS = new Vector<>(10);
         PIN_PANELS = new Vector<>(10);
         WINDOW = new JFrame("Lane " + laneNum + ":");

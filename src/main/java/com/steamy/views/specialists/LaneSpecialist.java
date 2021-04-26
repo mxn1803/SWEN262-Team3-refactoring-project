@@ -23,7 +23,7 @@ public class LaneSpecialist extends Specialist {
         super();
         PinSetter pinsetter = new PinSetter(this);
         this.PINSETTER = pinsetter;
-        Lane tempLane = new Lane(pinsetter, this);
+        Lane tempLane = new Lane(this);
         this.LANE = tempLane;
         PinSetterView tempPinView = new PinSetterView(laneCount, this);
         this.PINSETTER_VIEW = tempPinView;

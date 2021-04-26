@@ -10,11 +10,11 @@ import java.awt.event.ActionListener;
 
 public abstract class View implements ActionListener {
     private final JFrame WINDOW;
-    private Specialist specialist;
+    private final Specialist SPECIALIST;
     private boolean toggled;
 
     public View(Specialist s) {
-        this.specialist = s;
+        this.SPECIALIST = s;
         this.WINDOW = new JFrame();
         toggled = false;
 
@@ -31,5 +31,6 @@ public abstract class View implements ActionListener {
 
     public void toggleOn() { this.WINDOW.setVisible(true);}
     public void toggleOff() {this.WINDOW.setVisible(false);}
+    public Specialist getSpecialist() { return this.SPECIALIST; }
 
 }
