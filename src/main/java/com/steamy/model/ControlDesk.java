@@ -81,7 +81,7 @@ public class ControlDesk extends Thread {
 
         subscribers = new Vector();
 
-        for (int i = 0; i < numLanes; i++) {
+        for (int i = 1; i <= numLanes; i++) {
             LaneSpecialist laneSpecialist = new LaneSpecialist(i);
             lanes.add(laneSpecialist.getLane());
         }
