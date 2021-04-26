@@ -3,11 +3,14 @@ package com.steamy.views;/*
  *
  */
 
+import com.steamy.ControlDeskEvent;
+import com.steamy.PinSetterEvent;
 import com.steamy.model.Bowler;
+import com.steamy.model.Communicator;
 import com.steamy.model.Lane;
 import com.steamy.LaneEvent;
-import com.steamy.LaneObserver;
 import com.steamy.model.Party;
+import com.steamy.views.specialists.Specialist;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +20,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Vector;
 
-public class LaneView implements LaneObserver, ActionListener {
+public class LaneView extends View implements ActionListener {
 
     private final int BALL_COUNT;
     private final int FRAME_COUNT;
@@ -34,8 +37,8 @@ public class LaneView implements LaneObserver, ActionListener {
     private JButton maintenance;
     private final Lane lane;
 
-    public LaneView(Lane lane, int laneNum) {
-
+    public LaneView(Lane lane, int laneNum, Specialist specialist) {
+        super(specialist);
         this.lane = lane;
         BALL_COUNT = 21;
         FRAME_COUNT = 10;
@@ -121,7 +124,7 @@ public class LaneView implements LaneObserver, ActionListener {
         return panel;
     }
 
-    public void receiveLaneEvent(LaneEvent le) {
+    public void receiveEvent(LaneEvent le) {
         if (lane.isPartyAssigned()) {
             int numBowlers = le.getParty().getMembers().size();
 
@@ -171,5 +174,26 @@ public class LaneView implements LaneObserver, ActionListener {
         }
     }
 
+    @Override
+    public void publish() {
+
+    }
+
+    @Override
+    public void publish(int num) {
+
+    }
+
+    @Override
+    public void receiveEvent(PinSetterEvent pe) {
+
+    }
+
+    @Override
+    public void receiveEvent(ControlDeskEvent ce) {
+
+    }
+
     public void actionPerformed(ActionEvent e) { if (e.getSource().equals(maintenance)) lane.pauseGame(); }
+
 }

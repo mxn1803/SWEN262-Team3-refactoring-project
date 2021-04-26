@@ -12,10 +12,13 @@ package com.steamy.views;/* ControlDeskView.java
  * Class for representation of the control desk
  */
 
+import com.steamy.LaneEvent;
+import com.steamy.PinSetterEvent;
 import com.steamy.model.ControlDesk;
 import com.steamy.ControlDeskEvent;
-import com.steamy.ControlDeskObserver;
 import com.steamy.model.Lane;
+import com.steamy.views.specialists.LaneSpecialist;
+import com.steamy.views.specialists.Specialist;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -24,11 +27,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
-public class ControlDeskView implements ActionListener, ControlDeskObserver {
+public class ControlDeskView extends View implements ActionListener {
 
     private final JButton ADD_PARTY_BUTTON;
     private final JButton FINISHED_BUTTON;
@@ -44,7 +47,8 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
      * Displays a GUI representation of the ControlDesk
      *
      */
-    public ControlDeskView(ControlDesk controlDesk, int maxMembers) {
+    public ControlDeskView(ControlDesk controlDesk, int maxMembers, Specialist specialist) {
+        super(specialist);
 
         this.CONTROL_DESK = controlDesk;
         this.MAX_MEMBERS = maxMembers;
@@ -81,14 +85,17 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
         laneStatusPanel.setLayout(new GridLayout(numLanes, 1));
         laneStatusPanel.setBorder(new TitledBorder("Lane Status"));
 
-        HashSet lanes = controlDesk.getLanes();
+        List<Lane> lanes = controlDesk.getLanes();
         Iterator it = lanes.iterator();
         int laneCount = 0;
         while (it.hasNext()) {
             Lane curLane = (Lane) it.next();
-            LaneStatusView laneStat = new LaneStatusView(curLane, (laneCount + 1));
-            curLane.subscribe(laneStat);
-            curLane.getPinsetter().subscribe(laneStat);
+            LaneSpecialist laneSpecialist = (LaneSpecialist) curLane.getSpecialist();
+            LaneStatusView laneStat = laneSpecialist.getLaneStatusView();
+            //LaneStatusView laneStat = new LaneStatusView(curLane, (laneCount + 1));
+
+
+
             JPanel lanePanel = laneStat.getLanePanel();
             lanePanel.setBorder(new TitledBorder("Lane" + ++laneCount));
             laneStatusPanel.add(lanePanel);
@@ -149,6 +156,37 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
         }
     }
 
+    @Override
+    public void receiveEvent(LaneEvent le) {
+
+    }
+
+    @Override
+    public void publish() {
+
+    }
+
+    @Override
+    public void publish(int num) {
+
+    }
+
+    @Override
+    public void receiveEvent(PinSetterEvent pe) {
+
+    }
+
+    /**
+     * Receive a broadcast from a ControlDesk
+     *
+     * @param ce    the ControlDeskEvent that triggered the handler
+     *
+     */
+    @Override
+    public void receiveEvent(ControlDeskEvent ce) {
+        PARTY_LIST.setListData(ce.getPartyQueue());
+    }
+
     /**
      * Receive a new party from andPartyView.
      *
@@ -157,11 +195,6 @@ public class ControlDeskView implements ActionListener, ControlDeskObserver {
      */
     public void updateAddParty(AddPartyView addPartyView) { CONTROL_DESK.addPartyQueue(addPartyView.getParty()); }
 
-    /**
-     * Receive a broadcast from a ControlDesk
-     *
-     * @param ce    the ControlDeskEvent that triggered the handler
-     *
-     */
-    public void receiveControlDeskEvent(ControlDeskEvent ce) { PARTY_LIST.setListData(ce.getPartyQueue()); }
+
+
 }

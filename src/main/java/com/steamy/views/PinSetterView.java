@@ -12,15 +12,18 @@ package com.steamy.views;/*
  * constructs a prototype PinSetter GUI
  */
 
-import com.steamy.PinsetterEvent;
-import com.steamy.PinsetterObserver;
+import com.steamy.ControlDeskEvent;
+import com.steamy.LaneEvent;
+import com.steamy.PinSetterEvent;
+import com.steamy.model.Communicator;
+import com.steamy.views.specialists.Specialist;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Vector;
 
 
-public class PinSetterView implements PinsetterObserver {
+public class PinSetterView extends View {
 
 
     private final Vector<JLabel> PIN_LABELS;
@@ -39,7 +42,9 @@ public class PinSetterView implements PinsetterObserver {
      *                      1
      *
      */
-    public PinSetterView(int laneNum) {
+    public PinSetterView(int laneNum, Specialist specialist) {
+        super(specialist);
+
         PIN_LABELS = new Vector<>(10);
         PIN_PANELS = new Vector<>(10);
         WINDOW = new JFrame("Lane " + laneNum + ":");
@@ -84,6 +89,26 @@ public class PinSetterView implements PinsetterObserver {
     }
 
 
+
+
+
+    public void toggle() { WINDOW.setVisible(!WINDOW.isVisible()); }
+
+    @Override
+    public void receiveEvent(LaneEvent le) {
+
+    }
+
+    @Override
+    public void publish() {
+
+    }
+
+    @Override
+    public void publish(int num) {
+
+    }
+
     /**
      * This method receives a pinsetter event.  The event is the current
      * state of the PinSetter and the method changes how the GUI looks
@@ -93,7 +118,8 @@ public class PinSetterView implements PinsetterObserver {
      *
      * @param pe    The state of the pinsetter is sent in this event.
      */
-    public void receivePinsetterEvent(PinsetterEvent pe) {
+    @Override
+    public void receiveEvent(PinSetterEvent pe) {
         if (!pe.isFoulCommited()) {
             for (int c = 0; c < 10; c++) {
                 if (pe.pinKnockedDown(c))
@@ -110,5 +136,8 @@ public class PinSetterView implements PinsetterObserver {
         }
     }
 
-    public void toggle() { WINDOW.setVisible(!WINDOW.isVisible()); }
+    @Override
+    public void receiveEvent(ControlDeskEvent ce) {
+
+    }
 }
