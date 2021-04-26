@@ -8,6 +8,7 @@ public interface Communicator {
 
 
     void publish();
+    void publish(int num);
 
 }
 

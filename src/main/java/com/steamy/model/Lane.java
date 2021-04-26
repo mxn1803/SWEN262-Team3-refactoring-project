@@ -568,6 +568,11 @@ public class Lane extends Thread implements PinsetterObserver, Communicator {
         SPECIALIST.receiveEvent(le);
     }
 
+    @Override
+    public void publish(int num) {
+
+    }
+
 
     /**
      * Accessor to get this Lane's pinsetter

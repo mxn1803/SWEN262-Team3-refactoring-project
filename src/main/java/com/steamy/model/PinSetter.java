@@ -103,7 +103,7 @@ public class PinSetter implements Communicator{
      * @pre none
      * @post all subscribers have recieved pinsetter event with updated state
      * */
-    private void publish(int jdpins) {    // send events when our state is changd
+    public void publish(int jdpins) {    // send events when our state is changd
         PinsetterEvent pe = new PinsetterEvent(pins, foul, throwNumber, jdpins);
         SPECIALIST.receiveEvent(pe);
     }
