@@ -10,7 +10,7 @@ import com.steamy.model.Communicator;
 import com.steamy.model.Lane;
 import com.steamy.LaneEvent;
 import com.steamy.model.Party;
-import com.steamy.views.specialists.Specialist;
+import com.steamy.specialists.Specialist;
 
 import javax.swing.*;
 import java.awt.*;

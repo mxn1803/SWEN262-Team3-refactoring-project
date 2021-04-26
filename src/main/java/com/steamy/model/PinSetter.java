@@ -72,7 +72,7 @@ package com.steamy.model;/*
 import com.steamy.ControlDeskEvent;
 import com.steamy.LaneEvent;
 import com.steamy.PinSetterEvent;
-import com.steamy.views.specialists.Specialist;
+import com.steamy.specialists.Specialist;
 
 import java.util.Random;
 import java.util.Vector;

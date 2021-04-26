@@ -1,4 +1,4 @@
-package com.steamy.views.specialists;
+package com.steamy.specialists;
 
 import com.steamy.ControlDeskEvent;
 import com.steamy.LaneEvent;

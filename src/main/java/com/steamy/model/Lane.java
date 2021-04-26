@@ -138,8 +138,8 @@ import com.steamy.io.ScoreHistoryFile;
 import com.steamy.io.ScoreReport;
 import com.steamy.views.EndGamePrompt;
 import com.steamy.views.EndGameReport;
-import com.steamy.views.specialists.LaneSpecialist;
-import com.steamy.views.specialists.Specialist;
+import com.steamy.specialists.LaneSpecialist;
+import com.steamy.specialists.Specialist;
 
 import java.util.Date;
 import java.util.HashMap;

@@ -45,8 +45,8 @@ import com.steamy.PinSetterEvent;
 import com.steamy.io.BowlerFile;
 import com.steamy.ControlDeskEvent;
 import com.steamy.Queue;
-import com.steamy.views.specialists.LaneSpecialist;
-import com.steamy.views.specialists.Specialist;
+import com.steamy.specialists.LaneSpecialist;
+import com.steamy.specialists.Specialist;
 
 import java.util.*;
 import java.io.*;

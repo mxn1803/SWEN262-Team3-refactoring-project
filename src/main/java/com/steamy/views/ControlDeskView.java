@@ -17,8 +17,8 @@ import com.steamy.PinSetterEvent;
 import com.steamy.model.ControlDesk;
 import com.steamy.ControlDeskEvent;
 import com.steamy.model.Lane;
-import com.steamy.views.specialists.LaneSpecialist;
-import com.steamy.views.specialists.Specialist;
+import com.steamy.specialists.LaneSpecialist;
+import com.steamy.specialists.Specialist;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
