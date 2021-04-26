@@ -139,6 +139,8 @@ import com.steamy.PinsetterEvent;
 import com.steamy.PinsetterObserver;
 import com.steamy.io.ScoreHistoryFile;
 import com.steamy.io.ScoreReport;
+import com.steamy.views.specialists.LaneSpecialist;
+import com.steamy.views.specialists.Specialist;
 
 import java.util.Vector;
 import java.util.Iterator;
@@ -147,7 +149,7 @@ import java.util.Date;
 
 public class Lane extends Thread implements PinsetterObserver {
     private Party party;
-    private Pinsetter setter;
+    private PinSetter setter;
     private HashMap scores;
     private Vector subscribers;
 
@@ -170,6 +172,8 @@ public class Lane extends Thread implements PinsetterObserver {
     
     private Bowler currentThrower;            // = the thrower who just took a throw
 
+    private final Specialist SPECIALIST;
+
     /** Lane()
      * 
      * Constructs a new lane and starts its thread
@@ -177,8 +181,9 @@ public class Lane extends Thread implements PinsetterObserver {
      * @pre none
      * @post a new lane has been created and its thered is executing
      */
-    public Lane() { 
-        setter = new Pinsetter();
+    public Lane() {
+        this.SPECIALIST = new LaneSpecialist(this);
+        setter = new PinSetter();
         scores = new HashMap();
         subscribers = new Vector();
 
@@ -191,6 +196,8 @@ public class Lane extends Thread implements PinsetterObserver {
         
         this.start();
     }
+
+    public Specialist getSpecialist() { return this.SPECIALIST; }
 
     /** run()
      * 
@@ -250,8 +257,7 @@ public class Lane extends Thread implements PinsetterObserver {
                 
                 
                 System.out.println("result was: " + result);
-                
-                // TODO: send record of scores to control desk
+
                 if (result == 1) {                    // yes, want to play again
                     resetScores();
                     resetBowlerIterator();
@@ -553,50 +559,30 @@ public class Lane extends Thread implements PinsetterObserver {
     public boolean isPartyAssigned() {
         return partyAssigned;
     }
-    
-    /** isGameFinished
-     * 
-     * @return true if the game is done, false otherwise
-     */
-    public boolean isGameFinished() {
-        return gameFinished;
-    }
 
     /** subscribe
      * 
      * Method that will add a subscriber
      * 
-     * @param subscribe    Observer that is to be added
+     * @param adding    Observer that is to be added
      */
-
     public void subscribe( LaneObserver adding ) {
         subscribers.add( adding );
-    }
-
-    /** unsubscribe
-     * 
-     * Method that unsubscribes an observer from this object
-     * 
-     * @param removing    The observer to be removed
-     */
-    
-    public void unsubscribe( LaneObserver removing ) {
-        subscribers.remove( removing );
     }
 
     /** publish
      *
      * Method that publishes an event to subscribers
-     * 
-     * @param event    Event that is to be published
+     *
+     * @param le    Event that is to be published
      */
 
-    public void publish( LaneEvent event ) {
+    private void publish(LaneEvent le) {
         if( subscribers.size() > 0 ) {
             Iterator eventIterator = subscribers.iterator();
             
             while ( eventIterator.hasNext() ) {
-                ( (LaneObserver) eventIterator.next()).receiveLaneEvent( event );
+                ( (LaneObserver) eventIterator.next()).receiveLaneEvent( le );
             }
         }
     }
@@ -607,7 +593,7 @@ public class Lane extends Thread implements PinsetterObserver {
      * @return        A reference to this lane's pinsetter
      */
 
-    public Pinsetter getPinsetter() {
+    public PinSetter getPinsetter() {
         return setter;    
     }
 

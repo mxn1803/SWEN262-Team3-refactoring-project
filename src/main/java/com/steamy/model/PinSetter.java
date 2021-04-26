@@ -75,7 +75,7 @@ import com.steamy.PinsetterObserver;
 
 import java.util.*;
 
-public class Pinsetter {
+public class PinSetter {
 
     private Random rnd;
     private Vector subscribers;
@@ -100,7 +100,7 @@ public class Pinsetter {
      * @pre none
      * @post all subscribers have recieved pinsetter event with updated state
      * */
-    private void sendEvent(int jdpins) {    // send events when our state is changd
+    private void publish(int jdpins) {    // send events when our state is changd
         for (int i=0; i < subscribers.size(); i++) {
             ((PinsetterObserver)subscribers.get(i)).receivePinsetterEvent(
                 new PinsetterEvent(pins, foul, throwNumber, jdpins));
@@ -115,7 +115,7 @@ public class Pinsetter {
      * @post a new pinsetter is created
      * @return Pinsetter object
      */
-    public Pinsetter() {
+    public PinSetter() {
         pins = new boolean[10];
         rnd = new Random();
         subscribers = new Vector();
@@ -153,7 +153,7 @@ public class Pinsetter {
             Thread.sleep(500);                // pinsetter is where delay will be in a real game
         } catch (Exception e) {}
 
-        sendEvent(count);
+        publish(count);
 
         throwNumber++;
     }
@@ -174,7 +174,7 @@ public class Pinsetter {
             Thread.sleep(1000);
         } catch (Exception e) {}
         
-        sendEvent(-1);
+        publish(-1);
     }
 
     /** resetPins()

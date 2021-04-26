@@ -44,6 +44,8 @@ import com.steamy.io.BowlerFile;
 import com.steamy.ControlDeskEvent;
 import com.steamy.ControlDeskObserver;
 import com.steamy.Queue;
+import com.steamy.views.specialists.ControlSpecialist;
+import com.steamy.views.specialists.Specialist;
 
 import java.util.*;
 import java.io.*;
@@ -62,6 +64,8 @@ public class ControlDesk extends Thread {
     /** The collection of subscribers */
     private Vector subscribers;
 
+    private final Specialist SPECIALIST;
+
     /**
      * Constructor for the ControlDesk class
      *
@@ -69,6 +73,7 @@ public class ControlDesk extends Thread {
      *
      */
     public ControlDesk(int numLanes) {
+        this.SPECIALIST = new ControlSpecialist(this);
         this.numLanes = numLanes;
         lanes = new HashSet(numLanes);
         partyQueue = new Queue();
@@ -82,7 +87,9 @@ public class ControlDesk extends Thread {
         this.start();
 
     }
-    
+
+    public Specialist getSpecialist() { return this.SPECIALIST; }
+
     /**
      * Main loop for ControlDesk's thread
      * 
@@ -142,13 +149,6 @@ public class ControlDesk extends Thread {
             }
         }
         publish(new ControlDeskEvent(getPartyQueue()));
-    }
-
-    /**
-     */
-
-    public void viewScores(Lane ln) {
-        // TODO: attach a LaneScoreView object to that lane
     }
 
     /**
@@ -212,12 +212,12 @@ public class ControlDesk extends Thread {
 
     /**
      * Broadcast an event to subscribing objects.
-     * 
+     *
      * @param event    the ControlDeskEvent to broadcast
      *
      */
 
-    public void publish(ControlDeskEvent event) {
+    private void publish(ControlDeskEvent event) {
         Iterator eventIterator = subscribers.iterator();
         while (eventIterator.hasNext()) {
             (

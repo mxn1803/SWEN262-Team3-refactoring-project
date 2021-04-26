@@ -8,7 +8,7 @@ package com.steamy.views; /**
 import com.steamy.model.Lane;
 import com.steamy.LaneEvent;
 import com.steamy.LaneObserver;
-import com.steamy.model.Pinsetter;
+import com.steamy.model.PinSetter;
 import com.steamy.PinsetterEvent;
 import com.steamy.PinsetterObserver;
 
@@ -32,7 +32,7 @@ public class LaneStatusView implements ActionListener, LaneObserver, PinsetterOb
         this.LANE = lane;
 
         PINSETTER_VIEW = new PinSetterView(laneNum);
-        Pinsetter ps = lane.getPinsetter();
+        PinSetter ps = lane.getPinsetter();
         ps.subscribe(PINSETTER_VIEW);
 
         LANE_VIEW = new LaneView(lane, laneNum);
