@@ -7,11 +7,9 @@ package com.steamy.views; /**
 
 import com.steamy.model.Lane;
 import com.steamy.LaneEvent;
-import com.steamy.LaneObserver;
 import com.steamy.model.PinSetter;
 import com.steamy.PinsetterEvent;
 import com.steamy.PinsetterObserver;
-import com.steamy.views.specialists.LaneSpecialist;
 import com.steamy.views.specialists.Specialist;
 
 import javax.swing.*;
@@ -19,7 +17,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class LaneStatusView extends View implements ActionListener, LaneObserver, PinsetterObserver {
+public class LaneStatusView extends View implements ActionListener, PinsetterObserver {
 
     private final JPanel LANE_PANEL;
 
@@ -35,11 +33,9 @@ public class LaneStatusView extends View implements ActionListener, LaneObserver
         this.LANE = lane;
 
         PINSETTER_VIEW = new PinSetterView(laneNum, specialist);
-        PinSetter ps = lane.getPinsetter();
-        ps.subscribe(PINSETTER_VIEW);
 
         LANE_VIEW = new LaneView(lane, laneNum, specialist);
-        lane.subscribe(LANE_VIEW);
+
 
         LANE_PANEL = new JPanel();
         LANE_PANEL.setLayout(new FlowLayout());
@@ -84,6 +80,11 @@ public class LaneStatusView extends View implements ActionListener, LaneObserver
                 MAINTENANCE_BUTTON.setBackground(Color.GREEN);
             }
         }
+    }
+
+    @Override
+    public void receiveEvent(LaneEvent le) {
+
     }
 
     public void receiveLaneEvent(LaneEvent le) {

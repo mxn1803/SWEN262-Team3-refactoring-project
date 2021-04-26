@@ -70,12 +70,13 @@ package com.steamy.model;/*
  *
  */
 
+import com.steamy.LaneEvent;
 import com.steamy.PinsetterEvent;
 import com.steamy.PinsetterObserver;
 
 import java.util.*;
 
-public class PinSetter {
+public class PinSetter implements Communicator{
 
     private Random rnd;
     private Vector subscribers;
@@ -201,5 +202,14 @@ public class PinSetter {
         subscribers.add(subscriber);
     }
 
+    @Override
+    public void publish(LaneEvent event) {
+
+    }
+
+    @Override
+    public void publish(PinsetterEvent event) {
+
+    }
 };
 

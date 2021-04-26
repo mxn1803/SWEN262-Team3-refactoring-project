@@ -134,12 +134,10 @@ package com.steamy.model;
 import com.steamy.views.EndGamePrompt;
 import com.steamy.views.EndGameReport;
 import com.steamy.LaneEvent;
-import com.steamy.LaneObserver;
 import com.steamy.PinsetterEvent;
 import com.steamy.PinsetterObserver;
 import com.steamy.io.ScoreHistoryFile;
 import com.steamy.io.ScoreReport;
-import com.steamy.views.specialists.LaneSpecialist;
 import com.steamy.views.specialists.Specialist;
 
 import java.util.Vector;
@@ -147,7 +145,7 @@ import java.util.Iterator;
 import java.util.HashMap;
 import java.util.Date;
 
-public class Lane extends Thread implements PinsetterObserver {
+public class Lane extends Thread implements PinsetterObserver, Communicator {
     private Party party;
     private PinSetter setter;
     private HashMap scores;
@@ -559,16 +557,6 @@ public class Lane extends Thread implements PinsetterObserver {
         return partyAssigned;
     }
 
-    /** subscribe
-     * 
-     * Method that will add a subscriber
-     * 
-     * @param adding    Observer that is to be added
-     */
-    public void subscribe( LaneObserver adding ) {
-        subscribers.add( adding );
-    }
-
     /** publish
      *
      * Method that publishes an event to subscribers
@@ -576,8 +564,13 @@ public class Lane extends Thread implements PinsetterObserver {
      * @param le    Event that is to be published
      */
 
-    private void publish(LaneEvent le) {
+    public void publish(LaneEvent le) {
         SPECIALIST.receiveEvent(le);
+    }
+
+    @Override
+    public void publish(PinsetterEvent event) {
+
     }
 
     /**

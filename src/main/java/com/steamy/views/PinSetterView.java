@@ -12,6 +12,7 @@ package com.steamy.views;/*
  * constructs a prototype PinSetter GUI
  */
 
+import com.steamy.LaneEvent;
 import com.steamy.PinsetterEvent;
 import com.steamy.PinsetterObserver;
 import com.steamy.views.specialists.Specialist;
@@ -21,7 +22,7 @@ import java.awt.*;
 import java.util.Vector;
 
 
-public class PinSetterView extends View implements PinsetterObserver {
+public class PinSetterView extends View{
 
 
     private final Vector<JLabel> PIN_LABELS;
@@ -113,4 +114,9 @@ public class PinSetterView extends View implements PinsetterObserver {
     }
 
     public void toggle() { WINDOW.setVisible(!WINDOW.isVisible()); }
+
+    @Override
+    public void receiveEvent(LaneEvent le) {
+        
+    }
 }

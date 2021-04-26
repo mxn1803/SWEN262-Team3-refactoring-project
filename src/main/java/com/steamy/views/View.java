@@ -1,12 +1,13 @@
 package com.steamy.views;
 
+import com.steamy.LaneEvent;
 import com.steamy.views.specialists.Specialist;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class View implements ActionListener {
+public abstract class View implements ActionListener {
     private final JFrame WINDOW;
     private Specialist specialist;
     private boolean toggled;
@@ -22,9 +23,9 @@ public class View implements ActionListener {
         return this.WINDOW.isVisible();
     }
 
-    public void actionPerformed(ActionEvent actionEvent){
+    public void actionPerformed(ActionEvent actionEvent){ }
+    public abstract void receiveEvent(LaneEvent le);
 
-    }
 
     public void toggleOn() { this.WINDOW.setVisible(true);}
     public void toggleOff() {this.WINDOW.setVisible(false);}
