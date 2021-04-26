@@ -54,7 +54,7 @@ import java.io.*;
 public class ControlDesk extends Thread {
 
     /** The collection of Lanes */
-    private HashSet lanes;
+    private List<Lane> lanes;
 
     /** The party wait queue */
     private Queue partyQueue;
@@ -66,6 +66,7 @@ public class ControlDesk extends Thread {
     private Vector subscribers;
 
     private final Specialist SPECIALIST;
+    private final List<Specialist> LANE_SPECIALISTS;
 
     /**
      * Constructor for the ControlDesk class
@@ -75,15 +76,16 @@ public class ControlDesk extends Thread {
      */
     public ControlDesk(int numLanes) {
         this.SPECIALIST = new ControlSpecialist(this);
+        this.LANE_SPECIALISTS = new ArrayList<>(numLanes);
         this.numLanes = numLanes;
-        lanes = new HashSet(numLanes);
+        lanes = new ArrayList<>(numLanes);
         partyQueue = new Queue();
 
         subscribers = new Vector();
 
         for (int i = 1; i <= numLanes; i++) {
-            LaneSpecialist laneSpecialist = new LaneSpecialist(i);
-            lanes.add(laneSpecialist.getLane());
+            this.LANE_SPECIALISTS.add(new LaneSpecialist(i));
+            lanes.add( ((LaneSpecialist) this.LANE_SPECIALISTS.get(i - 1)).getLane());
         }
         
         this.start();
@@ -237,7 +239,7 @@ public class ControlDesk extends Thread {
      *
      */
 
-    public HashSet getLanes() {
+    public List<Lane> getLanes() {
         return lanes;
     }
 }

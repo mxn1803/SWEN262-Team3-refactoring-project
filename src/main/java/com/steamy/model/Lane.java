@@ -138,6 +138,7 @@ import com.steamy.PinsetterEvent;
 import com.steamy.PinsetterObserver;
 import com.steamy.io.ScoreHistoryFile;
 import com.steamy.io.ScoreReport;
+import com.steamy.views.specialists.LaneSpecialist;
 import com.steamy.views.specialists.Specialist;
 
 import java.util.Vector;
@@ -179,9 +180,9 @@ public class Lane extends Thread implements PinsetterObserver, Communicator {
      * @pre none
      * @post a new lane has been created and its thered is executing
      */
-    public Lane(PinSetter setter, Specialist specialist) {
+    public Lane(Specialist specialist) {
         this.SPECIALIST = specialist;
-        this.setter = setter;
+        this.setter = ((LaneSpecialist) this.SPECIALIST).getPinSetter();
         scores = new HashMap();
         subscribers = new Vector();
 
