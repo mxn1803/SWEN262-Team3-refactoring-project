@@ -147,7 +147,7 @@ public class ControlDesk extends Thread implements Communicator {
         while (it.hasNext() && partyQueue.hasMoreElements()) {
             Lane curLane = (Lane) it.next();
 
-            if (curLane.isPartyAssigned() == false) {
+            if (!curLane.isPartyAssigned()) {
                 System.out.println("ok... assigning this party");
                 curLane.assignParty(((Party) partyQueue.next()));
             }
@@ -198,10 +198,7 @@ public class ControlDesk extends Thread implements Communicator {
      * @return an int containing the number of lanes represented
      *
      */
-
-    public int getNumLanes() {
-        return numLanes;
-    }
+    public int getNumLanes() { return numLanes; }
 
     /**
      * Allows objects to subscribe as observers
@@ -210,21 +207,13 @@ public class ControlDesk extends Thread implements Communicator {
      *
      */
 
-    //public void subscribe(ControlDeskObserver adding) {
-    //    subscribers.add(adding);
-    //}
-
-
     /**
      * Accessor method for lanes
      * 
      * @return a HashSet of Lanes
      *
      */
-
-    public List<Lane> getLanes() {
-        return lanes;
-    }
+    public List<Lane> getLanes() { return lanes; }
 
     @Override
     public void publish() {

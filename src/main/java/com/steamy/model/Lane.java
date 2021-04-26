@@ -526,6 +526,7 @@ public class Lane extends Thread implements Communicator {
      * Doesn't have params because it creates the events within itself
      */
 
+    @Override
     public void publish() {
         LaneEvent le = createLaneEvent();
         SPECIALIST.receiveEvent(le);
