@@ -134,7 +134,6 @@ package com.steamy.model;
 import com.steamy.ControlDeskEvent;
 import com.steamy.LaneEvent;
 import com.steamy.PinSetterEvent;
-import com.steamy.PinsetterObserver;
 import com.steamy.io.ScoreHistoryFile;
 import com.steamy.io.ScoreReport;
 import com.steamy.views.EndGamePrompt;
@@ -147,11 +146,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
-public class Lane extends Thread implements PinsetterObserver, Communicator {
+public class Lane extends Thread implements Communicator {
     private Party party;
     private PinSetter setter;
     private HashMap scores;
-    private Vector subscribers;
+
 
     private boolean gameIsHalted;
 
@@ -186,14 +185,12 @@ public class Lane extends Thread implements PinsetterObserver, Communicator {
         this.SPECIALIST = specialist;
         this.setter = ((LaneSpecialist) this.SPECIALIST).getPinSetter();
         scores = new HashMap();
-        subscribers = new Vector();
+
 
         gameIsHalted = false;
         partyAssigned = false;
 
         gameNumber = 0;
-
-        setter.subscribe(this);
 
         this.start();
     }
@@ -540,7 +537,7 @@ public class Lane extends Thread implements PinsetterObserver, Communicator {
     /**
      * publish
      * <p>
-     * Method that publishes an event to subscribers
+     * Method that publishes an event to the mediator
      * Doesn't have params because it creates the events within itself
      */
 

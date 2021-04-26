@@ -34,6 +34,7 @@ public abstract class View implements ActionListener, Communicator {
 
     public void toggleOn() { this.WINDOW.setVisible(true);}
     public void toggleOff() {this.WINDOW.setVisible(false);}
+    public void toggle() {this.WINDOW.setVisible(!getToggle());}
     public Specialist getSpecialist() { return this.SPECIALIST; }
 
 }

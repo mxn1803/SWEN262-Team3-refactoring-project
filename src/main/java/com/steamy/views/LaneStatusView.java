@@ -6,11 +6,9 @@ package com.steamy.views; /**
  */
 
 import com.steamy.ControlDeskEvent;
-import com.steamy.model.Communicator;
 import com.steamy.model.Lane;
 import com.steamy.LaneEvent;
 import com.steamy.PinSetterEvent;
-import com.steamy.PinsetterObserver;
 import com.steamy.views.specialists.Specialist;
 
 import javax.swing.*;
@@ -18,7 +16,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class LaneStatusView extends View implements ActionListener, PinsetterObserver {
+public class LaneStatusView extends View implements ActionListener {
 
     private final JPanel LANE_PANEL;
 
@@ -85,7 +83,10 @@ public class LaneStatusView extends View implements ActionListener, PinsetterObs
 
     @Override
     public void receiveEvent(LaneEvent le) {
-
+        CURRENT_BOWLER_LABEL.setText(le.getBowler().getNickName());
+        if (le.isMechanicalProblem()) MAINTENANCE_BUTTON.setBackground(Color.RED);
+        VIEW_LANE_BUTTON.setEnabled(LANE.isPartyAssigned());
+        VIEW_PINSETTER_BUTTON.setEnabled(LANE.isPartyAssigned());
     }
 
     @Override
@@ -100,7 +101,8 @@ public class LaneStatusView extends View implements ActionListener, PinsetterObs
 
     @Override
     public void receiveEvent(PinSetterEvent pe) {
-
+        Integer pinsDown = pe.totalPinsDown();
+        PINS_DOWN_LABEL.setText(pinsDown.toString());
     }
 
     @Override
@@ -108,17 +110,6 @@ public class LaneStatusView extends View implements ActionListener, PinsetterObs
 
     }
 
-    public void receiveLaneEvent(LaneEvent le) {
-        CURRENT_BOWLER_LABEL.setText(le.getBowler().getNickName());
-        if (le.isMechanicalProblem()) MAINTENANCE_BUTTON.setBackground(Color.RED);
-        VIEW_LANE_BUTTON.setEnabled(LANE.isPartyAssigned());
-        VIEW_PINSETTER_BUTTON.setEnabled(LANE.isPartyAssigned());
-    }
-
-    public void receivePinsetterEvent(PinSetterEvent pe) {
-        Integer pinsDown = pe.totalPinsDown();
-        PINS_DOWN_LABEL.setText(pinsDown.toString());
-    }
 
     public PinSetterView getPinsetterView(){
         return PINSETTER_VIEW;

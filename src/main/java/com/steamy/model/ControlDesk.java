@@ -44,9 +44,7 @@ import com.steamy.LaneEvent;
 import com.steamy.PinSetterEvent;
 import com.steamy.io.BowlerFile;
 import com.steamy.ControlDeskEvent;
-import com.steamy.ControlDeskObserver;
 import com.steamy.Queue;
-import com.steamy.views.specialists.ControlSpecialist;
 import com.steamy.views.specialists.LaneSpecialist;
 import com.steamy.views.specialists.Specialist;
 
@@ -65,7 +63,7 @@ public class ControlDesk extends Thread implements Communicator {
     private int numLanes;
     
     /** The collection of subscribers */
-    private Vector subscribers;
+    //private Vector subscribers;
 
     private final Specialist SPECIALIST;
     private final List<Specialist> LANE_SPECIALISTS;
@@ -76,14 +74,14 @@ public class ControlDesk extends Thread implements Communicator {
      * @param numLanes   the numbler of lanes to be represented
      *
      */
-    public ControlDesk(int numLanes) {
-        this.SPECIALIST = new ControlSpecialist(this);
+    public ControlDesk(int numLanes, Specialist specialist) {
+        this.SPECIALIST = specialist;
         this.LANE_SPECIALISTS = new ArrayList<>(numLanes);
         this.numLanes = numLanes;
         lanes = new ArrayList<>(numLanes);
         partyQueue = new Queue();
 
-        subscribers = new Vector();
+
 
         for (int i = 1; i <= numLanes; i++) {
             this.LANE_SPECIALISTS.add(new LaneSpecialist(i));
@@ -154,7 +152,7 @@ public class ControlDesk extends Thread implements Communicator {
                 curLane.assignParty(((Party) partyQueue.next()));
             }
         }
-        publish(new ControlDeskEvent(getPartyQueue()));
+        publish();
     }
 
     /**
@@ -172,7 +170,7 @@ public class ControlDesk extends Thread implements Communicator {
         }
         Party newParty = new Party(partyBowlers);
         partyQueue.add(newParty);
-        publish(new ControlDeskEvent(getPartyQueue()));
+        publish();
     }
 
     /**
@@ -212,27 +210,10 @@ public class ControlDesk extends Thread implements Communicator {
      *
      */
 
-    public void subscribe(ControlDeskObserver adding) {
-        subscribers.add(adding);
-    }
+    //public void subscribe(ControlDeskObserver adding) {
+    //    subscribers.add(adding);
+    //}
 
-    /**
-     * Broadcast an event to subscribing objects.
-     *
-     * @param event    the ControlDeskEvent to broadcast
-     *
-     */
-
-    private void publish(ControlDeskEvent event) {
-        Iterator eventIterator = subscribers.iterator();
-        while (eventIterator.hasNext()) {
-            (
-                (ControlDeskObserver) eventIterator
-                    .next())
-                    .receiveControlDeskEvent(
-                event);
-        }
-    }
 
     /**
      * Accessor method for lanes
@@ -247,7 +228,8 @@ public class ControlDesk extends Thread implements Communicator {
 
     @Override
     public void publish() {
-
+        ControlDeskEvent cde = new ControlDeskEvent(getPartyQueue());
+        SPECIALIST.receiveEvent(cde);
     }
 
     @Override

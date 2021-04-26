@@ -72,7 +72,6 @@ package com.steamy.model;/*
 import com.steamy.ControlDeskEvent;
 import com.steamy.LaneEvent;
 import com.steamy.PinSetterEvent;
-import com.steamy.PinsetterObserver;
 import com.steamy.views.specialists.Specialist;
 
 import java.util.Random;
@@ -209,16 +208,7 @@ public class PinSetter implements Communicator {
         }
     }
 
-    /** subscribe()
-     *
-     * subscribe objects to send events to
-     *
-     * @pre none
-     * @post the subscriber object will recieve events when their generated
-     */
-    public void subscribe(PinsetterObserver subscriber) {
-        subscribers.add(subscriber);
-    }
+
 
     @Override
     public void publish() {
