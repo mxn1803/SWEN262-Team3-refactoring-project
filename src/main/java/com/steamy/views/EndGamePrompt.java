@@ -40,8 +40,6 @@ public class EndGamePrompt implements ActionListener {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(1, 2));
 
-        Insets buttonMargin = new Insets(4, 4, 4, 4);
-
         YES_BUTTON = new JButton("Yes");
         JPanel yesButtonPanel = new JPanel();
         yesButtonPanel.setLayout(new FlowLayout());
