@@ -131,6 +131,7 @@ package com.steamy.model;
  * 
  */
 
+import com.steamy.ControlDeskEvent;
 import com.steamy.views.EndGamePrompt;
 import com.steamy.views.EndGameReport;
 import com.steamy.LaneEvent;
@@ -340,6 +341,7 @@ public class Lane extends Thread implements PinsetterObserver, Communicator {
                     } else if (pe.getThrowNumber() == 3)  
                         System.out.println("I'm here...");
                 }
+                System.out.println("***********************");
             } else {                                //  this is not a real throw, probably a reset
             }
     }
@@ -571,6 +573,21 @@ public class Lane extends Thread implements PinsetterObserver, Communicator {
 
     @Override
     public void publish(int num) {
+
+    }
+
+    @Override
+    public void receiveEvent(LaneEvent le) {
+
+    }
+
+    @Override
+    public void receiveEvent(ControlDeskEvent ce) {
+
+    }
+
+    @Override
+    public void receiveEvent(PinsetterEvent pe) {
 
     }
 

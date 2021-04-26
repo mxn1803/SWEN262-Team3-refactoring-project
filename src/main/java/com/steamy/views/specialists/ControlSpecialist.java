@@ -25,7 +25,8 @@ public class ControlSpecialist extends Specialist {
 
     public void closeAddPartyView() {}
 
-    public void receiveControlDeskEvent(ControlDeskEvent ce) {}
+    @Override
+    public void receiveEvent(ControlDeskEvent ce) {}
 
     @Override
     public void receiveEvent(LaneEvent le) {

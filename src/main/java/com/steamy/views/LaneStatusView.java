@@ -5,6 +5,7 @@ package com.steamy.views; /**
  * Window>Preferences>Java>Code Generation.
  */
 
+import com.steamy.ControlDeskEvent;
 import com.steamy.model.Lane;
 import com.steamy.LaneEvent;
 import com.steamy.model.PinSetter;
@@ -83,7 +84,22 @@ public class LaneStatusView extends View implements ActionListener, PinsetterObs
     }
 
     @Override
+    public void publish() {
+
+    }
+
+    @Override
+    public void publish(int num) {
+
+    }
+
+    @Override
     public void receiveEvent(LaneEvent le) {
+
+    }
+
+    @Override
+    public void receiveEvent(ControlDeskEvent ce) {
 
     }
 
