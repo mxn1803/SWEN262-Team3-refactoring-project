@@ -2,6 +2,7 @@ package com.steamy.views.specialists;
 
 import com.steamy.ControlDeskEvent;
 import com.steamy.LaneEvent;
+import com.steamy.PinsetterEvent;
 import com.steamy.model.ControlDesk;
 
 public class ControlSpecialist extends Specialist {
@@ -28,6 +29,11 @@ public class ControlSpecialist extends Specialist {
 
     @Override
     public void receiveEvent(LaneEvent le) {
+
+    }
+
+    @Override
+    public void receiveEvent(PinsetterEvent pe) {
 
     }
 }

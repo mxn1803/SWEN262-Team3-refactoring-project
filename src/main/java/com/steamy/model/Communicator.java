@@ -7,8 +7,7 @@ import com.steamy.views.specialists.Specialist;
 public interface Communicator {
 
 
-    void publish(LaneEvent event);
-    void publish(PinsetterEvent event);
+    void publish();
 
 }
 

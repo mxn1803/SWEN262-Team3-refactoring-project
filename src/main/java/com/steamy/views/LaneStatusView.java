@@ -87,6 +87,11 @@ public class LaneStatusView extends View implements ActionListener, PinsetterObs
 
     }
 
+    @Override
+    public void receiveEvent(PinsetterEvent pe) {
+
+    }
+
     public void receiveLaneEvent(LaneEvent le) {
         CURRENT_BOWLER_LABEL.setText(le.getBowler().getNickName());
         if (le.isMechanicalProblem()) MAINTENANCE_BUTTON.setBackground(Color.RED);

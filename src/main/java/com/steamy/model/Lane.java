@@ -181,7 +181,7 @@ public class Lane extends Thread implements PinsetterObserver, Communicator {
      */
     public Lane(Specialist specialist) {
         this.SPECIALIST = specialist;
-        setter = new PinSetter();
+        setter = new PinSetter(specialist);
         scores = new HashMap();
         subscribers = new Vector();
 
@@ -269,7 +269,7 @@ public class Lane extends Thread implements PinsetterObserver, Communicator {
                     party = null;
                     partyAssigned = false;
                     
-                    publish(createLaneEvent());
+                    publish();
                     
                     int myIndex = 0;
                     while (scoreIt.hasNext()){
@@ -419,7 +419,7 @@ public class Lane extends Thread implements PinsetterObserver, Communicator {
         curScore[ index - 1] = score;
         scores.put(Cur, curScore);
         getScore( Cur, frame );
-        publish( createLaneEvent() );
+        publish(  );
     }
 
     /** lanePublish()
@@ -560,18 +560,14 @@ public class Lane extends Thread implements PinsetterObserver, Communicator {
     /** publish
      *
      * Method that publishes an event to subscribers
-     *
-     * @param le    Event that is to be published
+     * Doesn't have params because it creates the events within itself
      */
 
-    public void publish(LaneEvent le) {
+    public void publish() {
+        LaneEvent le = createLaneEvent();
         SPECIALIST.receiveEvent(le);
     }
 
-    @Override
-    public void publish(PinsetterEvent event) {
-
-    }
 
     /**
      * Accessor to get this Lane's pinsetter
@@ -588,7 +584,7 @@ public class Lane extends Thread implements PinsetterObserver, Communicator {
      */
     public void pauseGame() {
         gameIsHalted = true;
-        publish(createLaneEvent());
+        publish();
     }
     
     /**
@@ -596,7 +592,7 @@ public class Lane extends Thread implements PinsetterObserver, Communicator {
      */
     public void unPauseGame() {
         gameIsHalted = false;
-        publish(createLaneEvent());
+        publish();
     }
 
 }

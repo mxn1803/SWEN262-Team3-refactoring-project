@@ -17,10 +17,10 @@ public class LaneSpecialist extends Specialist {
 
 
 
-    public LaneSpecialist(Lane lane, int laneCount){
+    public LaneSpecialist(int laneCount){
         super();
-        this.LANE = lane;
-        this.LANE_STATUS_VIEW = new LaneStatusView(lane, laneCount, this);
+        this.LANE = new Lane(this);
+        this.LANE_STATUS_VIEW = new LaneStatusView((Lane) LANE, laneCount, this);
         this.PINSETTER_VIEW =  ((LaneStatusView) LANE_STATUS_VIEW).getPinsetterView();
         this.PINSETTER = ((Lane) LANE).getPinsetter();
         this.LANE_VIEW = ((LaneStatusView) LANE_STATUS_VIEW).getLaneView();
@@ -57,10 +57,12 @@ public class LaneSpecialist extends Specialist {
 
 
     public void receiveEvent(LaneEvent le) {
-        //LANE_VIEW.
+        LANE_VIEW.receiveEvent(le);
     }
 
-    public void receivePinSetterEvent(PinsetterEvent pe) {}
+    public void receiveEvent(PinsetterEvent pe) {
+        PINSETTER_VIEW.receiveEvent(pe);
+    }
 
     public Lane getLane() { return (Lane)this.LANE; }
     public PinSetter getPinSetter() { return (PinSetter) this.PINSETTER; }

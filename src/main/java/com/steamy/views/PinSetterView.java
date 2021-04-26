@@ -87,6 +87,16 @@ public class PinSetterView extends View{
     }
 
 
+
+
+
+    public void toggle() { WINDOW.setVisible(!WINDOW.isVisible()); }
+
+    @Override
+    public void receiveEvent(LaneEvent le) {
+
+    }
+
     /**
      * This method receives a pinsetter event.  The event is the current
      * state of the PinSetter and the method changes how the GUI looks
@@ -96,7 +106,8 @@ public class PinSetterView extends View{
      *
      * @param pe    The state of the pinsetter is sent in this event.
      */
-    public void receivePinsetterEvent(PinsetterEvent pe) {
+    @Override
+    public void receiveEvent(PinsetterEvent pe) {
         if (!pe.isFoulCommited()) {
             for (int c = 0; c < 10; c++) {
                 if (pe.pinKnockedDown(c))
@@ -111,12 +122,5 @@ public class PinSetterView extends View{
             }
             SECOND_ROLL.setBackground(Color.black);
         }
-    }
-
-    public void toggle() { WINDOW.setVisible(!WINDOW.isVisible()); }
-
-    @Override
-    public void receiveEvent(LaneEvent le) {
-        
     }
 }

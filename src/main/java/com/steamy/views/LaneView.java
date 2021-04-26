@@ -3,6 +3,7 @@ package com.steamy.views;/*
  *
  */
 
+import com.steamy.PinsetterEvent;
 import com.steamy.model.Bowler;
 import com.steamy.model.Lane;
 import com.steamy.LaneEvent;
@@ -169,6 +170,11 @@ public class LaneView extends View implements ActionListener {
                 }
             }
         }
+    }
+
+    @Override
+    public void receiveEvent(PinsetterEvent pe) {
+
     }
 
     public void actionPerformed(ActionEvent e) { if (e.getSource().equals(maintenance)) lane.pauseGame(); }

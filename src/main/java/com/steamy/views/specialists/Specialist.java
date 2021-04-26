@@ -1,6 +1,7 @@
 package com.steamy.views.specialists;
 
 import com.steamy.LaneEvent;
+import com.steamy.PinsetterEvent;
 import com.steamy.views.View;
 
 import java.util.ArrayList;
@@ -14,4 +15,5 @@ public abstract class Specialist {
     public List<View> getOpenViews() { return this.openViews; }
 
     public abstract void receiveEvent(LaneEvent le);
+    public abstract void receiveEvent(PinsetterEvent pe);
 }

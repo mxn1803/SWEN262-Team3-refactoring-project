@@ -73,6 +73,7 @@ package com.steamy.model;/*
 import com.steamy.LaneEvent;
 import com.steamy.PinsetterEvent;
 import com.steamy.PinsetterObserver;
+import com.steamy.views.specialists.Specialist;
 
 import java.util.*;
 
@@ -93,6 +94,7 @@ public class PinSetter implements Communicator{
             */
     private boolean foul;
     private int throwNumber;
+    private final Specialist SPECIALIST;
 
     /** sendEvent()
      * 
@@ -102,10 +104,8 @@ public class PinSetter implements Communicator{
      * @post all subscribers have recieved pinsetter event with updated state
      * */
     private void publish(int jdpins) {    // send events when our state is changd
-        for (int i=0; i < subscribers.size(); i++) {
-            ((PinsetterObserver)subscribers.get(i)).receivePinsetterEvent(
-                new PinsetterEvent(pins, foul, throwNumber, jdpins));
-        }
+        PinsetterEvent pe = new PinsetterEvent(pins, foul, throwNumber, jdpins);
+        SPECIALIST.receiveEvent(pe);
     }
 
     /** Pinsetter()
@@ -116,7 +116,8 @@ public class PinSetter implements Communicator{
      * @post a new pinsetter is created
      * @return Pinsetter object
      */
-    public PinSetter() {
+    public PinSetter(Specialist specialist) {
+        SPECIALIST = specialist;
         pins = new boolean[10];
         rnd = new Random();
         subscribers = new Vector();
@@ -203,12 +204,7 @@ public class PinSetter implements Communicator{
     }
 
     @Override
-    public void publish(LaneEvent event) {
-
-    }
-
-    @Override
-    public void publish(PinsetterEvent event) {
+    public void publish() {
 
     }
 };

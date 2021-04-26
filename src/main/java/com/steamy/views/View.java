@@ -1,6 +1,7 @@
 package com.steamy.views;
 
 import com.steamy.LaneEvent;
+import com.steamy.PinsetterEvent;
 import com.steamy.views.specialists.Specialist;
 
 import javax.swing.*;
@@ -25,6 +26,7 @@ public abstract class View implements ActionListener {
 
     public void actionPerformed(ActionEvent actionEvent){ }
     public abstract void receiveEvent(LaneEvent le);
+    public abstract void receiveEvent(PinsetterEvent pe);
 
 
     public void toggleOn() { this.WINDOW.setVisible(true);}

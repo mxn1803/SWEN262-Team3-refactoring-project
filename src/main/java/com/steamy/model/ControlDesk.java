@@ -45,6 +45,7 @@ import com.steamy.ControlDeskEvent;
 import com.steamy.ControlDeskObserver;
 import com.steamy.Queue;
 import com.steamy.views.specialists.ControlSpecialist;
+import com.steamy.views.specialists.LaneSpecialist;
 import com.steamy.views.specialists.Specialist;
 
 import java.util.*;
@@ -81,7 +82,8 @@ public class ControlDesk extends Thread {
         subscribers = new Vector();
 
         for (int i = 0; i < numLanes; i++) {
-            lanes.add(new Lane(SPECIALIST));
+            LaneSpecialist laneSpecialist = new LaneSpecialist(i);
+            lanes.add(laneSpecialist.getLane());
         }
         
         this.start();
