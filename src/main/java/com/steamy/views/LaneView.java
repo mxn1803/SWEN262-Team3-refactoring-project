@@ -3,8 +3,10 @@ package com.steamy.views;/*
  *
  */
 
-import com.steamy.PinsetterEvent;
+import com.steamy.ControlDeskEvent;
+import com.steamy.PinSetterEvent;
 import com.steamy.model.Bowler;
+import com.steamy.model.Communicator;
 import com.steamy.model.Lane;
 import com.steamy.LaneEvent;
 import com.steamy.model.Party;
@@ -173,7 +175,22 @@ public class LaneView extends View implements ActionListener {
     }
 
     @Override
-    public void receiveEvent(PinsetterEvent pe) {
+    public void publish() {
+
+    }
+
+    @Override
+    public void publish(int num) {
+
+    }
+
+    @Override
+    public void receiveEvent(PinSetterEvent pe) {
+
+    }
+
+    @Override
+    public void receiveEvent(ControlDeskEvent ce) {
 
     }
 

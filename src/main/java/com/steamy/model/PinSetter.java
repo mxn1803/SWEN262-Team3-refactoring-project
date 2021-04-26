@@ -71,7 +71,7 @@ package com.steamy.model;/*
 
 import com.steamy.ControlDeskEvent;
 import com.steamy.LaneEvent;
-import com.steamy.PinsetterEvent;
+import com.steamy.PinSetterEvent;
 import com.steamy.PinsetterObserver;
 import com.steamy.views.specialists.Specialist;
 
@@ -105,7 +105,7 @@ public class PinSetter implements Communicator {
      * @post all subscribers have recieved pinsetter event with updated state
      * */
     public void publish(int pinsKnockedOnThrow) {    // send events when our state is changd
-        PinsetterEvent pe = new PinsetterEvent(pins, foul, throwNumber, pinsKnockedOnThrow);
+        PinSetterEvent pe = new PinSetterEvent(pins, foul, throwNumber, pinsKnockedOnThrow);
         SPECIALIST.receiveEvent(pe);
     }
 
@@ -120,7 +120,7 @@ public class PinSetter implements Communicator {
     }
 
     @Override
-    public void receiveEvent(PinsetterEvent pe) {
+    public void receiveEvent(PinSetterEvent pe) {
 
     }
 

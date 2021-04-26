@@ -12,7 +12,7 @@ package com.steamy;/*  $Id$
  *
  */
 
-public class PinsetterEvent {
+public class PinSetterEvent {
 
     private boolean[] pinsStillStanding;
     private boolean foulCommited;
@@ -26,7 +26,7 @@ public class PinsetterEvent {
      * @pre none
      * @post the object has been initialized
      */
-    public PinsetterEvent(boolean[] ps, boolean foul, int tn, int pinsDownThisThrow) {
+    public PinSetterEvent(boolean[] ps, boolean foul, int tn, int pinsDownThisThrow) {
         pinsStillStanding = new boolean[10];
 
         for (int i=0; i <= 9; i++) {

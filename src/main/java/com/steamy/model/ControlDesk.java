@@ -40,6 +40,8 @@ package com.steamy.model;/* ControlDesk.java
  *
  */
 
+import com.steamy.LaneEvent;
+import com.steamy.PinSetterEvent;
 import com.steamy.io.BowlerFile;
 import com.steamy.ControlDeskEvent;
 import com.steamy.ControlDeskObserver;
@@ -51,7 +53,7 @@ import com.steamy.views.specialists.Specialist;
 import java.util.*;
 import java.io.*;
 
-public class ControlDesk extends Thread {
+public class ControlDesk extends Thread implements Communicator {
 
     /** The collection of Lanes */
     private List<Lane> lanes;
@@ -241,5 +243,30 @@ public class ControlDesk extends Thread {
 
     public List<Lane> getLanes() {
         return lanes;
+    }
+
+    @Override
+    public void publish() {
+
+    }
+
+    @Override
+    public void publish(int num) {
+
+    }
+
+    @Override
+    public void receiveEvent(PinSetterEvent pe) {
+
+    }
+
+    @Override
+    public void receiveEvent(LaneEvent le) {
+
+    }
+
+    @Override
+    public void receiveEvent(ControlDeskEvent ce) {
+
     }
 }

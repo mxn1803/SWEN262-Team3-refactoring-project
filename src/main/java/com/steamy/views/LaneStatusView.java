@@ -5,10 +5,11 @@ package com.steamy.views; /**
  * Window>Preferences>Java>Code Generation.
  */
 
+import com.steamy.ControlDeskEvent;
+import com.steamy.model.Communicator;
 import com.steamy.model.Lane;
 import com.steamy.LaneEvent;
-import com.steamy.model.PinSetter;
-import com.steamy.PinsetterEvent;
+import com.steamy.PinSetterEvent;
 import com.steamy.PinsetterObserver;
 import com.steamy.views.specialists.Specialist;
 
@@ -88,7 +89,22 @@ public class LaneStatusView extends View implements ActionListener, PinsetterObs
     }
 
     @Override
-    public void receiveEvent(PinsetterEvent pe) {
+    public void publish() {
+
+    }
+
+    @Override
+    public void publish(int num) {
+
+    }
+
+    @Override
+    public void receiveEvent(PinSetterEvent pe) {
+
+    }
+
+    @Override
+    public void receiveEvent(ControlDeskEvent ce) {
 
     }
 
@@ -99,7 +115,7 @@ public class LaneStatusView extends View implements ActionListener, PinsetterObs
         VIEW_PINSETTER_BUTTON.setEnabled(LANE.isPartyAssigned());
     }
 
-    public void receivePinsetterEvent(PinsetterEvent pe) {
+    public void receivePinsetterEvent(PinSetterEvent pe) {
         Integer pinsDown = pe.totalPinsDown();
         PINS_DOWN_LABEL.setText(pinsDown.toString());
     }
