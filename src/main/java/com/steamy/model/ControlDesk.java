@@ -233,22 +233,14 @@ public class ControlDesk extends Thread implements Communicator {
     }
 
     @Override
-    public void publish(int num) {
-
-    }
+    public void publish(int num) {}
 
     @Override
-    public void receiveEvent(PinSetterEvent pe) {
-
-    }
+    public void receiveEvent(PinSetterEvent pe) {}
 
     @Override
-    public void receiveEvent(LaneEvent le) {
-
-    }
+    public void receiveEvent(LaneEvent le) {}
 
     @Override
-    public void receiveEvent(ControlDeskEvent ce) {
-
-    }
+    public void receiveEvent(ControlDeskEvent ce) {}
 }
