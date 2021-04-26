@@ -122,6 +122,7 @@ public class PinSetter implements Communicator{
         rnd = new Random();
         subscribers = new Vector();
         foul = false;
+        reset();
     }
 
     /** ballThrown()
@@ -191,16 +192,6 @@ public class PinSetter implements Communicator{
         }
     }        
 
-    /** subscribe()
-     * 
-     * subscribe objects to send events to
-     * 
-     * @pre none
-     * @post the subscriber object will recieve events when their generated
-     */
-    public void subscribe(PinsetterObserver subscriber) {
-        subscribers.add(subscriber);
-    }
 
     @Override
     public void publish() {
