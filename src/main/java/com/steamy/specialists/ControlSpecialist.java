@@ -14,8 +14,8 @@ public class ControlSpecialist extends Specialist {
         super();
         ControlDesk tempControlDesk = new ControlDesk(numLanes,this);
         this.CONTROL_DESK = tempControlDesk;
-        ControlDeskView cdv = new ControlDeskView(tempControlDesk, maxPatrons, this);
-        this.CONTROL_DESK_VIEW = cdv;
+        ControlDeskView tempControlDeskView = new ControlDeskView(tempControlDesk, maxPatrons, this);
+        this.CONTROL_DESK_VIEW = tempControlDeskView;
     }
 
     @Override
