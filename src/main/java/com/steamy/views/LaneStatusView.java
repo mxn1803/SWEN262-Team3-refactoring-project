@@ -28,13 +28,13 @@ public class LaneStatusView extends View implements ActionListener, PinsetterObs
     private final LaneView LANE_VIEW;
     private final Lane LANE;
 
-    public LaneStatusView(Lane lane, int laneNum, Specialist specialist) {
+    public LaneStatusView(Lane lane, PinSetterView pv, LaneView lv, Specialist specialist) {
         super(specialist);
         this.LANE = lane;
 
-        PINSETTER_VIEW = new PinSetterView(laneNum, specialist);
+        PINSETTER_VIEW = pv;
 
-        LANE_VIEW = new LaneView(lane, laneNum, specialist);
+        LANE_VIEW = lv;
 
 
         LANE_PANEL = new JPanel();

@@ -6,6 +6,8 @@ import com.steamy.model.Communicator;
 import com.steamy.model.Lane;
 import com.steamy.model.PinSetter;
 import com.steamy.views.LaneStatusView;
+import com.steamy.views.LaneView;
+import com.steamy.views.PinSetterView;
 import com.steamy.views.View;
 
 public class LaneSpecialist extends Specialist {
@@ -19,11 +21,19 @@ public class LaneSpecialist extends Specialist {
 
     public LaneSpecialist(int laneCount){
         super();
-        this.LANE = new Lane(this);
-        this.LANE_STATUS_VIEW = new LaneStatusView((Lane) LANE, laneCount, this);
-        this.PINSETTER_VIEW =  ((LaneStatusView) LANE_STATUS_VIEW).getPinsetterView();
-        this.PINSETTER = ((Lane) LANE).getPinsetter();
-        this.LANE_VIEW = ((LaneStatusView) LANE_STATUS_VIEW).getLaneView();
+        PinSetter pinsetter = new PinSetter(this);
+        this.PINSETTER = pinsetter;
+        Lane tempLane = new Lane(pinsetter, this);
+        this.LANE = tempLane;
+        PinSetterView tempPinView = new PinSetterView(laneCount, this);
+        this.PINSETTER_VIEW = tempPinView;
+        System.out.println(tempPinView == null);
+        LaneView tempLaneView = new LaneView(tempLane, laneCount, this);
+        this.LANE_VIEW = tempLaneView;
+        this.LANE_STATUS_VIEW = new LaneStatusView(tempLane, tempPinView, tempLaneView, this);
+        pinsetter.reset();
+
+
     }
 
     public void openLaneView() {

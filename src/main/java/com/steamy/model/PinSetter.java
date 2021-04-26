@@ -122,7 +122,6 @@ public class PinSetter implements Communicator{
         rnd = new Random();
         subscribers = new Vector();
         foul = false;
-        reset();
     }
 
     /** ballThrown()

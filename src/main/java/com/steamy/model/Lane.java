@@ -179,9 +179,9 @@ public class Lane extends Thread implements PinsetterObserver, Communicator {
      * @pre none
      * @post a new lane has been created and its thered is executing
      */
-    public Lane(Specialist specialist) {
+    public Lane(PinSetter setter, Specialist specialist) {
         this.SPECIALIST = specialist;
-        setter = new PinSetter(specialist);
+        this.setter = setter;
         scores = new HashMap();
         subscribers = new Vector();
 
