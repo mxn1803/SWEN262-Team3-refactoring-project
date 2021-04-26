@@ -33,25 +33,26 @@ public class LaneSpecialist extends Specialist {
         pinsetter.resetPinSetter();
     }
 
+    @Override
     public void receiveEvent(LaneEvent le) {
         this.LANE.receiveEvent(le);
         this.PINSETTER.receiveEvent(le);
         super.getOpenViews().forEach((type, view) -> view.receiveEvent(le));
     }
 
+    @Override
     public void receiveEvent(PinSetterEvent pe) {
         this.LANE.receiveEvent(pe);
         this.PINSETTER.receiveEvent(pe);
         super.getOpenViews().forEach((type, view) -> view.receiveEvent(pe));
     }
 
+    @Override
     public void receiveEvent(ControlDeskEvent ce) {
         this.LANE.receiveEvent(ce);
         this.PINSETTER.receiveEvent(ce);
         super.getOpenViews().forEach((type, view) -> view.receiveEvent(ce));
     }
-
-
 
     public Lane getLane() { return (Lane)this.LANE; }
     public PinSetter getPinSetter() { return (PinSetter) this.PINSETTER; }

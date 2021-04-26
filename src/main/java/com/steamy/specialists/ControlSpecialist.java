@@ -12,21 +12,17 @@ public class ControlSpecialist extends Specialist {
 
     public ControlSpecialist(int numLanes, int maxPatrons) {
         super();
-        ControlDesk tempCde = new ControlDesk(numLanes,this);
-        this.CONTROL_DESK = tempCde;
-        ControlDeskView cdv = new ControlDeskView(tempCde, maxPatrons, this);
+        ControlDesk tempControlDesk = new ControlDesk(numLanes,this);
+        this.CONTROL_DESK = tempControlDesk;
+        ControlDeskView cdv = new ControlDeskView(tempControlDesk, maxPatrons, this);
         this.CONTROL_DESK_VIEW = cdv;
     }
 
     @Override
-    public void receiveEvent(LaneEvent le) {
-
-    }
+    public void receiveEvent(LaneEvent le) {}
 
     @Override
-    public void receiveEvent(PinSetterEvent pe) {
-
-    }
+    public void receiveEvent(PinSetterEvent pe) {}
 
     @Override
     public void receiveEvent(ControlDeskEvent ce) {
