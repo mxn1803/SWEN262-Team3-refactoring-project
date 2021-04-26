@@ -239,7 +239,7 @@ public class Lane extends Thread implements Communicator {
                     }
 
 
-                    setter.reset();
+                    setter.resetPinSetter();
                     bowlIndex++;
 
                 } else {

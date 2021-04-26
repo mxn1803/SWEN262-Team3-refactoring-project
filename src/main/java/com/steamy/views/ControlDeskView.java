@@ -167,14 +167,10 @@ public class ControlDeskView extends View implements ActionListener {
     }
 
     @Override
-    public void publish(int num) {
-
-    }
+    public void publish(int num) {}
 
     @Override
-    public void receiveEvent(PinSetterEvent pe) {
-
-    }
+    public void receiveEvent(PinSetterEvent pe) {}
 
     /**
      * Receive a broadcast from a ControlDesk
@@ -183,9 +179,7 @@ public class ControlDeskView extends View implements ActionListener {
      *
      */
     @Override
-    public void receiveEvent(ControlDeskEvent ce) {
-        PARTY_LIST.setListData(ce.getPartyQueue());
-    }
+    public void receiveEvent(ControlDeskEvent ce) { PARTY_LIST.setListData(ce.getPartyQueue()); }
 
     /**
      * Receive a new party from andPartyView.

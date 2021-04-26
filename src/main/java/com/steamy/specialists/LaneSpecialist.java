@@ -9,7 +9,6 @@ import com.steamy.model.PinSetter;
 import com.steamy.views.LaneStatusView;
 import com.steamy.views.LaneView;
 import com.steamy.views.PinSetterView;
-import com.steamy.views.View;
 
 public class LaneSpecialist extends Specialist {
     private final Communicator LANE;
@@ -31,7 +30,7 @@ public class LaneSpecialist extends Specialist {
 
         LaneStatusView tempLaneStatusView = new LaneStatusView(tempLane, tempPinSetterView, tempLaneView, this);
         super.getOpenViews().put(ViewType.LANE_STATUS, tempLaneStatusView);
-        pinsetter.reset();
+        pinsetter.resetPinSetter();
     }
 
     public void receiveEvent(LaneEvent le) {

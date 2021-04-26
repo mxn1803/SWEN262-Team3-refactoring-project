@@ -80,7 +80,6 @@ import java.util.Vector;
 public class PinSetter implements Communicator {
 
     private Random rnd;
-    private Vector subscribers;
 
     private boolean[] pins;
     /* 0-9 of state of pine, true for standing,
@@ -103,25 +102,23 @@ public class PinSetter implements Communicator {
      * @pre none
      * @post all subscribers have recieved pinsetter event with updated state
      * */
+    @Override
     public void publish(int pinsKnockedOnThrow) {    // send events when our state is changd
         PinSetterEvent pe = new PinSetterEvent(pins, foul, throwNumber, pinsKnockedOnThrow);
         SPECIALIST.receiveEvent(pe);
     }
 
     @Override
-    public void receiveEvent(LaneEvent le) {
-
-    }
+    public void publish() {}
 
     @Override
-    public void receiveEvent(ControlDeskEvent ce) {
-
-    }
+    public void receiveEvent(LaneEvent le) {}
 
     @Override
-    public void receiveEvent(PinSetterEvent pe) {
+    public void receiveEvent(ControlDeskEvent ce) {}
 
-    }
+    @Override
+    public void receiveEvent(PinSetterEvent pe) {}
 
     /** Pinsetter()
      *
@@ -135,7 +132,6 @@ public class PinSetter implements Communicator {
         SPECIALIST = specialist;
         pins = new boolean[10];
         rnd = new Random();
-        subscribers = new Vector();
         foul = false;
     }
 
@@ -152,26 +148,18 @@ public class PinSetter implements Communicator {
         double skill = rnd.nextDouble();
         for (int i = 0; i <= 9; i++) {
             if (pins[i]) {
-                double pinluck = rnd.nextDouble();
-                if (pinluck <= .04) {
-                    foul = true;
-                }
-                if (((skill + pinluck) / 2.0 * 1.2) > .5) {
-                    pins[i] = false;
-                }
-                if (!pins[i]) {        // this pin just knocked down
-                    count++;
-                }
+                double luck = rnd.nextDouble();
+                foul = luck <= 0.04;
+                pins[i] = !(((skill + luck) / 2.0 * 1.2) > 0.5);
+                count += pins[i] ? 0 : 1;
             }
         }
 
         try {
             Thread.sleep(500);                // pinsetter is where delay will be in a real game
-        } catch (Exception e) {
-        }
+        } catch (Exception ignored) {}
 
-        publish(count);
-
+        this.publish(count);
         throwNumber++;
     }
 
@@ -182,16 +170,14 @@ public class PinSetter implements Communicator {
      * @pre none
      * @post pinsetters state is reset
      */
-    public void reset() {
+    public void resetPinSetter() {
         foul = false;
         throwNumber = 1;
         resetPins();
 
         try {
             Thread.sleep(1000);
-        } catch (Exception e) {
-        }
-
+        } catch (Exception ignored) {}
         publish(-1);
     }
 
@@ -202,17 +188,6 @@ public class PinSetter implements Communicator {
      * @pre none
      * @post pins array is reset to all pins up
      */
-    public void resetPins() {
-        for (int i = 0; i <= 9; i++) {
-            pins[i] = true;
-        }
-    }
-
-
-
-    @Override
-    public void publish() {
-
-    }
+    public void resetPins() { for (int i = 0; i <= 9; i++) pins[i] = true; }
 };
 
