@@ -14,7 +14,7 @@ public class Game {
     private Party party;
     private Lane lane;
 
-    private HashMap<Bowler, Frame[]> scores;
+    private HashMap<Object, Frame[]> scores;
     private int frameNum = 0;
 
     private Iterator bowlerIterator;
@@ -32,8 +32,13 @@ public class Game {
 
         frameNum = 0;
         scores = new HashMap<>();
-        for (Bowler member : party.getMembers()) {
-
+        for (Object member : party.getMembers()) {
+            Frame[] frames = new Frame[10];
+            frames[9] = new TenthFrame();       // Add tenth frame
+            for (int i = 8; i >= 0; i--) {      // Add other nine frames
+                frames[i] = new Frame(frames[i + 1]);
+            }
+            scores.put(member, frames);
         }
     }
 
