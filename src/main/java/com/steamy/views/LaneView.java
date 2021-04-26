@@ -6,7 +6,6 @@ package com.steamy.views;/*
 import com.steamy.ControlDeskEvent;
 import com.steamy.PinSetterEvent;
 import com.steamy.model.Bowler;
-import com.steamy.model.Communicator;
 import com.steamy.model.Lane;
 import com.steamy.LaneEvent;
 import com.steamy.model.Party;
@@ -20,7 +19,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Vector;
 
-public class LaneView extends View implements ActionListener {
+public class LaneView extends ListeningView implements ActionListener {
 
     private final int BALL_COUNT;
     private final int FRAME_COUNT;

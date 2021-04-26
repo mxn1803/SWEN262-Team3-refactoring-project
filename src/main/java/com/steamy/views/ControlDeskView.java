@@ -31,7 +31,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-public class ControlDeskView extends View implements ActionListener {
+public class ControlDeskView extends ListeningView implements ActionListener {
 
     private final JButton ADD_PARTY_BUTTON;
     private final JButton FINISHED_BUTTON;
@@ -136,7 +136,6 @@ public class ControlDeskView extends View implements ActionListener {
         Dimension screenSize = (Toolkit.getDefaultToolkit()).getScreenSize();
         WINDOW.setLocation(((screenSize.width) / 2) - ((WINDOW.getSize().width) / 2), ((screenSize.height) / 2) - ((WINDOW.getSize().height) / 2));
         WINDOW.setVisible(true);
-
     }
 
     /**
@@ -145,7 +144,7 @@ public class ControlDeskView extends View implements ActionListener {
      * @param e    the ActionEvent that triggered the handler
      *
      */
-
+    @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(ADD_PARTY_BUTTON)) {
             AddPartyView addPartyWin = new AddPartyView(this, MAX_MEMBERS);
@@ -157,14 +156,10 @@ public class ControlDeskView extends View implements ActionListener {
     }
 
     @Override
-    public void receiveEvent(LaneEvent le) {
-
-    }
+    public void receiveEvent(LaneEvent le) {}
 
     @Override
-    public void publish() {
-
-    }
+    public void publish() {}
 
     @Override
     public void publish(int num) {}

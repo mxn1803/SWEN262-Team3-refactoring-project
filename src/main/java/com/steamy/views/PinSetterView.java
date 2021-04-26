@@ -19,10 +19,11 @@ import com.steamy.specialists.Specialist;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.Vector;
 
 
-public class PinSetterView extends View {
+public class PinSetterView extends ListeningView {
 
 
     private final Vector<JLabel> PIN_LABELS;
@@ -90,19 +91,16 @@ public class PinSetterView extends View {
     public void toggle() { WINDOW.setVisible(!WINDOW.isVisible()); }
 
     @Override
-    public void receiveEvent(LaneEvent le) {
-
-    }
+    public void actionPerformed(ActionEvent e) {}
 
     @Override
-    public void publish() {
-
-    }
+    public void receiveEvent(LaneEvent le) {}
 
     @Override
-    public void publish(int num) {
+    public void publish() {}
 
-    }
+    @Override
+    public void publish(int num) {}
 
     /**
      * This method receives a pinsetter event.  The event is the current
@@ -131,7 +129,5 @@ public class PinSetterView extends View {
     }
 
     @Override
-    public void receiveEvent(ControlDeskEvent ce) {
-
-    }
+    public void receiveEvent(ControlDeskEvent ce) {}
 }
