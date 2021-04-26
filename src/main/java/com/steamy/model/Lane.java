@@ -192,9 +192,7 @@ public class Lane extends Thread implements PinsetterObserver, Communicator {
         partyAssigned = false;
 
         gameNumber = 0;
-
         setter.subscribe(this);
-
         this.start();
     }
 

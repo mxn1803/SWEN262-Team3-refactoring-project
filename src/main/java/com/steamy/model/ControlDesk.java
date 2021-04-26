@@ -73,7 +73,7 @@ public class ControlDesk extends Thread implements Communicator {
     /**
      * Constructor for the ControlDesk class
      *
-     * @param numLanes    the numbler of lanes to be represented
+     * @param numLanes   the numbler of lanes to be represented
      *
      */
     public ControlDesk(int numLanes) {
