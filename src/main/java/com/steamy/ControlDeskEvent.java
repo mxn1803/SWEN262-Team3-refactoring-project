@@ -1,4 +1,4 @@
-/* ControlDeskEvent.java
+package com.steamy;/* ControlDeskEvent.java
  *
  *  Version:
  *          $Id$

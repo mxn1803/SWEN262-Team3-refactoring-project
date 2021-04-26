@@ -1,4 +1,4 @@
-/* AddPartyView.java
+package com.steamy.views;/* AddPartyView.java
  *
  *  Version
  *  $Id$

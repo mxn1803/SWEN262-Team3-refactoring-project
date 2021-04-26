@@ -1,4 +1,4 @@
-/* ControlDeskView.java
+package com.steamy.views;/* ControlDeskView.java
  *
  *  Version:
  *            $Id$
@@ -11,6 +11,11 @@
 /**
  * Class for representation of the control desk
  */
+
+import com.steamy.model.ControlDesk;
+import com.steamy.ControlDeskEvent;
+import com.steamy.ControlDeskObserver;
+import com.steamy.model.Lane;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;

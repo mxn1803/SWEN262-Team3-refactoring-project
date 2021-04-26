@@ -1,15 +1,17 @@
+import com.steamy.model.ControlDesk;
+import com.steamy.views.ControlDeskView;
+
 public class Main {
 
     public static void main(String[] args) {
 
-        int numLanes = 3;
-        int maxPatronsPerParty=5;
+        final int NUM_LANES = 3;
+        final int MAX_PATRONS_PER_PARTY = 5;
 
-        Alley a = new Alley( numLanes );
-        ControlDesk controlDesk = a.getControlDesk();
+        ControlDesk controlDesk = new ControlDesk(NUM_LANES);
 
-        ControlDeskView cdv = new ControlDeskView( controlDesk, maxPatronsPerParty);
-        controlDesk.subscribe( cdv );
+        ControlDeskView cdv = new ControlDeskView(controlDesk, MAX_PATRONS_PER_PARTY);
+        controlDesk.subscribe(cdv);
 
     }
 }

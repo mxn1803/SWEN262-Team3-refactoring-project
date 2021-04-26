@@ -1,7 +1,13 @@
-/*
+package com.steamy.views;/*
  *  constructs a prototype Lane View
  *
  */
+
+import com.steamy.model.Bowler;
+import com.steamy.model.Lane;
+import com.steamy.LaneEvent;
+import com.steamy.LaneObserver;
+import com.steamy.model.Party;
 
 import javax.swing.*;
 import java.awt.*;

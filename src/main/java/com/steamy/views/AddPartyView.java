@@ -1,4 +1,4 @@
-/* AddPartyView.java
+package com.steamy.views;/* AddPartyView.java
  *
  *  Version:
  *          $Id$
@@ -23,6 +23,9 @@
 /**
  * Class for GUI components need to add a party
  */
+
+import com.steamy.model.Bowler;
+import com.steamy.io.BowlerFile;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -201,7 +204,7 @@ public class AddPartyView implements ActionListener, ListSelectionListener {
      */
     public void updateNewPatron(NewPatronView newPatron) {
         try {
-            Bowler checkBowler = BowlerFile.getBowlerInfo(newPatron.getNick());
+            Bowler checkBowler = BowlerFile.getBowler(newPatron.getNick());
             if (checkBowler == null) {
                 BowlerFile.putBowlerInfo(newPatron.getNick(), newPatron.getFull(), newPatron.getEmail());
                 bowlerDb = new Vector(BowlerFile.getBowlers());

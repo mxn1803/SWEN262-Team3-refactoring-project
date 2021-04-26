@@ -1,4 +1,4 @@
-/*
+package com.steamy.model;/*
  * Pinsetter.java
  *
  * Version:
@@ -70,8 +70,10 @@
  *
  */
 
+import com.steamy.PinsetterEvent;
+import com.steamy.PinsetterObserver;
+
 import java.util.*;
-import java.lang.Boolean;
 
 public class Pinsetter {
 
