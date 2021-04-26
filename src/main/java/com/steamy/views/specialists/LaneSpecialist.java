@@ -1,6 +1,5 @@
 package com.steamy.views.specialists;
 
-import com.steamy.ControlDeskEvent;
 import com.steamy.LaneEvent;
 import com.steamy.PinsetterEvent;
 import com.steamy.model.Communicator;
@@ -17,24 +16,23 @@ public class LaneSpecialist extends Specialist {
     private final View LANE_VIEW;
     private final View PINSETTER_VIEW;
     private final View LANE_STATUS_VIEW;
-    private final Specialist CONTROL_SPECIALIST;
 
 
 
-    public LaneSpecialist(int laneCount, Specialist controlSpecialist) {
+    public LaneSpecialist(int laneCount){
         super();
-        this.CONTROL_SPECIALIST = controlSpecialist;
-        this.PINSETTER = new PinSetter(this);
-        this.LANE = new Lane(this);
-        this.PINSETTER_VIEW = new PinSetterView(laneCount, this);
-        this.LANE_VIEW = new LaneView((Lane) this.LANE, laneCount, this);
-        this.LANE_STATUS_VIEW = new LaneStatusView(
-                (Lane) this.LANE,
-                (PinSetterView) this.PINSETTER_VIEW,
-                (LaneView) this.LANE_VIEW,
-                this
-        );
-        ((PinSetter) this.PINSETTER).reset();
+        PinSetter pinsetter = new PinSetter(this);
+        this.PINSETTER = pinsetter;
+        Lane tempLane = new Lane(this);
+        this.LANE = tempLane;
+        PinSetterView tempPinView = new PinSetterView(laneCount, this);
+        this.PINSETTER_VIEW = tempPinView;
+        LaneView tempLaneView = new LaneView(tempLane, laneCount, this);
+        this.LANE_VIEW = tempLaneView;
+        this.LANE_STATUS_VIEW = new LaneStatusView(tempLane, tempPinView, tempLaneView, this);
+        pinsetter.reset();
+
+
     }
 
     public void openLaneView() {
@@ -68,28 +66,11 @@ public class LaneSpecialist extends Specialist {
 
 
     public void receiveEvent(LaneEvent le) {
-        this.LANE.receiveEvent(le);
-        this.PINSETTER.receiveEvent(le);
-        this.PINSETTER_VIEW.receiveEvent(le);
-        this.LANE_VIEW.receiveEvent(le);
-        this.LANE_STATUS_VIEW.receiveEvent(le);
+        LANE_VIEW.receiveEvent(le);
     }
 
     public void receiveEvent(PinsetterEvent pe) {
-        this.LANE.receiveEvent(pe);
-        this.PINSETTER.receiveEvent(pe);
-        this.PINSETTER_VIEW.receiveEvent(pe);
-        this.LANE_VIEW.receiveEvent(pe);
-        this.LANE_STATUS_VIEW.receiveEvent(pe);
-    }
-
-    @Override
-    public void receiveEvent(ControlDeskEvent ce) {
-        this.LANE.receiveEvent(ce);
-        this.PINSETTER.receiveEvent(ce);
-        this.PINSETTER_VIEW.receiveEvent(ce);
-        this.LANE_VIEW.receiveEvent(ce);
-        this.LANE_STATUS_VIEW.receiveEvent(ce);
+        PINSETTER_VIEW.receiveEvent(pe);
     }
 
     public Lane getLane() { return (Lane)this.LANE; }

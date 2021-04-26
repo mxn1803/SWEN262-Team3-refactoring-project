@@ -3,7 +3,6 @@ package com.steamy.views;/*
  *
  */
 
-import com.steamy.ControlDeskEvent;
 import com.steamy.PinsetterEvent;
 import com.steamy.model.Bowler;
 import com.steamy.model.Lane;
@@ -123,16 +122,6 @@ public class LaneView extends View implements ActionListener {
         return panel;
     }
 
-    @Override
-    public void publish() {
-
-    }
-
-    @Override
-    public void publish(int num) {
-
-    }
-
     public void receiveEvent(LaneEvent le) {
         if (lane.isPartyAssigned()) {
             int numBowlers = le.getParty().getMembers().size();
@@ -181,11 +170,6 @@ public class LaneView extends View implements ActionListener {
                 }
             }
         }
-    }
-
-    @Override
-    public void receiveEvent(ControlDeskEvent ce) {
-
     }
 
     @Override

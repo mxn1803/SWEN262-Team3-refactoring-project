@@ -1,6 +1,5 @@
 package com.steamy.views.specialists;
 
-import com.steamy.ControlDeskEvent;
 import com.steamy.LaneEvent;
 import com.steamy.PinsetterEvent;
 import com.steamy.views.View;
@@ -17,5 +16,4 @@ public abstract class Specialist {
 
     public abstract void receiveEvent(LaneEvent le);
     public abstract void receiveEvent(PinsetterEvent pe);
-    public abstract void receiveEvent(ControlDeskEvent ce);
 }

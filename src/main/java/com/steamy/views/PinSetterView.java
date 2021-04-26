@@ -12,7 +12,6 @@ package com.steamy.views;/*
  * constructs a prototype PinSetter GUI
  */
 
-import com.steamy.ControlDeskEvent;
 import com.steamy.LaneEvent;
 import com.steamy.PinsetterEvent;
 import com.steamy.PinsetterObserver;
@@ -95,22 +94,7 @@ public class PinSetterView extends View{
     public void toggle() { WINDOW.setVisible(!WINDOW.isVisible()); }
 
     @Override
-    public void publish() {
-
-    }
-
-    @Override
-    public void publish(int num) {
-
-    }
-
-    @Override
     public void receiveEvent(LaneEvent le) {
-
-    }
-
-    @Override
-    public void receiveEvent(ControlDeskEvent ce) {
 
     }
 
