@@ -1,3 +1,5 @@
+package com.steamy.io;
+
 /**
  *
  * To change this generated comment edit the template variable "typecomment":
@@ -16,10 +18,6 @@ public class Score {
         this.nick=nick;
         this.date=date;
         this.score=score;
-    }
-
-    public String getNickName() {
-        return nick;  
     }
 
     public String getDate() {

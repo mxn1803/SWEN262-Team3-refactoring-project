@@ -1,4 +1,4 @@
-/*
+package com.steamy.views;/*
  * PinSetterView/.java
  *
  * Version:
@@ -11,6 +11,9 @@
 /**
  * constructs a prototype PinSetter GUI
  */
+
+import com.steamy.PinsetterEvent;
+import com.steamy.PinsetterObserver;
 
 import javax.swing.*;
 import java.awt.*;

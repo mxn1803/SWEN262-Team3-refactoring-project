@@ -1,4 +1,4 @@
-/*  $Id$
+package com.steamy;/*  $Id$
  *
  *  Revisions:
  *    $Log: LaneEvent.java,v $
@@ -22,6 +22,9 @@
  *
  *
  */
+
+import com.steamy.model.Bowler;
+import com.steamy.model.Party;
 
 import java.util.HashMap;
 

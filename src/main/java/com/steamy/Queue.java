@@ -1,4 +1,4 @@
-/* Queue.java
+package com.steamy;/* Queue.java
  *
  *  Version
  *  $Id$

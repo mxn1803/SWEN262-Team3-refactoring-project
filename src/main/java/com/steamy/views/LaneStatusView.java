@@ -1,9 +1,16 @@
-/**
+package com.steamy.views; /**
  * To change this generated comment edit the template variable "typecomment":
  * Window>Preferences>Java>Templates.
  * To enable and disable the creation of type comments go to
  * Window>Preferences>Java>Code Generation.
  */
+
+import com.steamy.model.Lane;
+import com.steamy.LaneEvent;
+import com.steamy.LaneObserver;
+import com.steamy.model.Pinsetter;
+import com.steamy.PinsetterEvent;
+import com.steamy.PinsetterObserver;
 
 import javax.swing.*;
 import java.awt.*;

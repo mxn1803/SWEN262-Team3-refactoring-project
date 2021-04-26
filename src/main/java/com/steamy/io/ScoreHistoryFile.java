@@ -1,20 +1,21 @@
-/**
- *
+package com.steamy.io; /**
  * To change this generated comment edit the template variable "typecomment":
  * Window>Preferences>Java>Templates.
  * To enable and disable the creation of type comments go to
  * Window>Preferences>Java>Code Generation.
  */
 
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.util.Vector;
 
 public class ScoreHistoryFile {
 
     private static String SCOREHISTORY_DAT = "SCOREHISTORY.DAT";
 
-    public static void addScore(String nick, String date, String score)
-        throws IOException, FileNotFoundException {
+    public static void addScore(String nick, String date, String score) throws IOException {
 
         String data = nick + "\t" + date + "\t" + score + "\n";
 
@@ -24,12 +25,10 @@ public class ScoreHistoryFile {
         out.close();
     }
 
-    public static Vector getScores(String nick)
-        throws IOException, FileNotFoundException {
-        Vector scores = new Vector();
+    public static Vector<Score> getScores(String nick) throws IOException {
+        Vector<Score> scores = new Vector<>();
 
-        BufferedReader in =
-            new BufferedReader(new FileReader(SCOREHISTORY_DAT));
+        BufferedReader in = new BufferedReader(new FileReader(SCOREHISTORY_DAT));
         String data;
         while ((data = in.readLine()) != null) {
             // File format is nick\tfname\te-mail

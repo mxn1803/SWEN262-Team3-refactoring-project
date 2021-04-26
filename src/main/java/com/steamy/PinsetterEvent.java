@@ -1,4 +1,4 @@
-/*  $Id$
+package com.steamy;/*  $Id$
  *
  *  Revisions:
  *    $Log: PinsetterEvent.java,v $

@@ -1,4 +1,4 @@
-
+package com.steamy.model;
 /* $Id$
  *
  * Revisions:
@@ -131,12 +131,21 @@
  * 
  */
 
+import com.steamy.views.EndGamePrompt;
+import com.steamy.views.EndGameReport;
+import com.steamy.LaneEvent;
+import com.steamy.LaneObserver;
+import com.steamy.PinsetterEvent;
+import com.steamy.PinsetterObserver;
+import com.steamy.io.ScoreHistoryFile;
+import com.steamy.io.ScoreReport;
+
 import java.util.Vector;
 import java.util.Iterator;
 import java.util.HashMap;
 import java.util.Date;
 
-public class Lane extends Thread implements PinsetterObserver {    
+public class Lane extends Thread implements PinsetterObserver {
     private Party party;
     private Pinsetter setter;
     private HashMap scores;
@@ -234,9 +243,9 @@ public class Lane extends Thread implements PinsetterObserver {
                     }
                 }
             } else if (partyAssigned && gameFinished) {
-                EndGamePrompt egp = new EndGamePrompt( ((Bowler) party.getMembers().get(0)).getNickName() + "'s Party" );
+                EndGamePrompt egp = new EndGamePrompt(((Bowler) party.getMembers().get(0)).getNickName() + "'s Party" );
                 int result = egp.getResult();
-                egp.distroy();
+                egp.destroy();
                 egp = null;
                 
                 
@@ -249,7 +258,7 @@ public class Lane extends Thread implements PinsetterObserver {
                     
                 } else if (result == 2) {// no, dont want to play another game
                     Vector printVector;    
-                    EndGameReport egr = new EndGameReport( ((Bowler)party.getMembers().get(0)).getNickName() + "'s Party", party);
+                    EndGameReport egr = new EndGameReport(((Bowler)party.getMembers().get(0)).getNickName() + "'s Party", party);
                     printVector = egr.getResult();
                     partyAssigned = false;
                     Iterator scoreIt = party.getMembers().iterator();
@@ -261,7 +270,7 @@ public class Lane extends Thread implements PinsetterObserver {
                     int myIndex = 0;
                     while (scoreIt.hasNext()){
                         Bowler thisBowler = (Bowler)scoreIt.next();
-                        ScoreReport sr = new ScoreReport( thisBowler, finalScores[myIndex++], gameNumber );
+                        ScoreReport sr = new ScoreReport(thisBowler, finalScores[myIndex++], gameNumber );
                         sr.sendEmail(thisBowler.getEmail());
                         Iterator printIt = printVector.iterator();
                         while (printIt.hasNext()){

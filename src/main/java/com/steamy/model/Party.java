@@ -1,4 +1,4 @@
-/*
+package com.steamy.model;/*
  * Party.java
  *
  * Version:

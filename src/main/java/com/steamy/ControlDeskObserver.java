@@ -1,4 +1,4 @@
-/* ControlDeskObserver.java
+package com.steamy;/* ControlDeskObserver.java
  *
  *  Version
  *  $Id$

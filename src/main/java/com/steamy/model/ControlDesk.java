@@ -1,4 +1,4 @@
-/* ControlDesk.java
+package com.steamy.model;/* ControlDesk.java
  *
  *  Version:
  *          $Id$
@@ -40,10 +40,15 @@
  *
  */
 
+import com.steamy.io.BowlerFile;
+import com.steamy.ControlDeskEvent;
+import com.steamy.ControlDeskObserver;
+import com.steamy.Queue;
+
 import java.util.*;
 import java.io.*;
 
-class ControlDesk extends Thread {
+public class ControlDesk extends Thread {
 
     /** The collection of Lanes */
     private HashSet lanes;
@@ -60,10 +65,9 @@ class ControlDesk extends Thread {
     /**
      * Constructor for the ControlDesk class
      *
-     * @param numlanes    the numbler of lanes to be represented
+     * @param numLanes    the numbler of lanes to be represented
      *
      */
-
     public ControlDesk(int numLanes) {
         this.numLanes = numLanes;
         lanes = new HashSet(numLanes);
@@ -110,7 +114,7 @@ class ControlDesk extends Thread {
         try {
             // only one patron / nick.... no dupes, no checks
 
-            patron = BowlerFile.getBowlerInfo(nickName);
+            patron = BowlerFile.getBowler(nickName);
 
         } catch (FileNotFoundException e) {
             System.err.println("Error..." + e);
