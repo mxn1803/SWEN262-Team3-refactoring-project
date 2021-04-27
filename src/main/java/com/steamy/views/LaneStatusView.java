@@ -14,9 +14,8 @@ import com.steamy.specialists.Specialist;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class LaneStatusView extends ListeningView implements ActionListener {
+public class LaneStatusView extends ListeningView {
 
     private final JPanel LANE_PANEL;
 

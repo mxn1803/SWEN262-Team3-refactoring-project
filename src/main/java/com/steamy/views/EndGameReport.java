@@ -1,9 +1,4 @@
-package com.steamy.views; /**
- * To change this generated comment edit the template variable "typecomment":
- * Window>Preferences>Java>Templates.
- * To enable and disable the creation of type comments go to
- * Window>Preferences>Java>Code Generation.
- */
+package com.steamy.views;
 
 import com.steamy.model.Bowler;
 import com.steamy.model.Party;
@@ -14,13 +9,10 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.Vector;
 
-public class EndGameReport implements ActionListener, ListSelectionListener {
-
-    private final JFrame WINDOW;
+public class EndGameReport extends View implements ListSelectionListener {
     private final JButton PRINT_BUTTON, FINISHED_BUTTON;
     private final Vector<String> RETURN_VALUE;
 
@@ -29,12 +21,14 @@ public class EndGameReport implements ActionListener, ListSelectionListener {
     private String selectedMember;
 
     public EndGameReport(String partyName, Party party) {
+        super();
+        JFrame tempWindow = super.getWindow();
 
         result = 0;
         RETURN_VALUE = new Vector<>();
-        WINDOW = new JFrame("End Game Report for " + partyName + "?");
-        WINDOW.getContentPane().setLayout(new BorderLayout());
-        ((JPanel) WINDOW.getContentPane()).setOpaque(false);
+        tempWindow.setTitle("End Game Report for " + partyName + "?");
+        tempWindow.getContentPane().setLayout(new BorderLayout());
+        ((JPanel) tempWindow.getContentPane()).setOpaque(false);
 
         JPanel colPanel = new JPanel();
         colPanel.setLayout(new GridLayout(1, 2));
@@ -61,8 +55,6 @@ public class EndGameReport implements ActionListener, ListSelectionListener {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(2, 1));
 
-        Insets buttonMargin = new Insets(4, 4, 4, 4);
-
         PRINT_BUTTON = new JButton("Print Report");
         JPanel printButtonPanel = new JPanel();
         printButtonPanel.setLayout(new FlowLayout());
@@ -82,14 +74,13 @@ public class EndGameReport implements ActionListener, ListSelectionListener {
         colPanel.add(partyPanel);
         colPanel.add(buttonPanel);
 
-        WINDOW.getContentPane().add("Center", colPanel);
-        WINDOW.pack();
+        tempWindow.getContentPane().add("Center", colPanel);
+        tempWindow.pack();
 
         // Center Window on Screen
         Dimension screenSize = (Toolkit.getDefaultToolkit()).getScreenSize();
-        WINDOW.setLocation(((screenSize.width) / 2) - ((WINDOW.getSize().width) / 2), ((screenSize.height) / 2) - ((WINDOW.getSize().height) / 2));
-        WINDOW.setVisible(true);
-
+        tempWindow.setLocation(((screenSize.width) / 2) - ((tempWindow.getSize().width) / 2), ((screenSize.height) / 2) - ((tempWindow.getSize().height) / 2));
+        tempWindow.setVisible(true);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -98,8 +89,8 @@ public class EndGameReport implements ActionListener, ListSelectionListener {
             RETURN_VALUE.add(selectedMember);
         }
         if (e.getSource().equals(FINISHED_BUTTON)) {
-            WINDOW.setVisible(false);
             result = 1;
+            super.getWindow().setVisible(false);
         }
 
     }

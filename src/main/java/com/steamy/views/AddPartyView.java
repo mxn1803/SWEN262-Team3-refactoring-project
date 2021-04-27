@@ -24,8 +24,8 @@ package com.steamy.views;/* AddPartyView.java
  * Class for GUI components need to add a party
  */
 
-import com.steamy.model.Bowler;
 import com.steamy.io.BowlerFile;
+import com.steamy.model.Bowler;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -33,19 +33,14 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Vector;
 
 /**
  * Constructor for GUI used to Add Parties to the waiting party queue.
- *
  */
-
-public class AddPartyView implements ActionListener, ListSelectionListener {
+public class AddPartyView extends View implements ListSelectionListener {
 
     private final int MAX_SIZE;
-
-    private final JFrame WINDOW;
     private final JButton ADD_PATRON_BUTTON;
     private final JButton NEW_PATRON_BUTTON;
     private final JButton REMOVE_PATRON_BUTTON;
@@ -59,14 +54,14 @@ public class AddPartyView implements ActionListener, ListSelectionListener {
 
     private String selectedNick, selectedMember;
 
-    public AddPartyView(ControlDeskView controlDesk, int max) {
-
-        this.CONTROL_DESK_VIEW = controlDesk;
+    public AddPartyView(ControlDeskView controlDeskView, int max) {
+        this.CONTROL_DESK_VIEW = controlDeskView;
         MAX_SIZE = max;
+        JFrame tempWindow = super.getWindow();
 
-        WINDOW = new JFrame("Add Party");
-        WINDOW.getContentPane().setLayout(new BorderLayout());
-        ((JPanel) WINDOW.getContentPane()).setOpaque(false);
+        tempWindow.setTitle("Add Party");
+        tempWindow.getContentPane().setLayout(new BorderLayout());
+        ((JPanel) tempWindow.getContentPane()).setOpaque(false);
 
         JPanel colPanel = new JPanel();
         colPanel.setLayout(new GridLayout(1, 3));
@@ -80,12 +75,11 @@ public class AddPartyView implements ActionListener, ListSelectionListener {
         Vector<String> empty = new Vector<>();
         empty.add("(Empty)");
 
-        PARTY_LIST = new JList<String>(empty);
+        PARTY_LIST = new JList<>(empty);
         PARTY_LIST.setFixedCellWidth(120);
         PARTY_LIST.setVisibleRowCount(5);
         PARTY_LIST.addListSelectionListener(this);
         JScrollPane partyPane = new JScrollPane(PARTY_LIST);
-        //        partyPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         partyPanel.add(partyPane);
 
         // Bowler Database
@@ -145,13 +139,13 @@ public class AddPartyView implements ActionListener, ListSelectionListener {
         colPanel.add(bowlerPanel);
         colPanel.add(buttonPanel);
 
-        WINDOW.getContentPane().add("Center", colPanel);
-        WINDOW.pack();
+        tempWindow.getContentPane().add("Center", colPanel);
+        tempWindow.pack();
 
         // Center Window on Screen
         Dimension screenSize = (Toolkit.getDefaultToolkit()).getScreenSize();
-        WINDOW.setLocation(((screenSize.width) / 2) - ((WINDOW.getSize().width) / 2), ((screenSize.height) / 2) - ((WINDOW.getSize().height) / 2));
-        WINDOW.setVisible(true);
+        tempWindow.setLocation(((screenSize.width) / 2) - ((tempWindow.getSize().width) / 2), ((screenSize.height) / 2) - ((tempWindow.getSize().height) / 2));
+        tempWindow.setVisible(true);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -175,16 +169,15 @@ public class AddPartyView implements ActionListener, ListSelectionListener {
             NewPatronView newPatron = new NewPatronView(this);
         }
         if (e.getSource().equals(FINISHED_BUTTON)) {
-            if (PARTY != null && PARTY.size() > 0) {
-                CONTROL_DESK_VIEW.updateAddParty(this);
-            }
-            WINDOW.setVisible(false);
+            if (PARTY != null && PARTY.size() > 0) CONTROL_DESK_VIEW.updateAddParty(this);
+            super.getWindow().setVisible(false);
         }
 
     }
 
     /**
      * Handler for List actions
+     *
      * @param e the ListActionEvent that triggered the handler
      */
 
