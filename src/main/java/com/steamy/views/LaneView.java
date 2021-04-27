@@ -4,11 +4,11 @@ package com.steamy.views;/*
  */
 
 import com.steamy.ControlDeskEvent;
+import com.steamy.LaneEvent;
 import com.steamy.PinSetterEvent;
 import com.steamy.model.Bowler;
-import com.steamy.model.Lane;
-import com.steamy.LaneEvent;
 import com.steamy.model.Party;
+import com.steamy.specialists.LaneSpecialist;
 import com.steamy.specialists.Specialist;
 
 import javax.swing.*;
@@ -26,7 +26,6 @@ public class LaneView extends ListeningView implements ActionListener {
 
     private volatile boolean initDone;
 
-    private final JFrame WINDOW;
     private final Container CONTAINER_PANEL;
     private Vector bowlers;
 
@@ -34,33 +33,29 @@ public class LaneView extends ListeningView implements ActionListener {
     private JLabel[][] scoreLabels;
 
     private JButton maintenance;
-    private final Lane lane;
 
-    public LaneView(Lane lane, int laneNum, Specialist specialist) {
+    public LaneView(int laneNum, Specialist specialist) {
         super(specialist);
-        this.lane = lane;
+        JFrame tempWindow = super.getWindow();
+        tempWindow.setTitle("Lane " + laneNum + ":");
         BALL_COUNT = 21;
         FRAME_COUNT = 10;
 
         initDone = true;
-        WINDOW = new JFrame("Lane " + laneNum + ":");
-        CONTAINER_PANEL = WINDOW.getContentPane();
+        CONTAINER_PANEL = tempWindow.getContentPane();
         CONTAINER_PANEL.setLayout(new BorderLayout());
 
         ballLabels = null;
         scoreLabels = null;
 
-        WINDOW.addWindowListener(new WindowAdapter() {
+        tempWindow.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                WINDOW.setVisible(false);
+                tempWindow.setVisible(false);
             }
         });
 
         CONTAINER_PANEL.add(new JPanel());
-
     }
-
-    public void toggle() { WINDOW.setVisible(!WINDOW.isVisible()); }
 
     private JPanel makeScoreboard(Party party) {
 
@@ -124,7 +119,9 @@ public class LaneView extends ListeningView implements ActionListener {
     }
 
     public void receiveEvent(LaneEvent le) {
-        if (lane.isPartyAssigned()) {
+        JFrame tempWindow = super.getWindow();
+        LaneSpecialist tempSpecialist = (LaneSpecialist) super.getSpecialist();
+        if (tempSpecialist.laneHasPartyAssigned()) {
             int numBowlers = le.getParty().getMembers().size();
 
             while (!initDone) Thread.onSpinWait();
@@ -148,15 +145,13 @@ public class LaneView extends ListeningView implements ActionListener {
 
                 CONTAINER_PANEL.add(buttonPanel, "South");
 
-                WINDOW.pack();
-
+                tempWindow.pack();
             }
 
             int[][] lescores = le.getCumulScore();
             for (int k = 0; k < numBowlers; k++) {
                 for (int i = 0; i <= le.getFrameNum() - 1; i++) {
-                    if (lescores[k][i] != 0)
-                        scoreLabels[k][i].setText((Integer.valueOf(lescores[k][i])).toString());
+                    if (lescores[k][i] != 0) scoreLabels[k][i].setText((Integer.valueOf(lescores[k][i])).toString());
                 }
                 for (int i = 0; i < BALL_COUNT; i++) {
                     int outcome = ((int[]) le.getScore().get(bowlers.get(k)))[i];
@@ -174,25 +169,20 @@ public class LaneView extends ListeningView implements ActionListener {
     }
 
     @Override
-    public void publish() {
-
-    }
+    public void publish() {}
 
     @Override
-    public void publish(int num) {
-
-    }
+    public void publish(int num) {}
 
     @Override
-    public void receiveEvent(PinSetterEvent pe) {
-
-    }
+    public void receiveEvent(PinSetterEvent pe) {}
 
     @Override
-    public void receiveEvent(ControlDeskEvent ce) {
+    public void receiveEvent(ControlDeskEvent ce) {}
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource().equals(maintenance)) ((LaneSpecialist) super.getSpecialist()).pauseLane();
     }
-
-    public void actionPerformed(ActionEvent e) { if (e.getSource().equals(maintenance)) lane.pauseGame(); }
 
 }

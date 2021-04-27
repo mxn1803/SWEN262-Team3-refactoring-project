@@ -14,23 +14,16 @@ public class LaneSpecialist extends Specialist {
     private final Communicator LANE;
     private final Communicator PINSETTER;
 
-    public LaneSpecialist(int laneCount){
+    public LaneSpecialist(int laneCount) {
         super();
-        PinSetter pinsetter = new PinSetter(this);
-        this.PINSETTER = pinsetter;
+        this.PINSETTER = new PinSetter(this);;
+        this.LANE = new Lane(this);
 
-        Lane tempLane = new Lane(this);
-        this.LANE = tempLane;
+        super.getOpenViews().put(ViewType.PIN_SETTER, new PinSetterView(laneCount, this));
+        super.getOpenViews().put(ViewType.LANE, new LaneView(laneCount, this));
+        super.getOpenViews().put(ViewType.LANE_STATUS, new LaneStatusView(this));
 
-        PinSetterView tempPinSetterView = new PinSetterView(laneCount, this);
-        super.getOpenViews().put(ViewType.PIN_SETTER, tempPinSetterView);
-
-        LaneView tempLaneView = new LaneView(tempLane, laneCount, this);
-        super.getOpenViews().put(ViewType.LANE, tempLaneView);
-
-        LaneStatusView tempLaneStatusView = new LaneStatusView(this);
-        super.getOpenViews().put(ViewType.LANE_STATUS, tempLaneStatusView);
-        pinsetter.resetPinSetter();
+        ((PinSetter) this.PINSETTER).resetPinSetter();
     }
 
     @Override
@@ -55,11 +48,16 @@ public class LaneSpecialist extends Specialist {
     }
 
     public Lane getLane() { return (Lane) this.LANE; }
+
     public void pauseLane() { ((Lane) this.LANE).pauseGame(); }
+
     public void resumeLane() { ((Lane) this.LANE).unPauseGame(); }
+
     public boolean laneHasPartyAssigned() { return ((Lane) this.LANE).isPartyAssigned(); }
+
     public PinSetter getPinSetter() { return (PinSetter) this.PINSETTER; }
-    public LaneStatusView getLaneStatusView(){
+
+    public LaneStatusView getLaneStatusView() {
         return (LaneStatusView) super.getOpenViews().get(ViewType.LANE_STATUS);
     }
 }
