@@ -161,18 +161,33 @@ public class LaneView extends ListeningView implements ActionListener {
                 Object bowler = bowlers.get(k);
                 Frame[] score = (Frame[])le.getScore().get(bowler);
                 Frame frame = score[0];
+
                 for (int ballNum = 0; ballNum < BALL_COUNT; ballNum++) {
                     if (ballNum % 2 == 0 && ballNum != 20) {
                         frame = score[ballNum / 2];
                     }
 
-                    if (ballNum == 20 && frame.getBowl(2) != null) { // Check last ball of 10th frame
-                        if (frame.getBowl(2) == 10) {
-                            ballLabels[k][ballNum].setText("X");
-                        } else if (frame.getBowl(1) + frame.getBowl(2) == 10) {
-                            ballLabels[k][ballNum].setText("/");
-                        } else {
-                            ballLabels[k][ballNum].setText(String.valueOf(frame.getBowl(2)));
+                    if (ballNum > 17) { // Tenth frame hits different
+                        if (ballNum == 18 && frame.getBowl(0) != null) {
+                            // First bowl of 10th frame
+                            ballLabels[k][19].setText(frame.getBowl(0) == 10 ? "X" : String.valueOf(frame.getBowl(0)));
+                        } else if (ballNum == 19 && frame.getBowl(1) != null){
+                            // Second bowl of 10th frame
+                            if (frame.getBowl(0) == 10) {
+                                ballLabels[k][20].setText(frame.getBowl(1) == 10 ? "X" : String.valueOf(frame.getBowl(1)));
+                            } else {
+                                int sum = frame.getBowl(0) + frame.getBowl(1);
+                                ballLabels[k][20].setText(sum == 10 ? "/" : String.valueOf(frame.getBowl(1)));
+                            }
+                        } else if (ballNum == 20 && frame.getBowl(2) != null) {
+                            // Third bowl of 10th frame
+                            String prevText = ballLabels[k][ballNum].getText();
+                            if (prevText.equals("/") || prevText.equals("X")) {  // Last ball was strike or spare
+                                ballLabels[k][21].setText(frame.getBowl(2) == 10 ? "X" : String.valueOf(frame.getBowl(2)));
+                            } else {  // Last ball was spare
+                                int sum = frame.getBowl(1) + frame.getBowl(2);
+                                ballLabels[k][21].setText(sum == 10 ? "/" : String.valueOf(frame.getBowl(2)));
+                            }
                         }
                     } else if (ballNum % 2 == 0 && frame.getBowl(0) != null) { // Set first ball label
                         if (frame.getBowl(0) == 10) { // Strike

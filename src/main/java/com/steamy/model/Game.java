@@ -15,6 +15,7 @@ import java.util.Iterator;
 class Game {
 
     private Party party;
+    private Lane lane;
 
     private HashMap<Object, Frame[]> scores;
     private int frameIndex;
@@ -27,9 +28,11 @@ class Game {
     /**
      * Creates a game of bowling to be played
      *
+     * @param lane The Lane the game takes place on
      * @param party The party playing the game
      */
-    Game(Party party) {
+    Game(Lane lane, Party party) {
+        this.lane = lane;
         this.party = party;
         bowlerIterator = party.getMembers().iterator();
         currBowler = bowlerIterator.next();
@@ -174,6 +177,12 @@ class Game {
             ballNum = 0;
             return false;
         }
+
+        // Reset after a strike or spare on the 10th frame
+        if (frameIndex == 9 && currFrame.getScore() == 10) {
+            lane.resetPins();
+        }
+
         return true;
     }
 }

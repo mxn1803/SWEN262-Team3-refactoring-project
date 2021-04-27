@@ -195,7 +195,7 @@ public class Lane extends Thread implements Communicator {
      * Creates a new game on this lane with the current {@link Party}
      */
     private void newGame() {
-        currGame = new Game(party);
+        currGame = new Game(this, party);
         gameNumber += 1;
         setter.resetPinSetter();
     }
@@ -212,6 +212,13 @@ public class Lane extends Thread implements Communicator {
         newGame();
         publish();
         gameIsHalted = false;
+    }
+
+    /**
+     * Resets the pins on this lane before the frame is over
+     */
+    void resetPins() {
+        setter.resetPins();
     }
 
     /**
@@ -280,7 +287,7 @@ public class Lane extends Thread implements Communicator {
                 System.out.println("pin reset");
                 setter.resetPins();
             }
-
+            publish();
             // If that was the last throw, prompt the user to go again
             if (currGame.isFinished()) {
                 // Prompt user to play again
@@ -313,7 +320,6 @@ public class Lane extends Thread implements Communicator {
                     party = null;
                 }
             }
-            publish();
             System.out.println("***********************");
         }
     }

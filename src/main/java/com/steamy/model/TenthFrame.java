@@ -28,9 +28,9 @@ public class TenthFrame extends Frame {
             return true;
         } else if (bowls[1] == null) {
             bowls[1] = score;
-            return bowls[0] + bowls[1] > 10;    // This checks for both a 1st throw strike and 2nd throw spare
+            return bowls[0] + bowls[1] >= 10;    // This checks for both a 1st throw strike and 2nd throw spare
         }
-        bowls[3] = score;
+        bowls[2] = score;
         return false;       // Third ball has been thrown
     }
 
@@ -43,7 +43,7 @@ public class TenthFrame extends Frame {
         // Get the value of the throws this frame
         int score = bowls[0] == null ? 0 : bowls[0];
         score += bowls[1] == null ? 0 : bowls[1];
-        score += bowls[1] == null ? 0 : bowls[1];
+        score += bowls[2] == null ? 0 : bowls[2];
         return score;
     }
 
@@ -51,7 +51,8 @@ public class TenthFrame extends Frame {
      * Gets the bonus for a spare from this Frame
      * @return The bonus the previous frame earns for a spare
      */
-    private int getSpareBonus() {
+    @Override
+    int getSpareBonus() {
         return bowls[0] == null ? 0 : bowls[0];
     }
 
@@ -59,9 +60,10 @@ public class TenthFrame extends Frame {
      * Gets the bonus for a strike from this Frame
      * @return The bonus the previous frame earns for a Strike
      */
-    private int getStrikeBonus() {
+    @Override
+    int getStrikeBonus() {
         int firstThrow = bowls[0] == null ? 0 : bowls[0];
-        int secondThrow = bowls[0] == null ? 0 : bowls[0];
+        int secondThrow = bowls[1] == null ? 0 : bowls[1];
         return firstThrow + secondThrow;
     }
 }

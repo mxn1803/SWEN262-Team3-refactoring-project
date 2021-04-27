@@ -78,7 +78,7 @@ public class Frame {
      * Gets the bonus for a spare from this Frame
      * @return The bonus the previous frame earns for a spare
      */
-    private int getSpareBonus() {
+    int getSpareBonus() {
         return bowls[0] == null ? 0 : bowls[0];
     }
 
@@ -86,7 +86,7 @@ public class Frame {
      * Gets the bonus for a strike from this Frame
      * @return The bonus the previous frame earns for a Strike
      */
-    private int getStrikeBonus() {
+    int getStrikeBonus() {
         Integer nextBowl;
         // If this was a strike, get the first bowl of next frame
         if (bowls[0] != null && bowls[0] == 10) {
