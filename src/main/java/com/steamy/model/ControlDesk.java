@@ -85,7 +85,7 @@ public class ControlDesk extends Thread implements Communicator {
     public Specialist getSpecialist() { return this.SPECIALIST; }
 
     /**
-     * Main loop for ControlDesk's thread
+     * com.steamy.Main loop for ControlDesk's thread
      * 
      */
     public void run() {

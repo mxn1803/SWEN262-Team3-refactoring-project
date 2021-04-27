@@ -1,5 +1,5 @@
-import com.steamy.model.ControlDesk;
-import com.steamy.views.ControlDeskView;
+package com.steamy;
+
 import com.steamy.specialists.ControlSpecialist;
 
 public class Main {
