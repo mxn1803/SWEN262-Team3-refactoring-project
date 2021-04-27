@@ -10,6 +10,8 @@ import com.steamy.views.LaneStatusView;
 import com.steamy.views.LaneView;
 import com.steamy.views.PinSetterView;
 
+import java.util.List;
+
 public class LaneSpecialist extends Specialist {
     private final Communicator LANE;
     private final Communicator PINSETTER;
