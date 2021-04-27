@@ -115,15 +115,13 @@ public class PinSetterView extends ListeningView {
     public void receiveEvent(PinSetterEvent pe) {
         if (!pe.isFoulCommited()) {
             for (int c = 0; c < 10; c++) {
-                if (pe.pinKnockedDown(c)) PIN_LABELS.get(c).setForeground(Color.lightGray);
+                if (pe.pinKnockedDown(c)) PIN_LABELS.get(c).setForeground(Color.LIGHT_GRAY);
             }
         }
-        if (pe.getThrowNumber() == 1) SECOND_ROLL.setBackground(Color.yellow);
+        if (pe.getThrowNumber() == 1) SECOND_ROLL.setBackground(Color.YELLOW);
 
         if (pe.pinsDownOnThisThrow() == -1) {
-            for (int i = 0; i != 10; i++) {
-                PIN_LABELS.get(i).setForeground(Color.black);
-            }
+            for (int i = 0; i != 10; i++) PIN_LABELS.get(i).setForeground(Color.black);
             SECOND_ROLL.setBackground(Color.black);
         }
     }

@@ -9,6 +9,7 @@ import com.steamy.ControlDeskEvent;
 import com.steamy.model.Lane;
 import com.steamy.LaneEvent;
 import com.steamy.PinSetterEvent;
+import com.steamy.specialists.LaneSpecialist;
 import com.steamy.specialists.Specialist;
 
 import javax.swing.*;
@@ -27,13 +28,12 @@ public class LaneStatusView extends ListeningView implements ActionListener {
     private final LaneView LANE_VIEW;
     private final Lane LANE;
 
-    public LaneStatusView(Lane lane, PinSetterView pv, LaneView lv, Specialist specialist) {
+    public LaneStatusView(Specialist specialist) {
         super(specialist);
-        this.LANE = lane;
+        this.LANE = ((LaneSpecialist) super.getSpecialist()).getLane();
 
-        PINSETTER_VIEW = pv;
-
-        LANE_VIEW = lv;
+        PINSETTER_VIEW = (PinSetterView) super.getSpecialist().getOpenViews().get(Specialist.ViewType.PIN_SETTER);
+        LANE_VIEW = (LaneView) super.getSpecialist().getOpenViews().get(Specialist.ViewType.LANE);
 
 
         LANE_PANEL = new JPanel();
@@ -72,8 +72,8 @@ public class LaneStatusView extends ListeningView implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
         if (LANE.isPartyAssigned()) {
-            if (source.equals(VIEW_PINSETTER_BUTTON)) PINSETTER_VIEW.toggle();
-            else if (source.equals(VIEW_LANE_BUTTON)) LANE_VIEW.toggle();
+            if (source.equals(VIEW_PINSETTER_BUTTON)) super.getSpecialist().toggleView(Specialist.ViewType.PIN_SETTER);
+            else if (source.equals(VIEW_LANE_BUTTON)) super.getSpecialist().toggleView(Specialist.ViewType.LANE);
             else if (source.equals(MAINTENANCE_BUTTON)) {
                 LANE.unPauseGame();
                 MAINTENANCE_BUTTON.setBackground(Color.GREEN);
@@ -90,14 +90,10 @@ public class LaneStatusView extends ListeningView implements ActionListener {
     }
 
     @Override
-    public void publish() {
-
-    }
+    public void publish() {}
 
     @Override
-    public void publish(int num) {
-
-    }
+    public void publish(int num) {}
 
     @Override
     public void receiveEvent(PinSetterEvent pe) {
@@ -106,16 +102,5 @@ public class LaneStatusView extends ListeningView implements ActionListener {
     }
 
     @Override
-    public void receiveEvent(ControlDeskEvent ce) {
-
-    }
-
-
-    public PinSetterView getPinsetterView(){
-        return PINSETTER_VIEW;
-    }
-
-    public LaneView getLaneView(){
-        return LANE_VIEW;
-    }
+    public void receiveEvent(ControlDeskEvent ce) {}
 }

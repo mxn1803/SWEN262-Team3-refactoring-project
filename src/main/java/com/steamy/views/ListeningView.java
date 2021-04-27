@@ -13,12 +13,10 @@ import java.awt.event.ActionListener;
 public abstract class ListeningView implements ActionListener, Communicator {
     private final JFrame WINDOW;
     private final Specialist SPECIALIST;
-    private boolean toggled;
 
     public ListeningView(Specialist s) {
         this.SPECIALIST = s;
         this.WINDOW = new JFrame();
-        toggled = false;
     }
 
     public boolean getToggle(){

@@ -28,7 +28,7 @@ public class LaneSpecialist extends Specialist {
         LaneView tempLaneView = new LaneView(tempLane, laneCount, this);
         super.getOpenViews().put(ViewType.LANE, tempLaneView);
 
-        LaneStatusView tempLaneStatusView = new LaneStatusView(tempLane, tempPinSetterView, tempLaneView, this);
+        LaneStatusView tempLaneStatusView = new LaneStatusView(this);
         super.getOpenViews().put(ViewType.LANE_STATUS, tempLaneStatusView);
         pinsetter.resetPinSetter();
     }
