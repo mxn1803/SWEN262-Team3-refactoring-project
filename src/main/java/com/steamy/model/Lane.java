@@ -134,17 +134,12 @@ package com.steamy.model;
 import com.steamy.events.ControlDeskEvent;
 import com.steamy.events.LaneEvent;
 import com.steamy.events.PinSetterEvent;
-import com.steamy.io.ScoreHistoryFile;
-import com.steamy.ControlDeskEvent;
-import com.steamy.LaneEvent;
-import com.steamy.PinSetterEvent;
 import com.steamy.io.ScoreReport;
 import com.steamy.specialists.LaneSpecialist;
 import com.steamy.specialists.Specialist;
 import com.steamy.views.EndGamePrompt;
 import com.steamy.views.EndGameReport;
 
-import java.util.HashMap;
 import java.util.Vector;
 
 public class Lane extends Thread implements Communicator {
@@ -230,12 +225,10 @@ public class Lane extends Thread implements Communicator {
         int partySize = party.getMembers().size();
 
         // Get score values for all bowlers
-        HashMap scores = new HashMap();
         int[] curScores = new int[partySize];
         int[][] cumulativeScores = new int[partySize][10];
         for (int i = 0; i < partySize; i++) {
             Object bowler = party.getMembers().get(i);
-            scores.put(bowler, currGame.getScoreCard(bowler));
             curScores[i] = currGame.getTotalScore(bowler);
             cumulativeScores[i] = currGame.getCumulativeCard(bowler);
         }

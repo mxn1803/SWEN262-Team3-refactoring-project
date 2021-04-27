@@ -7,9 +7,7 @@ import com.steamy.events.ControlDeskEvent;
 import com.steamy.events.LaneEvent;
 import com.steamy.events.PinSetterEvent;
 import com.steamy.model.Bowler;
-import com.steamy.model.Lane;
 import com.steamy.model.Frame;
-import com.steamy.LaneEvent;
 import com.steamy.model.Party;
 import com.steamy.specialists.LaneSpecialist;
 import com.steamy.specialists.Specialist;
@@ -155,7 +153,6 @@ public class LaneView extends ListeningView implements ActionListener {
             int[][] lescores = le.getCumulScore();
             for (int k = 0; k < numBowlers; k++) {
                 for (int i = 0; i <= le.getFrameNum() - 1; i++) {
-                    if (lescores[k][i] != 0) scoreLabels[k][i].setText((Integer.valueOf(lescores[k][i])).toString());
                     if (lescores[k][i] != 0) {
                         text = String.valueOf(lescores[k][i]);
                         scoreLabels[k][i].setText(text);
@@ -190,16 +187,6 @@ public class LaneView extends ListeningView implements ActionListener {
                             ballLabels[k][ballNum].setText(String.valueOf(frame.getBowl(1)));
                         }
                     }
-
-//                    int outcome = ((int[]) le.getScore().get(bowler))[i];
-//                    int prevOutcome = i > 0 ? ((int[]) le.getScore().get(bowlers.get(k)))[i - 1] : 0;
-//                    boolean isFirstThrow = i % 2 == 0;
-//                    if (outcome != -1) {
-//                        if (outcome == 10 && (isFirstThrow || i == 19)) ballLabels[k][i].setText("X");
-//                        else if (outcome + prevOutcome == 10 && !isFirstThrow) ballLabels[k][i].setText("/");
-//                        else if (outcome == -2) ballLabels[k][i].setText("F");
-//                        else ballLabels[k][i].setText((Integer.valueOf(outcome)).toString());
-//                    }
                 }
             }
         }
