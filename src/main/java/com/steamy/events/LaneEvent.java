@@ -1,4 +1,4 @@
-package com.steamy;/*  $Id$
+package com.steamy.events;/*  $Id$
  *
  *  Revisions:
  *    $Log: LaneEvent.java,v $

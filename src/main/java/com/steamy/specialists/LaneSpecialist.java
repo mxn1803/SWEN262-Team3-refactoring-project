@@ -1,8 +1,8 @@
 package com.steamy.specialists;
 
-import com.steamy.ControlDeskEvent;
-import com.steamy.LaneEvent;
-import com.steamy.PinSetterEvent;
+import com.steamy.events.ControlDeskEvent;
+import com.steamy.events.LaneEvent;
+import com.steamy.events.PinSetterEvent;
 import com.steamy.model.Communicator;
 import com.steamy.model.Lane;
 import com.steamy.model.PinSetter;

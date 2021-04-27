@@ -40,10 +40,10 @@ package com.steamy.model;/* ControlDesk.java
  *
  */
 
-import com.steamy.LaneEvent;
-import com.steamy.PinSetterEvent;
+import com.steamy.events.LaneEvent;
+import com.steamy.events.PinSetterEvent;
 import com.steamy.io.BowlerFile;
-import com.steamy.ControlDeskEvent;
+import com.steamy.events.ControlDeskEvent;
 import com.steamy.Queue;
 import com.steamy.specialists.ControlSpecialist;
 import com.steamy.specialists.LaneSpecialist;
@@ -59,13 +59,6 @@ public class ControlDesk extends Thread implements Communicator {
 
     /** The party wait queue */
     private Queue partyQueue;
-
-    /** The number of lanes represented */
-    private int numLanes;
-    
-    /** The collection of subscribers */
-    //private Vector subscribers;
-
     private final Specialist SPECIALIST;
 
     /**
@@ -76,7 +69,6 @@ public class ControlDesk extends Thread implements Communicator {
      */
     public ControlDesk(int numLanes, Specialist specialist) {
         this.SPECIALIST = specialist;
-        this.numLanes = numLanes;
         lanes = new ArrayList<>(numLanes);
         partyQueue = new Queue();
 
@@ -98,7 +90,6 @@ public class ControlDesk extends Thread implements Communicator {
      */
     public void run() {
         while (true) {
-            
             assignLane();
             
             try {
@@ -139,7 +130,7 @@ public class ControlDesk extends Thread implements Communicator {
      *
      */
 
-    public void assignLane() {
+    private void assignLane() {
         Iterator it = lanes.iterator();
 
         while (it.hasNext() && partyQueue.hasMoreElements()) {
@@ -189,14 +180,6 @@ public class ControlDesk extends Thread implements Communicator {
         }
         return displayPartyQueue;
     }
-
-    /**
-     * Accessor for the number of lanes represented by the ControlDesk
-     * 
-     * @return an int containing the number of lanes represented
-     *
-     */
-    public int getNumLanes() { return numLanes; }
 
     /**
      * Allows objects to subscribe as observers

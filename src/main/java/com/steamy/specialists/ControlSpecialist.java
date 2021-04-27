@@ -1,12 +1,13 @@
 package com.steamy.specialists;
 
-import com.steamy.ControlDeskEvent;
-import com.steamy.LaneEvent;
-import com.steamy.PinSetterEvent;
+import com.steamy.events.ControlDeskEvent;
+import com.steamy.events.LaneEvent;
+import com.steamy.events.PinSetterEvent;
 import com.steamy.model.ControlDesk;
 import com.steamy.model.Lane;
 import com.steamy.views.AddPartyView;
 import com.steamy.views.ControlDeskView;
+import com.steamy.views.LaneStatusView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ public class ControlSpecialist extends Specialist {
     public int getMaxMembers() { return this.MAX_MEMBERS; }
     public int getNumLanes() { return this.LANE_SPECIALISTS.size(); }
     public Lane getLane(int index) { return this.LANE_SPECIALISTS.get(index).getLane(); }
+    public LaneStatusView getLaneStatusView(int index) { return this.LANE_SPECIALISTS.get(index).getLaneStatusView(); }
 
     @Override
     public void receiveEvent(LaneEvent le) {}

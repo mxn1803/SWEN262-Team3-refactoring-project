@@ -12,9 +12,9 @@ package com.steamy.views;/* ControlDeskView.java
  * Class for representation of the control desk
  */
 
-import com.steamy.ControlDeskEvent;
-import com.steamy.LaneEvent;
-import com.steamy.PinSetterEvent;
+import com.steamy.events.ControlDeskEvent;
+import com.steamy.events.LaneEvent;
+import com.steamy.events.PinSetterEvent;
 import com.steamy.model.ControlDesk;
 import com.steamy.model.Lane;
 import com.steamy.specialists.ControlSpecialist;
@@ -75,6 +75,13 @@ public class ControlDeskView extends ListeningView implements ActionListener {
         laneStatusPanel.setLayout(new GridLayout(NUM_LANES, 1));
         laneStatusPanel.setBorder(new TitledBorder("Lane Status"));
 
+        for (int i = 1; i <= NUM_LANES; i++) {
+            LaneStatusView tempLaneStatusView = ((ControlSpecialist) this.getSpecialist()).getLaneStatusView(i - 1);
+            JPanel lanePanel = tempLaneStatusView.getLanePanel();
+            lanePanel.setBorder(new TitledBorder("Lane" + i));
+            laneStatusPanel.add(lanePanel);
+        }
+
         List<Lane> lanes = controlDesk.getLanes();
         Iterator it = lanes.iterator();
         int laneCount = 0;
@@ -108,7 +115,6 @@ public class ControlDeskView extends ListeningView implements ActionListener {
         colPanel.add(partyPanel, "West");
 
         tempWindow.getContentPane().add("Center", colPanel);
-
         tempWindow.pack();
 
         /* Close program when this window closes */
