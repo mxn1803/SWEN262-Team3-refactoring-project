@@ -15,7 +15,7 @@ public class ControlSpecialist extends Specialist {
         super();
         this.CONTROL_DESK = new ControlDesk(numLanes,this);
         this.MAX_MEMBERS = maxPatrons;
-        super.getOpenViews().put(ViewType.CONTROL_DESK, new ControlDeskView(this.CONTROL_DESK, maxPatrons, this));
+        super.getOpenViews().put(ViewType.CONTROL_DESK, new ControlDeskView(this.CONTROL_DESK, this));
     }
 
     public void updateParty(AddPartyView apv) { this.CONTROL_DESK.addPartyQueue(apv.getParty()); }

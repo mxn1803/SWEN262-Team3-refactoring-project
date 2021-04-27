@@ -38,7 +38,7 @@ public class ControlDeskView extends ListeningView implements ActionListener {
     private final JButton FINISHED_BUTTON;
     private final JList PARTY_LIST;
 
-    public ControlDeskView(ControlDesk controlDesk, int maxMembers, Specialist specialist) {
+    public ControlDeskView(ControlDesk controlDesk, Specialist specialist) {
         super(specialist);
         JFrame tempWindow = super.getWindow();
 
