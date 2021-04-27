@@ -17,6 +17,7 @@ import com.steamy.LaneEvent;
 import com.steamy.PinSetterEvent;
 import com.steamy.model.ControlDesk;
 import com.steamy.model.Lane;
+import com.steamy.specialists.ControlSpecialist;
 import com.steamy.specialists.LaneSpecialist;
 import com.steamy.specialists.Specialist;
 
@@ -37,23 +38,11 @@ public class ControlDeskView extends ListeningView implements ActionListener {
     private final JButton FINISHED_BUTTON;
     private final JList PARTY_LIST;
 
-    /**
-     * The maximum  number of members in a party
-     */
-    private final int MAX_MEMBERS;
-
-    private final ControlDesk CONTROL_DESK;
-
-    /**
-     * Displays a GUI representation of the ControlDesk
-     */
     public ControlDeskView(ControlDesk controlDesk, int maxMembers, Specialist specialist) {
         super(specialist);
         JFrame tempWindow = super.getWindow();
 
-        this.CONTROL_DESK = controlDesk;
-        this.MAX_MEMBERS = maxMembers;
-        int numLanes = controlDesk.getNumLanes();
+        final int NUM_LANES = ((ControlSpecialist) super.getSpecialist()).getNumLanes();
 
         tempWindow.setTitle("Control Desk");
         tempWindow.getContentPane().setLayout(new BorderLayout());
@@ -83,7 +72,7 @@ public class ControlDeskView extends ListeningView implements ActionListener {
 
         // Lane Status Panel
         JPanel laneStatusPanel = new JPanel();
-        laneStatusPanel.setLayout(new GridLayout(numLanes, 1));
+        laneStatusPanel.setLayout(new GridLayout(NUM_LANES, 1));
         laneStatusPanel.setBorder(new TitledBorder("Lane Status"));
 
         List<Lane> lanes = controlDesk.getLanes();
@@ -91,9 +80,9 @@ public class ControlDeskView extends ListeningView implements ActionListener {
         int laneCount = 0;
         while (it.hasNext()) {
             Lane curLane = (Lane) it.next();
-            LaneSpecialist laneSpecialist = (LaneSpecialist) curLane.getSpecialist();
-            LaneStatusView laneStat = laneSpecialist.getLaneStatusView();
-            JPanel lanePanel = laneStat.getLanePanel();
+            LaneSpecialist tempSpecialist = (LaneSpecialist) curLane.getSpecialist();
+            LaneStatusView tempLaneStatusView = tempSpecialist.getLaneStatusView();
+            JPanel lanePanel = tempLaneStatusView.getLanePanel();
             lanePanel.setBorder(new TitledBorder("Lane" + ++laneCount));
             laneStatusPanel.add(lanePanel);
         }
@@ -143,7 +132,7 @@ public class ControlDeskView extends ListeningView implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(ADD_PARTY_BUTTON)) {
-            AddPartyView addPartyWin = new AddPartyView(this, MAX_MEMBERS);
+            AddPartyView addPartyWin = new AddPartyView(this, ((ControlSpecialist) super.getSpecialist()).getMaxMembers());
         }
         if (e.getSource().equals(FINISHED_BUTTON)) {
             super.getWindow().setVisible(false);
@@ -176,7 +165,7 @@ public class ControlDeskView extends ListeningView implements ActionListener {
      *
      * @param addPartyView the AddPartyView that is providing a new party
      */
-    public void updateAddParty(AddPartyView addPartyView) { CONTROL_DESK.addPartyQueue(addPartyView.getParty()); }
+    public void updateAddParty(AddPartyView addPartyView) { ((ControlSpecialist) super.getSpecialist()).updateParty(addPartyView); }
 
 
 }
