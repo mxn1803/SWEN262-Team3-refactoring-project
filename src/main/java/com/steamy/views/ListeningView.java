@@ -19,16 +19,11 @@ public abstract class ListeningView implements ActionListener, Communicator {
         this.WINDOW = new JFrame();
     }
 
-    public boolean getToggle(){
-        return this.WINDOW.isVisible();
-    }
-
     public abstract void actionPerformed(ActionEvent e);
     public abstract void receiveEvent(LaneEvent le);
     public abstract void receiveEvent(PinSetterEvent pe);
     public abstract void receiveEvent(ControlDeskEvent ce);
 
-    public void toggle() { this.WINDOW.setVisible(!getToggle()); }
     public JFrame getWindow() { return this.WINDOW; }
     public Specialist getSpecialist() { return this.SPECIALIST; }
 }

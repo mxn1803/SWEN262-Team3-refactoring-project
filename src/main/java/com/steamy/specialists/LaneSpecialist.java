@@ -10,15 +10,13 @@ import com.steamy.views.LaneStatusView;
 import com.steamy.views.LaneView;
 import com.steamy.views.PinSetterView;
 
-import java.util.List;
-
 public class LaneSpecialist extends Specialist {
     private final Communicator LANE;
     private final Communicator PINSETTER;
 
     public LaneSpecialist(int laneCount) {
         super();
-        this.PINSETTER = new PinSetter(this);;
+        this.PINSETTER = new PinSetter(this);
         this.LANE = new Lane(this);
 
         super.getOpenViews().put(ViewType.PIN_SETTER, new PinSetterView(laneCount, this));
