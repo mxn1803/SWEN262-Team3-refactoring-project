@@ -54,7 +54,10 @@ public class LaneSpecialist extends Specialist {
         super.getOpenViews().forEach((type, view) -> view.receiveEvent(ce));
     }
 
-    public Lane getLane() { return (Lane)this.LANE; }
+    public Lane getLane() { return (Lane) this.LANE; }
+    public void pauseLane() { ((Lane) this.LANE).pauseGame(); }
+    public void resumeLane() { ((Lane) this.LANE).unPauseGame(); }
+    public boolean laneHasPartyAssigned() { return ((Lane) this.LANE).isPartyAssigned(); }
     public PinSetter getPinSetter() { return (PinSetter) this.PINSETTER; }
     public LaneStatusView getLaneStatusView(){
         return (LaneStatusView) super.getOpenViews().get(ViewType.LANE_STATUS);
