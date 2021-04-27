@@ -136,10 +136,10 @@ import com.steamy.LaneEvent;
 import com.steamy.PinSetterEvent;
 import com.steamy.io.ScoreHistoryFile;
 import com.steamy.io.ScoreReport;
+import com.steamy.specialists.LaneSpecialist;
+import com.steamy.specialists.Specialist;
 import com.steamy.views.EndGamePrompt;
 import com.steamy.views.EndGameReport;
-import com.steamy.views.specialists.LaneSpecialist;
-import com.steamy.views.specialists.Specialist;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -337,25 +337,20 @@ public class Lane extends Thread implements Communicator {
      * Doesn't have params because it creates the events within itself
      */
 
+    @Override
     public void publish() {
         LaneEvent le = createLaneEvent();
         SPECIALIST.receiveEvent(le);
     }
 
     @Override
-    public void publish(int num) {
-
-    }
+    public void publish(int num) {}
 
     @Override
-    public void receiveEvent(LaneEvent le) {
-
-    }
+    public void receiveEvent(LaneEvent le) {}
 
     @Override
-    public void receiveEvent(ControlDeskEvent ce) {
-
-    }
+    public void receiveEvent(ControlDeskEvent ce) {}
 
     @Override
     public void receiveEvent(PinSetterEvent pe) {
@@ -365,17 +360,6 @@ public class Lane extends Thread implements Communicator {
             }
             System.out.println("***********************");
         }
-    }
-
-
-    /**
-     * Accessor to get this Lane's pinsetter
-     *
-     * @return A reference to this lane's pinsetter
-     */
-
-    public PinSetter getPinsetter() {
-        return setter;
     }
 
     /**

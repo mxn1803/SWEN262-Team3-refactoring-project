@@ -1,6 +1,6 @@
 import com.steamy.model.ControlDesk;
 import com.steamy.views.ControlDeskView;
-import com.steamy.views.specialists.ControlSpecialist;
+import com.steamy.specialists.ControlSpecialist;
 
 public class Main {
 
