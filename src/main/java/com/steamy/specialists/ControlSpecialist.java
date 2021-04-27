@@ -8,15 +8,11 @@ import com.steamy.views.ControlDeskView;
 
 public class ControlSpecialist extends Specialist {
     private final ControlDesk CONTROL_DESK;
-    private final ControlDeskView CONTROL_DESK_VIEW;
 
     public ControlSpecialist(int numLanes, int maxPatrons) {
         super();
-        ControlDesk tempControlDesk = new ControlDesk(numLanes,this);
-        this.CONTROL_DESK = tempControlDesk;
-
-        ControlDeskView tempControlDeskView = new ControlDeskView(tempControlDesk, maxPatrons, this);
-        this.CONTROL_DESK_VIEW = tempControlDeskView;
+        this.CONTROL_DESK = new ControlDesk(numLanes,this);
+        super.getOpenViews().put(ViewType.CONTROL_DESK, new ControlDeskView(this.CONTROL_DESK, maxPatrons, this));
     }
 
     @Override

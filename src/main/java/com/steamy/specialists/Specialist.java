@@ -12,7 +12,8 @@ public abstract class Specialist {
     public enum ViewType {
         PIN_SETTER,
         LANE,
-        LANE_STATUS
+        LANE_STATUS,
+        CONTROL_DESK
     }
     private HashMap<ViewType, ListeningView> openViews;
 
