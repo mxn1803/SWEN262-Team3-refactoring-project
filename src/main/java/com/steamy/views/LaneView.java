@@ -4,11 +4,11 @@ package com.steamy.views;/*
  */
 
 import com.steamy.ControlDeskEvent;
+import com.steamy.LaneEvent;
 import com.steamy.PinSetterEvent;
 import com.steamy.model.Bowler;
-import com.steamy.model.Lane;
-import com.steamy.LaneEvent;
 import com.steamy.model.Party;
+import com.steamy.specialists.LaneSpecialist;
 import com.steamy.specialists.Specialist;
 
 import javax.swing.*;
@@ -33,13 +33,11 @@ public class LaneView extends ListeningView implements ActionListener {
     private JLabel[][] scoreLabels;
 
     private JButton maintenance;
-    private final Lane lane;
 
-    public LaneView(Lane lane, int laneNum, Specialist specialist) {
+    public LaneView(int laneNum, Specialist specialist) {
         super(specialist);
         JFrame tempWindow = super.getWindow();
         tempWindow.setTitle("Lane " + laneNum + ":");
-        this.lane = lane;
         BALL_COUNT = 21;
         FRAME_COUNT = 10;
 
@@ -122,7 +120,8 @@ public class LaneView extends ListeningView implements ActionListener {
 
     public void receiveEvent(LaneEvent le) {
         JFrame tempWindow = super.getWindow();
-        if (lane.isPartyAssigned()) {
+        LaneSpecialist tempSpecialist = (LaneSpecialist) super.getSpecialist();
+        if (tempSpecialist.laneHasPartyAssigned()) {
             int numBowlers = le.getParty().getMembers().size();
 
             while (!initDone) Thread.onSpinWait();
@@ -152,8 +151,7 @@ public class LaneView extends ListeningView implements ActionListener {
             int[][] lescores = le.getCumulScore();
             for (int k = 0; k < numBowlers; k++) {
                 for (int i = 0; i <= le.getFrameNum() - 1; i++) {
-                    if (lescores[k][i] != 0)
-                        scoreLabels[k][i].setText((Integer.valueOf(lescores[k][i])).toString());
+                    if (lescores[k][i] != 0) scoreLabels[k][i].setText((Integer.valueOf(lescores[k][i])).toString());
                 }
                 for (int i = 0; i < BALL_COUNT; i++) {
                     int outcome = ((int[]) le.getScore().get(bowlers.get(k)))[i];
@@ -183,6 +181,8 @@ public class LaneView extends ListeningView implements ActionListener {
     public void receiveEvent(ControlDeskEvent ce) {}
 
     @Override
-    public void actionPerformed(ActionEvent e) { if (e.getSource().equals(maintenance)) lane.pauseGame(); }
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource().equals(maintenance)) ((LaneSpecialist) super.getSpecialist()).pauseLane();
+    }
 
 }
