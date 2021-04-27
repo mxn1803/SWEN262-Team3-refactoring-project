@@ -8,22 +8,20 @@ package com.steamy.views; /**
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class EndGamePrompt implements ActionListener {
-
-    private final JFrame WINDOW;
+public class EndGamePrompt extends View {
     private final JButton YES_BUTTON, NO_BUTTON;
 
     private int result;
 
     public EndGamePrompt(String partyName) {
-
+        super();
+        JFrame tempWindow = super.getWindow();
         result = 0;
 
-        WINDOW = new JFrame("Another Game for " + partyName + "?");
-        WINDOW.getContentPane().setLayout(new BorderLayout());
-        ((JPanel) WINDOW.getContentPane()).setOpaque(false);
+        tempWindow.setTitle("Another Game for " + partyName + "?");
+        tempWindow.getContentPane().setLayout(new BorderLayout());
+        ((JPanel) tempWindow.getContentPane()).setOpaque(false);
 
         JPanel colPanel = new JPanel();
         colPanel.setLayout(new GridLayout(2, 1));
@@ -59,13 +57,13 @@ public class EndGamePrompt implements ActionListener {
         colPanel.add(labelPanel);
         colPanel.add(buttonPanel);
 
-        WINDOW.getContentPane().add("Center", colPanel);
-        WINDOW.pack();
+        tempWindow.getContentPane().add("Center", colPanel);
+        tempWindow.pack();
 
         // Center Window on Screen
         Dimension screenSize = (Toolkit.getDefaultToolkit()).getScreenSize();
-        WINDOW.setLocation(((screenSize.width) / 2) - ((WINDOW.getSize().width) / 2), ((screenSize.height) / 2) - ((WINDOW.getSize().height) / 2));
-        WINDOW.setVisible(true);
+        tempWindow.setLocation(((screenSize.width) / 2) - ((tempWindow.getSize().width) / 2), ((screenSize.height) / 2) - ((tempWindow.getSize().height) / 2));
+        tempWindow.setVisible(true);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -85,7 +83,7 @@ public class EndGamePrompt implements ActionListener {
     }
 
     public void destroy() {
-        WINDOW.setVisible(false);
+        super.getWindow().setVisible(false);
     }
 
 }

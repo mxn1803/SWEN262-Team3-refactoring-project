@@ -4,9 +4,9 @@ import javax.swing.*;
 import java.awt.event.ActionListener;
 
 public abstract class View implements ActionListener {
-    private final JFrame WINDOW;
+    private final JFrame tempWindow;
 
-    public View() { this.WINDOW = new JFrame(); }
+    public View() { this.tempWindow = new JFrame(); }
 
-    public JFrame getWindow() { return this.WINDOW; }
+    public JFrame getWindow() { return this.tempWindow; }
 }
