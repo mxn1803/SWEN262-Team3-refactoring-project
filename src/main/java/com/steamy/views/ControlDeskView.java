@@ -12,10 +12,10 @@ package com.steamy.views;/* ControlDeskView.java
  * Class for representation of the control desk
  */
 
+import com.steamy.ControlDeskEvent;
 import com.steamy.LaneEvent;
 import com.steamy.PinSetterEvent;
 import com.steamy.model.ControlDesk;
-import com.steamy.ControlDeskEvent;
 import com.steamy.model.Lane;
 import com.steamy.specialists.LaneSpecialist;
 import com.steamy.specialists.Specialist;
@@ -35,28 +35,29 @@ public class ControlDeskView extends ListeningView implements ActionListener {
 
     private final JButton ADD_PARTY_BUTTON;
     private final JButton FINISHED_BUTTON;
-    private final JFrame WINDOW;
     private final JList PARTY_LIST;
 
-    /** The maximum  number of members in a party */
+    /**
+     * The maximum  number of members in a party
+     */
     private final int MAX_MEMBERS;
 
     private final ControlDesk CONTROL_DESK;
 
     /**
      * Displays a GUI representation of the ControlDesk
-     *
      */
     public ControlDeskView(ControlDesk controlDesk, int maxMembers, Specialist specialist) {
         super(specialist);
+        JFrame tempWindow = super.getWindow();
 
         this.CONTROL_DESK = controlDesk;
         this.MAX_MEMBERS = maxMembers;
         int numLanes = controlDesk.getNumLanes();
 
-        WINDOW = new JFrame("Control Desk");
-        WINDOW.getContentPane().setLayout(new BorderLayout());
-        ((JPanel) WINDOW.getContentPane()).setOpaque(false);
+        tempWindow.setTitle("Control Desk");
+        tempWindow.getContentPane().setLayout(new BorderLayout());
+        ((JPanel) tempWindow.getContentPane()).setOpaque(false);
 
         JPanel colPanel = new JPanel();
         colPanel.setLayout(new BorderLayout());
@@ -92,10 +93,6 @@ public class ControlDeskView extends ListeningView implements ActionListener {
             Lane curLane = (Lane) it.next();
             LaneSpecialist laneSpecialist = (LaneSpecialist) curLane.getSpecialist();
             LaneStatusView laneStat = laneSpecialist.getLaneStatusView();
-            //LaneStatusView laneStat = new LaneStatusView(curLane, (laneCount + 1));
-
-
-
             JPanel lanePanel = laneStat.getLanePanel();
             lanePanel.setBorder(new TitledBorder("Lane" + ++laneCount));
             laneStatusPanel.add(lanePanel);
@@ -121,12 +118,12 @@ public class ControlDeskView extends ListeningView implements ActionListener {
         colPanel.add(laneStatusPanel, "Center");
         colPanel.add(partyPanel, "West");
 
-        WINDOW.getContentPane().add("Center", colPanel);
+        tempWindow.getContentPane().add("Center", colPanel);
 
-        WINDOW.pack();
+        tempWindow.pack();
 
         /* Close program when this window closes */
-        WINDOW.addWindowListener(new WindowAdapter() {
+        tempWindow.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
             }
@@ -134,15 +131,14 @@ public class ControlDeskView extends ListeningView implements ActionListener {
 
         // Center Window on Screen
         Dimension screenSize = (Toolkit.getDefaultToolkit()).getScreenSize();
-        WINDOW.setLocation(((screenSize.width) / 2) - ((WINDOW.getSize().width) / 2), ((screenSize.height) / 2) - ((WINDOW.getSize().height) / 2));
-        WINDOW.setVisible(true);
+        tempWindow.setLocation(((screenSize.width) / 2) - ((tempWindow.getSize().width) / 2), ((screenSize.height) / 2) - ((tempWindow.getSize().height) / 2));
+        tempWindow.setVisible(true);
     }
 
     /**
      * Handler for actionEvents
      *
-     * @param e    the ActionEvent that triggered the handler
-     *
+     * @param e the ActionEvent that triggered the handler
      */
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -150,7 +146,7 @@ public class ControlDeskView extends ListeningView implements ActionListener {
             AddPartyView addPartyWin = new AddPartyView(this, MAX_MEMBERS);
         }
         if (e.getSource().equals(FINISHED_BUTTON)) {
-            WINDOW.setVisible(false);
+            super.getWindow().setVisible(false);
             System.exit(0);
         }
     }
@@ -170,8 +166,7 @@ public class ControlDeskView extends ListeningView implements ActionListener {
     /**
      * Receive a broadcast from a ControlDesk
      *
-     * @param ce    the ControlDeskEvent that triggered the handler
-     *
+     * @param ce the ControlDeskEvent that triggered the handler
      */
     @Override
     public void receiveEvent(ControlDeskEvent ce) { PARTY_LIST.setListData(ce.getPartyQueue()); }
@@ -179,11 +174,9 @@ public class ControlDeskView extends ListeningView implements ActionListener {
     /**
      * Receive a new party from andPartyView.
      *
-     * @param addPartyView    the AddPartyView that is providing a new party
-     *
+     * @param addPartyView the AddPartyView that is providing a new party
      */
     public void updateAddParty(AddPartyView addPartyView) { CONTROL_DESK.addPartyQueue(addPartyView.getParty()); }
-
 
 
 }
