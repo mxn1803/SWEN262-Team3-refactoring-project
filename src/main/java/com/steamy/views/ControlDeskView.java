@@ -11,14 +11,10 @@ package com.steamy.views;/* ControlDeskView.java
 /**
  * Class for representation of the control desk
  */
-
 import com.steamy.events.ControlDeskEvent;
 import com.steamy.events.LaneEvent;
 import com.steamy.events.PinSetterEvent;
-import com.steamy.model.ControlDesk;
-import com.steamy.model.Lane;
 import com.steamy.specialists.ControlSpecialist;
-import com.steamy.specialists.LaneSpecialist;
 import com.steamy.specialists.Specialist;
 
 import javax.swing.*;
@@ -28,8 +24,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Vector;
 
 public class ControlDeskView extends ListeningView implements ActionListener {
@@ -38,7 +32,7 @@ public class ControlDeskView extends ListeningView implements ActionListener {
     private final JButton FINISHED_BUTTON;
     private final JList PARTY_LIST;
 
-    public ControlDeskView(ControlDesk controlDesk, Specialist specialist) {
+    public ControlDeskView(Specialist specialist) {
         super(specialist);
         JFrame tempWindow = super.getWindow();
 
@@ -79,18 +73,6 @@ public class ControlDeskView extends ListeningView implements ActionListener {
             LaneStatusView tempLaneStatusView = ((ControlSpecialist) this.getSpecialist()).getLaneStatusView(i - 1);
             JPanel lanePanel = tempLaneStatusView.getLanePanel();
             lanePanel.setBorder(new TitledBorder("Lane" + i));
-            laneStatusPanel.add(lanePanel);
-        }
-
-        List<Lane> lanes = controlDesk.getLanes();
-        Iterator it = lanes.iterator();
-        int laneCount = 0;
-        while (it.hasNext()) {
-            Lane curLane = (Lane) it.next();
-            LaneSpecialist tempSpecialist = (LaneSpecialist) curLane.getSpecialist();
-            LaneStatusView tempLaneStatusView = tempSpecialist.getLaneStatusView();
-            JPanel lanePanel = tempLaneStatusView.getLanePanel();
-            lanePanel.setBorder(new TitledBorder("Lane" + ++laneCount));
             laneStatusPanel.add(lanePanel);
         }
 
