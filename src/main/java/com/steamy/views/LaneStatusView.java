@@ -6,35 +6,25 @@ package com.steamy.views; /**
  */
 
 import com.steamy.ControlDeskEvent;
-import com.steamy.model.Lane;
 import com.steamy.LaneEvent;
 import com.steamy.PinSetterEvent;
-import com.steamy.views.specialists.Specialist;
+import com.steamy.specialists.LaneSpecialist;
+import com.steamy.specialists.Specialist;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class LaneStatusView extends View implements ActionListener {
+public class LaneStatusView extends ListeningView implements ActionListener {
 
     private final JPanel LANE_PANEL;
 
     private final JLabel CURRENT_BOWLER_LABEL, PINS_DOWN_LABEL;
     private final JButton VIEW_LANE_BUTTON, VIEW_PINSETTER_BUTTON, MAINTENANCE_BUTTON;
 
-    private final PinSetterView PINSETTER_VIEW;
-    private final LaneView LANE_VIEW;
-    private final Lane LANE;
-
-    public LaneStatusView(Lane lane, PinSetterView pv, LaneView lv, Specialist specialist) {
+    public LaneStatusView(Specialist specialist) {
         super(specialist);
-        this.LANE = lane;
-
-        PINSETTER_VIEW = pv;
-
-        LANE_VIEW = lv;
-
 
         LANE_PANEL = new JPanel();
         LANE_PANEL.setLayout(new FlowLayout());
@@ -71,11 +61,12 @@ public class LaneStatusView extends View implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
-        if (LANE.isPartyAssigned()) {
-            if (source.equals(VIEW_PINSETTER_BUTTON)) PINSETTER_VIEW.toggle();
-            else if (source.equals(VIEW_LANE_BUTTON)) LANE_VIEW.toggle();
+        LaneSpecialist tempSpecialist = (LaneSpecialist) super.getSpecialist();
+        if (tempSpecialist.laneHasPartyAssigned()) {
+            if (source.equals(VIEW_PINSETTER_BUTTON)) tempSpecialist.toggleView(Specialist.ViewType.PIN_SETTER);
+            else if (source.equals(VIEW_LANE_BUTTON)) tempSpecialist.toggleView(Specialist.ViewType.LANE);
             else if (source.equals(MAINTENANCE_BUTTON)) {
-                LANE.unPauseGame();
+                tempSpecialist.resumeLane();
                 MAINTENANCE_BUTTON.setBackground(Color.GREEN);
             }
         }
@@ -83,21 +74,18 @@ public class LaneStatusView extends View implements ActionListener {
 
     @Override
     public void receiveEvent(LaneEvent le) {
+        LaneSpecialist tempSpecialist = (LaneSpecialist) super.getSpecialist();
         CURRENT_BOWLER_LABEL.setText(le.getBowler().getNickName());
         if (le.isMechanicalProblem()) MAINTENANCE_BUTTON.setBackground(Color.RED);
-        VIEW_LANE_BUTTON.setEnabled(LANE.isPartyAssigned());
-        VIEW_PINSETTER_BUTTON.setEnabled(LANE.isPartyAssigned());
+        VIEW_LANE_BUTTON.setEnabled(tempSpecialist.getLane().isPartyAssigned());
+        VIEW_PINSETTER_BUTTON.setEnabled(tempSpecialist.getLane().isPartyAssigned());
     }
 
     @Override
-    public void publish() {
-
-    }
+    public void publish() {}
 
     @Override
-    public void publish(int num) {
-
-    }
+    public void publish(int num) {}
 
     @Override
     public void receiveEvent(PinSetterEvent pe) {
@@ -106,16 +94,5 @@ public class LaneStatusView extends View implements ActionListener {
     }
 
     @Override
-    public void receiveEvent(ControlDeskEvent ce) {
-
-    }
-
-
-    public PinSetterView getPinsetterView(){
-        return PINSETTER_VIEW;
-    }
-
-    public LaneView getLaneView(){
-        return LANE_VIEW;
-    }
+    public void receiveEvent(ControlDeskEvent ce) {}
 }

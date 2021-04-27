@@ -136,10 +136,10 @@ import com.steamy.LaneEvent;
 import com.steamy.PinSetterEvent;
 import com.steamy.io.ScoreHistoryFile;
 import com.steamy.io.ScoreReport;
+import com.steamy.specialists.LaneSpecialist;
+import com.steamy.specialists.Specialist;
 import com.steamy.views.EndGamePrompt;
 import com.steamy.views.EndGameReport;
-import com.steamy.views.specialists.LaneSpecialist;
-import com.steamy.views.specialists.Specialist;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -239,7 +239,7 @@ public class Lane extends Thread implements Communicator {
                     }
 
 
-                    setter.reset();
+                    setter.resetPinSetter();
                     bowlIndex++;
 
                 } else {
@@ -287,7 +287,6 @@ public class Lane extends Thread implements Communicator {
                                 sr.sendPrintout();
                             }
                         }
-
                     }
                 }
             }
@@ -298,20 +297,6 @@ public class Lane extends Thread implements Communicator {
             } catch (Exception e) {
             }
         }
-    }
-
-    /**
-     * recievePinsetterEvent()
-     * <p>
-     * recieves the thrown event from the pinsetter
-     *
-     * @param pe The pinsetter event that has been received.
-     *
-     * @pre none
-     * @post the event has been acted upon if desiered
-     */
-    public void receivePinsetterEvent(PinSetterEvent pe) {
-
     }
 
     /**
@@ -541,74 +526,37 @@ public class Lane extends Thread implements Communicator {
      * Doesn't have params because it creates the events within itself
      */
 
+    @Override
     public void publish() {
         LaneEvent le = createLaneEvent();
         SPECIALIST.receiveEvent(le);
     }
 
     @Override
-    public void publish(int num) {
-
-    }
+    public void publish(int num) {}
 
     @Override
-    public void receiveEvent(LaneEvent le) {
-
-    }
+    public void receiveEvent(LaneEvent le) {}
 
     @Override
-    public void receiveEvent(ControlDeskEvent ce) {
-
-    }
+    public void receiveEvent(ControlDeskEvent ce) {}
 
     @Override
     public void receiveEvent(PinSetterEvent pe) {
         if (pe.pinsDownOnThisThrow() >= 0) {            // this is a real throw
-            markScore(currentThrower, frameNumber + 1, pe.getThrowNumber(), pe.pinsDownOnThisThrow());
+            this.markScore(currentThrower, frameNumber + 1, pe.getThrowNumber(), pe.pinsDownOnThisThrow());
 
             // next logic handles the ?: what conditions dont allow them another throw?
             // handle the case of 10th frame first
             if (frameNumber == 9) {
                 if (pe.totalPinsDown() == 10) {
                     setter.resetPins();
-                    if (pe.getThrowNumber() == 1) {
-                        tenthFrameStrike = true;
-                    }
+                    tenthFrameStrike = pe.getThrowNumber() == 1;
                 }
-
-                if ((pe.totalPinsDown() != 10) && (pe.getThrowNumber() == 2 && tenthFrameStrike == false)) {
-                    canThrowAgain = false;
-                    //publish( lanePublish() );
-                }
-
-                if (pe.getThrowNumber() == 3) {
-                    canThrowAgain = false;
-                    //publish( lanePublish() );
-                }
-            } else { // its not the 10th frame
-
-                if (pe.pinsDownOnThisThrow() == 10) {        // threw a strike
-                    canThrowAgain = false;
-                    //publish( lanePublish() );
-                } else if (pe.getThrowNumber() == 2) {
-                    canThrowAgain = false;
-                    //publish( lanePublish() );
-                } else if (pe.getThrowNumber() == 3) System.out.println("I'm here...");
-            }
-            System.out.println("***********************");
-        } else {                                //  this is not a real throw, probably a reset
+                canThrowAgain = !(((pe.totalPinsDown() != 10) && (pe.getThrowNumber() == 2 && !tenthFrameStrike)) || pe.getThrowNumber() == 3);
+            } else
+                canThrowAgain = pe.pinsDownOnThisThrow() != 10 && pe.getThrowNumber() != 2;
         }
-    }
-
-
-    /**
-     * Accessor to get this Lane's pinsetter
-     *
-     * @return A reference to this lane's pinsetter
-     */
-
-    public PinSetter getPinsetter() {
-        return setter;
     }
 
     /**

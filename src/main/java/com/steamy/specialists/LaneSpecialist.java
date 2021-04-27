@@ -1,4 +1,4 @@
-package com.steamy.views.specialists;
+package com.steamy.specialists;
 
 import com.steamy.ControlDeskEvent;
 import com.steamy.LaneEvent;
@@ -9,7 +9,6 @@ import com.steamy.model.PinSetter;
 import com.steamy.views.LaneStatusView;
 import com.steamy.views.LaneView;
 import com.steamy.views.PinSetterView;
-import com.steamy.views.View;
 
 public class LaneSpecialist extends Specialist {
     private final Communicator LANE;
@@ -29,62 +28,36 @@ public class LaneSpecialist extends Specialist {
         LaneView tempLaneView = new LaneView(tempLane, laneCount, this);
         super.getOpenViews().put(ViewType.LANE, tempLaneView);
 
-        LaneStatusView tempLaneStatusView = new LaneStatusView(tempLane, tempPinSetterView, tempLaneView, this);
+        LaneStatusView tempLaneStatusView = new LaneStatusView(this);
         super.getOpenViews().put(ViewType.LANE_STATUS, tempLaneStatusView);
-        pinsetter.reset();
+        pinsetter.resetPinSetter();
     }
 
-//    public void openLaneView() {
-//        LANE_VIEW.toggleOn();
-//    }
-//
-//    public void closeLaneView() {
-//        LANE_VIEW.toggleOff();
-//    }
-//
-//    public void openLaneStatusView() {
-//        LANE_STATUS_VIEW.toggleOn();
-//    }
-//
-//    public void closeLaneStatusView() {
-//        LANE_STATUS_VIEW.toggleOff();
-//    }
-//
-//    public void openPinSetterView() {
-//        PINSETTER_VIEW.toggleOn();
-//    }
-//
-//    public void closePinSetterView() {
-//        PINSETTER_VIEW.toggleOff();
-//    }
-
-
-
-
-
-
-
+    @Override
     public void receiveEvent(LaneEvent le) {
         this.LANE.receiveEvent(le);
         this.PINSETTER.receiveEvent(le);
         super.getOpenViews().forEach((type, view) -> view.receiveEvent(le));
     }
 
+    @Override
     public void receiveEvent(PinSetterEvent pe) {
         this.LANE.receiveEvent(pe);
         this.PINSETTER.receiveEvent(pe);
         super.getOpenViews().forEach((type, view) -> view.receiveEvent(pe));
     }
 
+    @Override
     public void receiveEvent(ControlDeskEvent ce) {
         this.LANE.receiveEvent(ce);
         this.PINSETTER.receiveEvent(ce);
         super.getOpenViews().forEach((type, view) -> view.receiveEvent(ce));
     }
 
-
-
-    public Lane getLane() { return (Lane)this.LANE; }
+    public Lane getLane() { return (Lane) this.LANE; }
+    public void pauseLane() { ((Lane) this.LANE).pauseGame(); }
+    public void resumeLane() { ((Lane) this.LANE).unPauseGame(); }
+    public boolean laneHasPartyAssigned() { return ((Lane) this.LANE).isPartyAssigned(); }
     public PinSetter getPinSetter() { return (PinSetter) this.PINSETTER; }
     public LaneStatusView getLaneStatusView(){
         return (LaneStatusView) super.getOpenViews().get(ViewType.LANE_STATUS);

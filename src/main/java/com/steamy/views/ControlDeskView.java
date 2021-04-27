@@ -17,8 +17,8 @@ import com.steamy.PinSetterEvent;
 import com.steamy.model.ControlDesk;
 import com.steamy.ControlDeskEvent;
 import com.steamy.model.Lane;
-import com.steamy.views.specialists.LaneSpecialist;
-import com.steamy.views.specialists.Specialist;
+import com.steamy.specialists.LaneSpecialist;
+import com.steamy.specialists.Specialist;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -31,7 +31,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-public class ControlDeskView extends View implements ActionListener {
+public class ControlDeskView extends ListeningView implements ActionListener {
 
     private final JButton ADD_PARTY_BUTTON;
     private final JButton FINISHED_BUTTON;
@@ -136,7 +136,6 @@ public class ControlDeskView extends View implements ActionListener {
         Dimension screenSize = (Toolkit.getDefaultToolkit()).getScreenSize();
         WINDOW.setLocation(((screenSize.width) / 2) - ((WINDOW.getSize().width) / 2), ((screenSize.height) / 2) - ((WINDOW.getSize().height) / 2));
         WINDOW.setVisible(true);
-
     }
 
     /**
@@ -145,7 +144,7 @@ public class ControlDeskView extends View implements ActionListener {
      * @param e    the ActionEvent that triggered the handler
      *
      */
-
+    @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(ADD_PARTY_BUTTON)) {
             AddPartyView addPartyWin = new AddPartyView(this, MAX_MEMBERS);
@@ -157,24 +156,16 @@ public class ControlDeskView extends View implements ActionListener {
     }
 
     @Override
-    public void receiveEvent(LaneEvent le) {
-
-    }
+    public void receiveEvent(LaneEvent le) {}
 
     @Override
-    public void publish() {
-
-    }
+    public void publish() {}
 
     @Override
-    public void publish(int num) {
-
-    }
+    public void publish(int num) {}
 
     @Override
-    public void receiveEvent(PinSetterEvent pe) {
-
-    }
+    public void receiveEvent(PinSetterEvent pe) {}
 
     /**
      * Receive a broadcast from a ControlDesk
@@ -183,9 +174,7 @@ public class ControlDeskView extends View implements ActionListener {
      *
      */
     @Override
-    public void receiveEvent(ControlDeskEvent ce) {
-        PARTY_LIST.setListData(ce.getPartyQueue());
-    }
+    public void receiveEvent(ControlDeskEvent ce) { PARTY_LIST.setListData(ce.getPartyQueue()); }
 
     /**
      * Receive a new party from andPartyView.
