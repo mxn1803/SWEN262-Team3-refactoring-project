@@ -12,9 +12,26 @@ public class TenthFrame extends Frame {
      * Creates an object representing the tenth frame of a bowling game
      * It accepts three throws and calculates points appropriately
      */
-    public TenthFrame() {
+    TenthFrame() {
         super(null);
         bowls = new Integer[3];
+    }
+
+    /**
+     * Adds a bowl to the Frame
+     * @param score the score for the bowl
+     * @return `True` if the bowler has another ball left to throw
+     */
+    public boolean addBowl(int score) {
+        if (bowls[0] == null) {     // Check if this was the first bowl this frame
+            bowls[0] = score;
+            return true;
+        } else if (bowls[1] == null) {
+            bowls[1] = score;
+            return bowls[0] + bowls[1] > 10;    // This checks for both a 1st throw strike and 2nd throw spare
+        }
+        bowls[3] = score;
+        return false;       // Third ball has been thrown
     }
 
     /**

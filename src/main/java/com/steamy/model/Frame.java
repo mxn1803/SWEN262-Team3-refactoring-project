@@ -16,13 +16,27 @@ public class Frame {
      * score calculations.
      * @param next The frame after this one
      */
-    public Frame(Frame next) {
+    Frame(Frame next) {
         nextFrame = next;
         bowls = new Integer[2];
     }
 
     /**
-     * Sets the score for a given bowl
+     * Adds a bowl to the Frame
+     * @param score the score for the bowl
+     * @return `True` if the bowler has another ball left to throw
+     */
+    public boolean addBowl(int score) {
+        if (bowls[0] == null) {     // Check if this was the first bowl this frame
+            bowls[0] = score;
+            return score != 10;     // Go to next frame if they bowled a strike
+        }
+        bowls[1] = score;
+        return false;
+    }
+
+    /**
+     * Sets the score for a given bowl in this frame
      * @param index The index of the throw being set
      * @param score The score for the given throw
      */
