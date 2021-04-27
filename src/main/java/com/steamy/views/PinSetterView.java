@@ -29,7 +29,6 @@ public class PinSetterView extends ListeningView {
     private final Vector<JLabel> PIN_LABELS;
     private final Vector<JPanel> PIN_PANELS;
     private final JPanel FIRST_ROLL, SECOND_ROLL;
-    private final JFrame WINDOW;
 
     /**
      * Constructs a Pin Setter GUI displaying which roll it is with
@@ -43,10 +42,11 @@ public class PinSetterView extends ListeningView {
      */
     public PinSetterView(int laneNum, Specialist specialist) {
         super(specialist);
+        JFrame tempWindow = super.getWindow();
 
         PIN_LABELS = new Vector<>(10);
         PIN_PANELS = new Vector<>(10);
-        WINDOW = new JFrame("Lane " + laneNum + ":");
+        tempWindow.setTitle("Lane " + laneNum + ":");
 
         FIRST_ROLL = new JPanel();
         FIRST_ROLL.setBackground(Color.yellow);
@@ -79,16 +79,13 @@ public class PinSetterView extends ListeningView {
         pins.setForeground(Color.YELLOW);
 
 
-        Container cpanel = WINDOW.getContentPane();
+        Container cpanel = tempWindow.getContentPane();
         cpanel.add(top, BorderLayout.NORTH);
         cpanel.add(pins, BorderLayout.CENTER);
 
-        WINDOW.pack();
-        WINDOW.setVisible(true);
+        tempWindow.pack();
+        tempWindow.setVisible(true);
     }
-
-
-    public void toggle() { WINDOW.setVisible(!WINDOW.isVisible()); }
 
     @Override
     public void actionPerformed(ActionEvent e) {}
