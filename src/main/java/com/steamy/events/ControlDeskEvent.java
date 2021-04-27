@@ -1,4 +1,4 @@
-package com.steamy;/* ControlDeskEvent.java
+package com.steamy.events;/* ControlDeskEvent.java
  *
  *  Version:
  *          $Id$
@@ -30,14 +30,6 @@ public class ControlDeskEvent {
     public ControlDeskEvent( Vector partyQueue ) {
         this.partyQueue = partyQueue;
     }
-
-    /**
-     * Accessor for partyQueue
-     * @param key the key of the vertex being looked for.
-     *
-     * @return a Vector of Strings representing the names of the parties in the wait queue
-     *
-     */
 
     public Vector getPartyQueue() {
         return partyQueue;

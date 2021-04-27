@@ -5,9 +5,9 @@ package com.steamy.views; /**
  * Window>Preferences>Java>Code Generation.
  */
 
-import com.steamy.ControlDeskEvent;
-import com.steamy.LaneEvent;
-import com.steamy.PinSetterEvent;
+import com.steamy.events.ControlDeskEvent;
+import com.steamy.events.LaneEvent;
+import com.steamy.events.PinSetterEvent;
 import com.steamy.specialists.LaneSpecialist;
 import com.steamy.specialists.Specialist;
 

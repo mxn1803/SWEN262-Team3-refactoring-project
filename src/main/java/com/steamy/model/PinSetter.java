@@ -69,9 +69,9 @@ package com.steamy.model;/*
  * Class to represent the pinsetter
  */
 
-import com.steamy.ControlDeskEvent;
-import com.steamy.LaneEvent;
-import com.steamy.PinSetterEvent;
+import com.steamy.events.ControlDeskEvent;
+import com.steamy.events.LaneEvent;
+import com.steamy.events.PinSetterEvent;
 import com.steamy.specialists.Specialist;
 
 import java.util.Random;
