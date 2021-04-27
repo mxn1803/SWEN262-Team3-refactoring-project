@@ -24,8 +24,6 @@ import java.util.Vector;
 
 
 public class PinSetterView extends ListeningView {
-
-
     private final Vector<JLabel> PIN_LABELS;
     private final Vector<JPanel> PIN_PANELS;
     private final JPanel FIRST_ROLL, SECOND_ROLL;

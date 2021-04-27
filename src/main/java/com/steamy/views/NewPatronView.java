@@ -21,7 +21,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class NewPatronView implements ActionListener {
+public class NewPatronView extends View {
 
     private final JFrame WINDOW;
     private final JButton ABORT_BUTTON, FINISHED_BUTTON;
