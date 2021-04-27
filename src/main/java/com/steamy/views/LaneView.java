@@ -7,6 +7,7 @@ import com.steamy.ControlDeskEvent;
 import com.steamy.PinSetterEvent;
 import com.steamy.model.Bowler;
 import com.steamy.model.Lane;
+import com.steamy.model.Frame;
 import com.steamy.LaneEvent;
 import com.steamy.model.Party;
 import com.steamy.specialists.Specialist;
@@ -152,22 +153,54 @@ public class LaneView extends ListeningView implements ActionListener {
 
             }
 
+            String text;
             int[][] lescores = le.getCumulScore();
             for (int k = 0; k < numBowlers; k++) {
                 for (int i = 0; i <= le.getFrameNum() - 1; i++) {
-                    if (lescores[k][i] != 0)
-                        scoreLabels[k][i].setText((Integer.valueOf(lescores[k][i])).toString());
-                }
-                for (int i = 0; i < BALL_COUNT; i++) {
-                    int outcome = ((int[]) le.getScore().get(bowlers.get(k)))[i];
-                    int prevOutcome = i > 0 ? ((int[]) le.getScore().get(bowlers.get(k)))[i - 1] : 0;
-                    boolean isFirstThrow = i % 2 == 0;
-                    if (outcome != -1) {
-                        if (outcome == 10 && (isFirstThrow || i == 19)) ballLabels[k][i].setText("X");
-                        else if (outcome + prevOutcome == 10 && !isFirstThrow) ballLabels[k][i].setText("/");
-                        else if (outcome == -2) ballLabels[k][i].setText("F");
-                        else ballLabels[k][i].setText((Integer.valueOf(outcome)).toString());
+                    if (lescores[k][i] != 0) {
+                        text = String.valueOf(lescores[k][i]);
+                        scoreLabels[k][i].setText(text);
                     }
+                }
+                Object bowler = bowlers.get(k);
+                Frame[] score = (Frame[])le.getScore().get(bowler);
+                Frame frame = score[0];
+                for (int ballNum = 0; ballNum < BALL_COUNT; ballNum++) {
+                    if (ballNum % 2 == 0 && ballNum != 20) {
+                        frame = score[ballNum / 2];
+                    }
+
+                    if (ballNum == 20 && frame.getBowl(2) != null) { // Check last ball of 10th frame
+                        if (frame.getBowl(2) == 10) {
+                            ballLabels[k][ballNum].setText("X");
+                        } else if (frame.getBowl(1) + frame.getBowl(2) == 10) {
+                            ballLabels[k][ballNum].setText("/");
+                        } else {
+                            ballLabels[k][ballNum].setText(String.valueOf(frame.getBowl(2)));
+                        }
+                    } else if (ballNum % 2 == 0 && frame.getBowl(0) != null) { // Set first ball label
+                        if (frame.getBowl(0) == 10) { // Strike
+                            ballLabels[k][ballNum].setText("X");
+                        } else if (frame.getBowl(0) != null) {  // Any other non-null value
+                            ballLabels[k][ballNum].setText(String.valueOf(frame.getBowl(0)));
+                        }
+                    } else if (frame.getBowl(1) != null) {   // Set second ball label
+                        if (frame.getBowl(0) + frame.getBowl(1) == 10) { // Spare
+                            ballLabels[k][ballNum].setText("/");
+                        } else {
+                            ballLabels[k][ballNum].setText(String.valueOf(frame.getBowl(1)));
+                        }
+                    }
+
+//                    int outcome = ((int[]) le.getScore().get(bowler))[i];
+//                    int prevOutcome = i > 0 ? ((int[]) le.getScore().get(bowlers.get(k)))[i - 1] : 0;
+//                    boolean isFirstThrow = i % 2 == 0;
+//                    if (outcome != -1) {
+//                        if (outcome == 10 && (isFirstThrow || i == 19)) ballLabels[k][i].setText("X");
+//                        else if (outcome + prevOutcome == 10 && !isFirstThrow) ballLabels[k][i].setText("/");
+//                        else if (outcome == -2) ballLabels[k][i].setText("F");
+//                        else ballLabels[k][i].setText((Integer.valueOf(outcome)).toString());
+//                    }
                 }
             }
         }

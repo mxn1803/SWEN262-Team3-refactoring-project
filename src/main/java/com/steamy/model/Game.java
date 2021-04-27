@@ -12,13 +12,15 @@ import java.util.Iterator;
  * @author Daniel Campman
  * @version 04/26/2021
  */
-public class Game {
+class Game {
 
     private Party party;
 
     private HashMap<Object, Frame[]> scores;
     private int frameIndex;
     private Object currBowler;
+    private int ballNum;
+    private int ballIndex;
 
     private Iterator bowlerIterator;
 
@@ -33,6 +35,8 @@ public class Game {
         currBowler = bowlerIterator.next();
 
         frameIndex = 0;
+        ballNum = 0;
+        ballIndex = 0;
         scores = new HashMap<>();
         for (Object member : party.getMembers()) {
             Frame[] frames = new Frame[10];
@@ -48,7 +52,7 @@ public class Game {
      * Returns the {@link Bowler} whose current turn it is.
      * @return The current {@link Bowler}. `null` if game is finished
      */
-    public Bowler getCurrentBowler() {
+    Bowler getCurrentBowler() {
         return (Bowler)currBowler;
     }
 
@@ -56,8 +60,16 @@ public class Game {
      * Returns the current frame number
      * @return The frame number
      */
-    public int getFrameNum() {
-        return frameIndex + 1;
+    int getFrameNum() {
+        return Math.min(frameIndex + 1, 9);
+    }
+
+    /**
+     * Returns how many balls have been thrown this game
+     * @return The ball index
+     */
+    int getBallIndex() {
+        return ballIndex;
     }
 
     /**
@@ -65,7 +77,7 @@ public class Game {
      * @return `True` if every {@link Bowler} in the {@link Party} has
      * completed their last frame
      */
-    public boolean isFinished() {
+    boolean isFinished() {
         return frameIndex == 10;
     }
 
@@ -74,7 +86,7 @@ public class Game {
      * @param bowler The bowler whose score should be fetched
      * @return Their total score at this point in the game
      */
-    public int getTotalScore(Bowler bowler) {
+    int getTotalScore(Object bowler) {
         int score = 0;
         for (Frame frame : scores.get(bowler)) {
             score += frame.getScore();
@@ -83,13 +95,11 @@ public class Game {
     }
 
     /**
-     * Gets a {@link Bowler}'s score for a particular {@link Frame}
-     * @param bowler The bowler whose score should be fetched
-     * @param frameNum The number frame to get
-     * @return Their score for that frame
+     * Gets the current ball number for the {@link Bowler} in the current {@link Frame}
+     * @return The current ball number
      */
-    public int getFrameScore(Bowler bowler, int frameNum) {
-        return scores.get(bowler)[frameNum].getScore();
+    int getBallNum() {
+        return ballNum;
     }
 
     /**
@@ -97,10 +107,33 @@ public class Game {
      * @param bowler The {@link Bowler} to generate the scorecard for
      * @return An array of a player's score for each {@link Frame}
      */
-    public int[] getScoreCard(Bowler bowler) {
+    int[] getScoreCard(Object bowler) {
         int[] scoreCard = new int[10];
         for (int i = 0; i < 10; i++) {
             scoreCard[i] = scores.get(bowler)[i].getScore();
+        }
+        return scoreCard;
+    }
+
+    /**
+     * Gets every player's scores
+     * @return A HashMap of every player's scores for each ball
+     */
+    HashMap getScores() {
+        return scores;
+    }
+
+    /**
+     * Gets the scores for every frame of this game
+     * @param bowler The {@link Bowler} to generate the scorecard for
+     * @return An array of a player's score for each {@link Frame}
+     */
+    int[] getCumulativeCard(Object bowler) {
+        int[] scoreCard = new int[10];
+        scoreCard[0] = scores.get(bowler)[0].getScore();
+        for (int i = 1; i < 10; i++) {
+            Frame frame = scores.get(bowler)[i];
+            scoreCard[i] = frame.getBowl(0) == null ? 0 : scores.get(bowler)[i].getScore() + scoreCard[i - 1];
         }
         return scoreCard;
     }
@@ -112,9 +145,11 @@ public class Game {
      * @param val The value of the throw that the {@link Bowler} made.
      * @return `True` if the bowler has another throw to make
      */
-    public boolean recordThrow(int val) {
+    boolean recordThrow(int val) {
         // Record score
         Frame currFrame = scores.get(currBowler)[frameIndex];
+        ballNum += 1;
+        ballIndex += 1;
         // If the bowler does not have another ball, move to the next player in line
         if (!currFrame.addBowl(val)) {
             // If this bowler has just finished their 10th frame, save their score
@@ -136,6 +171,7 @@ public class Game {
                 bowlerIterator = party.getMembers().iterator();
                 currBowler = bowlerIterator.next();
             }
+            ballNum = 0;
             return false;
         }
         return true;

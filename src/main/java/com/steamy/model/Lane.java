@@ -134,24 +134,21 @@ package com.steamy.model;
 import com.steamy.ControlDeskEvent;
 import com.steamy.LaneEvent;
 import com.steamy.PinSetterEvent;
-import com.steamy.io.ScoreHistoryFile;
 import com.steamy.io.ScoreReport;
 import com.steamy.specialists.LaneSpecialist;
 import com.steamy.specialists.Specialist;
 import com.steamy.views.EndGamePrompt;
 import com.steamy.views.EndGameReport;
 
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Vector;
 
 public class Lane extends Thread implements Communicator {
     private Party party;
     private PinSetter setter;
-    private HashMap scores;
     private Game currGame;
 
+    private boolean laneOpen;
     private boolean gameIsHalted;
     private int gameNumber;
 
@@ -164,8 +161,8 @@ public class Lane extends Thread implements Communicator {
     public Lane(Specialist specialist) {
         this.SPECIALIST = specialist;
         this.setter = ((LaneSpecialist) this.SPECIALIST).getPinSetter();
-        scores = new HashMap();
 
+        laneOpen = true;
         gameIsHalted = false;
         gameNumber = 0;
 
@@ -180,68 +177,19 @@ public class Lane extends Thread implements Communicator {
      * entry point for execution of this lane
      */
     public void run() {
-
-        while (true) {
-            if (currGame != null) {
-                if (!currGame.isFinished()) {    // we have a party on this lane,
-                    // so next bower can take a throw
-
-                    while (gameIsHalted) {
-                        try {
-                            sleep(10);
-                        } catch (Exception ignored) {
-                        }
-                    }
-                    setter.ballThrown();
-                } else {
-                    EndGamePrompt egp = new EndGamePrompt(((Bowler) party.getMembers().get(0)).getNickName() + "'s Party");
-                    int result = egp.getResult();
-                    egp.destroy();
-
-                    System.out.println("result was: " + result);
-
-                    if (result == 1) {                    // yes, want to play again
-                        newGame();
-                    } else if (result == 2) {              // no, dont want to play another game
-                        Vector printVector;
-                        EndGameReport egr = new EndGameReport(((Bowler) party.getMembers().get(0)).getNickName() + "'s Party", party);
-                        printVector = egr.getResult();
-                        publish();
-                        for (Object o : party.getMembers()) {
-                            Bowler thisBowler = (Bowler) o;
-                            int[] scoreCard = currGame.getScoreCard(thisBowler);
-                            ScoreReport sr = new ScoreReport(thisBowler, scoreCard, gameNumber);
-                            sr.sendEmail(thisBowler.getEmail());
-                            for (Object obj : printVector) {
-                                if (thisBowler.getNick() == obj) {
-                                    System.out.println("Printing " + thisBowler.getNick());
-                                    sr.sendPrintout();
-                                }
-                            }
-                        }
-                        currGame = null;
-                        party = null;
-                    }
+        while (laneOpen) {
+            if (party != null && currGame != null && !currGame.isFinished()) {     // Make sure there is party playing games
+                while (gameIsHalted) {      // Stall while game is paused
+                    try {
+                        sleep(10);
+                    } catch (Exception ignored) { }
                 }
+                setter.ballThrown();    // Throw a ball
             }
-
-
             try {
                 sleep(10);
-            } catch (Exception ignored) {
-            }
+            } catch (Exception ignored) { }
         }
-    }
-
-    /**
-     * recievePinsetterEvent()
-     * <p>
-     * recieves the thrown event from the pinsetter
-     *
-     * @param pe The pinsetter event that has been received.
-     */
-    public void receivePinsetterEvent(PinSetterEvent pe) {
-
     }
 
     /**
@@ -249,7 +197,8 @@ public class Lane extends Thread implements Communicator {
      */
     private void newGame() {
         currGame = new Game(party);
-        setter.reset();
+        gameNumber += 1;
+        setter.resetPinSetter();
     }
 
     /**
@@ -257,33 +206,13 @@ public class Lane extends Thread implements Communicator {
      *
      * @param theParty Party to be assigned
      */
-    public void assignParty(Party theParty) {
+    void assignParty(Party theParty) {
+        gameIsHalted = true;    // Pause during party assign
         party = theParty;
         gameNumber = 0;
         newGame();
-    }
-
-    /**
-     * markScore()
-     * <p>
-     * Method that marks a bowlers score on the board.
-     *
-     * @param Cur   The current bowler
-     * @param frame The frame that bowler is on
-     * @param ball  The ball the bowler is on
-     * @param score The bowler's score
-     */
-    private void markScore(Bowler Cur, int frame, int ball, int score) {
-        int[] curScore;
-        int index = ((frame - 1) * 2 + ball);
-
-        curScore = (int[]) scores.get(Cur);
-
-
-        curScore[index - 1] = score;
-        scores.put(Cur, curScore);
-        getScore(Cur, frame);
         publish();
+        gameIsHalted = false;
     }
 
     /**
@@ -294,29 +223,27 @@ public class Lane extends Thread implements Communicator {
      * @return The new lane event
      */
     private LaneEvent createLaneEvent() {
+        int partySize = party.getMembers().size();
+
+        // Get score values for all bowlers
+        HashMap scores = new HashMap();
+        int[] curScores = new int[partySize];
+        int[][] cumulativeScores = new int[partySize][10];
+        for (int i = 0; i < partySize; i++) {
+            Object bowler = party.getMembers().get(i);
+            scores.put(bowler, currGame.getScoreCard(bowler));
+            curScores[i] = currGame.getTotalScore(bowler);
+            cumulativeScores[i] = currGame.getCumulativeCard(bowler);
+        }
         return new LaneEvent(party,
-                bowlIndex,
+                currGame.getBallIndex(),
                 currGame.getCurrentBowler(),
-                cumulScores,
-                scores,
+                cumulativeScores,
+                currGame.getScores(),
                 currGame.getFrameNum(),
                 curScores,
-                ball,
+                currGame.getBallNum(),
                 gameIsHalted);
-    }
-
-    /**
-     * getScore()
-     * <p>
-     * Method that calculates a bowlers score
-     *
-     * @param bowler The bowler to fetch the score for
-     * @param frame The frame the current bowler is on
-     *
-     * @return The bowlers total score
-     */
-    private int getScore(Bowler bowler, int frame) {
-        return currGame.getFrameScore(bowler, frame);
     }
 
     /**
@@ -331,12 +258,9 @@ public class Lane extends Thread implements Communicator {
     }
 
     /**
-     * publish
-     * <p>
      * Method that publishes an event to the mediator
      * Doesn't have params because it creates the events within itself
      */
-
     @Override
     public void publish() {
         LaneEvent le = createLaneEvent();
@@ -356,8 +280,43 @@ public class Lane extends Thread implements Communicator {
     public void receiveEvent(PinSetterEvent pe) {
         if (pe.pinsDownOnThisThrow() >= 0) {            // this is a real throw
             if (!currGame.recordThrow(pe.pinsDownOnThisThrow())) {
+                System.out.println("pin reset");
                 setter.resetPins();
             }
+
+            // If that was the last throw, prompt the user to go again
+            if (currGame.isFinished()) {
+                // Prompt user to play again
+                EndGamePrompt egp = new EndGamePrompt(((Bowler) party.getMembers().get(0)).getNickName() + "'s Party");
+                int result = egp.getResult();
+                egp.destroy();
+
+                System.out.println("result was: " + result);
+
+                // Reset game if they choose to play again
+                if (result == 1) {                    // yes, want to play again
+                    newGame();
+                } else if (result == 2) {              // no, dont want to play another game
+                    Vector printVector;
+                    EndGameReport egr = new EndGameReport(((Bowler) party.getMembers().get(0)).getNickName() + "'s Party", party);
+                    printVector = egr.getResult();
+                    publish();
+                    for (Object o : party.getMembers()) {
+                        Bowler thisBowler = (Bowler) o;
+                        int[] scoreCard = currGame.getScoreCard(thisBowler);
+                        ScoreReport sr = new ScoreReport(thisBowler, scoreCard, gameNumber);
+                        sr.sendEmail(thisBowler.getEmail());
+                        for (Object obj : printVector) {
+                            if (thisBowler.getNick() == obj) {
+                                System.out.println("Printing " + thisBowler.getNick());
+                                sr.sendPrintout();
+                            }
+                        }
+                    }
+                    party = null;
+                }
+            }
+            publish();
             System.out.println("***********************");
         }
     }
