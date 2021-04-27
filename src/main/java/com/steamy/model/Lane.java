@@ -131,6 +131,10 @@ package com.steamy.model;
  *
  */
 
+import com.steamy.events.ControlDeskEvent;
+import com.steamy.events.LaneEvent;
+import com.steamy.events.PinSetterEvent;
+import com.steamy.io.ScoreHistoryFile;
 import com.steamy.ControlDeskEvent;
 import com.steamy.LaneEvent;
 import com.steamy.PinSetterEvent;

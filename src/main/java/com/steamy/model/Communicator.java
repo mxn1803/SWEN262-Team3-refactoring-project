@@ -1,8 +1,8 @@
 package com.steamy.model;
 
-import com.steamy.ControlDeskEvent;
-import com.steamy.LaneEvent;
-import com.steamy.PinSetterEvent;
+import com.steamy.events.ControlDeskEvent;
+import com.steamy.events.LaneEvent;
+import com.steamy.events.PinSetterEvent;
 
 public interface Communicator {
     void publish();
