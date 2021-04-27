@@ -188,6 +188,9 @@ public class PinSetter implements Communicator {
      * @pre none
      * @post pins array is reset to all pins up
      */
-    public void resetPins() { for (int i = 0; i <= 9; i++) pins[i] = true; }
+    public void resetPins() {
+        for (int i = 0; i <= 9; i++) pins[i] = true;
+        publish(-1);
+    }
 };
 
